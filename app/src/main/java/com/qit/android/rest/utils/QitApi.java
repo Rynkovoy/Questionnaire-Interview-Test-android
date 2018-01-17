@@ -7,7 +7,7 @@ import com.qit.android.rest.api.UserCredentialsApi;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class RetroClient extends Application {
+public class QitApi extends Application {
 
     private static final String HOST = "http://192.168.1.6:8080";
 

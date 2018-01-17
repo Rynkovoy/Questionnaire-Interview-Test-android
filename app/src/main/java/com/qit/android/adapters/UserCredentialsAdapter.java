@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.rest.dto.UserCredentialDTO;
@@ -50,10 +51,11 @@ public class UserCredentialsAdapter extends BaseAdapter {
         TextView tvLogin = view.findViewById(R.id.tvLogin);
         TextView tvPassword = view.findViewById(R.id.tvPassword);
         TextView tvEnabled = view.findViewById(R.id.tvEnabled);
-
-        tvLogin.setText(LOGIN + getItem(position).getUsername());
-        tvPassword.setText(PASSWORD + getItem(position).getPassword());
-        tvEnabled.setText(ENABLED + String.valueOf(getItem(position).isEnabled()));
+        try {
+            tvLogin.setText(LOGIN + getItem(position).getUsername());
+            tvPassword.setText(PASSWORD + getItem(position).getPassword());
+            tvEnabled.setText(ENABLED + String.valueOf(getItem(position).isEnabled()));
+        } catch (NullPointerException e) {}
 
         return view;
     }

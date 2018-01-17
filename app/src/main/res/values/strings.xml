@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">questionnaire-interview-test-android</string>
+    <string name="app_name">QIT</string>
+    <string name="questionnaire">Questionnaire</string>
+    <string name="interview">Interview</string>
+    <string name="test">Test</string>
+
 </resources>
