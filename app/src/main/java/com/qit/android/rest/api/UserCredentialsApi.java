@@ -10,10 +10,10 @@ import retrofit2.http.Path;
 
 public interface UserCredentialsApi {
 
-    @GET("/users/credentials")
+    @GET("api/users/credentials")
     Call<List<UserCredentialDTO>> findAllUsers();
 
-    @GET("/users/credentials/{username}")
+    @GET("api/users/credentials/{username}")
     Call<UserCredentialDTO> findUser(@Path("username") String username);
 
 }

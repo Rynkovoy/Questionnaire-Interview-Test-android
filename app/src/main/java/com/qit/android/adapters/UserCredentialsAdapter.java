@@ -1,12 +1,12 @@
 package com.qit.android.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.rest.dto.UserCredentialDTO;
@@ -45,12 +45,16 @@ public class UserCredentialsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = inflater.inflate(R.layout.user_credentials_item, viewGroup, false);
+            view = inflater.inflate(R.layout.item_user_credentials_list, viewGroup, false);
         }
 
         TextView tvLogin = view.findViewById(R.id.tvLogin);
+        tvLogin.setTextColor(Color.WHITE);
         TextView tvPassword = view.findViewById(R.id.tvPassword);
+        tvPassword.setTextColor(Color.WHITE);
         TextView tvEnabled = view.findViewById(R.id.tvEnabled);
+        tvEnabled.setTextColor(Color.WHITE);
+
         try {
             tvLogin.setText(LOGIN + getItem(position).getUsername());
             tvPassword.setText(PASSWORD + getItem(position).getPassword());

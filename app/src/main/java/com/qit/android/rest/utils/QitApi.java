@@ -2,6 +2,7 @@ package com.qit.android.rest.utils;
 
 import android.app.Application;
 
+import com.qit.android.rest.api.QuestionnaireApi;
 import com.qit.android.rest.api.UserCredentialsApi;
 
 import retrofit2.Retrofit;
@@ -10,9 +11,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class QitApi extends Application {
 
     private static final String HOST = "http://192.168.1.6:8080";
-
-    private static UserCredentialsApi userCredentialsApi;
-    private Retrofit retrofit;
+    private static Retrofit retrofit;
 
     @Override
     public void onCreate() {
@@ -22,11 +21,11 @@ public class QitApi extends Application {
                 .baseUrl(HOST)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
-
-        userCredentialsApi = retrofit.create(UserCredentialsApi.class);
     }
 
-    public static UserCredentialsApi getUserCredentialsApi() {
-        return userCredentialsApi;
+    public static <T> T getApi(Class<T> qitApi) {
+        return retrofit.create(qitApi);
     }
 }
+
+
