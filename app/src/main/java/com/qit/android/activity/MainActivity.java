@@ -1,8 +1,10 @@
 package com.qit.android.activity;
 
+import android.annotation.SuppressLint;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,26 +26,29 @@ import java.util.List;
 public class MainActivity extends DrawerActivity {
 
     private MaterialViewPager mViewPager;
+    private Toolbar toolbar;
 
-
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    /*    Toolbar toolbar = mViewPager.getToolbar();
-        if (toolbar == null) {
-            setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        }*/
+        mViewPager = findViewById(R.id.materialViewPager);
+        toolbar = findViewById(R.id.qitToolbar);
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null) {
+            addNavigationDrawer(toolbar);
+        }
 
         QuizTabsPagerAdapter quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
-        mViewPager = findViewById(R.id.materialViewPager);
+
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
 
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
-                switch (page) {
+                switch (page % 4) {
                     case 0:
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.green,
@@ -74,5 +79,12 @@ public class MainActivity extends DrawerActivity {
                 }
             });
         }
+    }
+
+    private void addNavigationDrawer(Toolbar toolbar) {
+        Drawer drawer = new QitDrawerBuilder().
+                setActivity(this)
+                .setToolbar(toolbar)
+                .build();
     }
 }

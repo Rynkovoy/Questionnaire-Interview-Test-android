@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.qit.R;
@@ -28,7 +29,8 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
+        Log.i("POS", position + "");
+        switch (position % 4) {
             case 0:
                 QuestionnaireTabFragment questionnaireTabFragment = new QuestionnaireTabFragment();
                 return questionnaireTabFragment;

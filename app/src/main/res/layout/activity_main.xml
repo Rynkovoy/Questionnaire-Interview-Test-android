@@ -9,7 +9,7 @@
         android:id="@+id/qitToolbar"
         android:layout_height="?android:attr/actionBarSize"
         android:layout_width="match_parent"
-        android:background="@color/primary"
+        android:background="@color/colorMainBackground"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <!--<android.support.design.widget.TabLayout
@@ -27,19 +27,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:viewpager_logo="@layout/header_logo"
-        app:viewpager_logoMarginTop="100dp"
-        app:viewpager_color="@color/colorPrimary"
-        app:viewpager_headerHeight="200dp"
+        app:viewpager_logoMarginTop="75dp"
+        app:viewpager_color="@color/colorMainBackground"
+        app:viewpager_headerHeight="180dp"
         app:viewpager_headerAlpha="1.0"
         app:viewpager_hideLogoWithFade="false"
-        app:viewpager_hideToolbarAndTitle="true"
+        app:viewpager_hideToolbarAndTitle="false"
         app:viewpager_enableToolbarElevation="true"
         app:viewpager_parallaxHeaderFactor="1.5"
-        app:viewpager_headerAdditionalHeight="20dp"
+        app:viewpager_headerAdditionalHeight="15dp"
         app:viewpager_displayToolbarWhenSwipe="true"
-        app:viewpager_transparentToolbar="true"
+        app:viewpager_transparentToolbar="false"
         app:viewpager_animatedHeaderImage="true"
-        app:viewpager_disableToolbar="false"
-        />
+        app:viewpager_disableToolbar="false" />
 
 </android.support.v4.widget.DrawerLayout>

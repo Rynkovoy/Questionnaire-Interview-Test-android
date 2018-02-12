@@ -12,7 +12,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:id="@+id/civQuestionnaire"
+        android:id="@+id/civInterview"
         android:src="@drawable/question_mark"/>
 
     <TextView
@@ -20,21 +20,21 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="18sp"
-        android:id="@+id/tvQuestionnaireTitle"
+        android:id="@+id/tvInterviewTitle"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="19dp"
         android:layout_marginStart="19dp"
-        android:layout_toEndOf="@+id/civQuestionnaire"
-        android:layout_toRightOf="@+id/civQuestionnaire"/>
+        android:layout_toEndOf="@+id/civInterview"
+        android:layout_toRightOf="@+id/civInterview"/>
 
     <TextView
-        android:id="@+id/tvQuestionnaireTopic"
+        android:id="@+id/tvInterviewTopic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:layout_alignLeft="@+id/tvQuestionnaireTitle"
-        android:layout_alignStart="@+id/tvQuestionnaireTitle"
-        android:layout_below="@+id/tvQuestionnaireTitle"
+        android:layout_alignLeft="@+id/tvInterviewTitle"
+        android:layout_alignStart="@+id/tvInterviewTitle"
+        android:layout_below="@+id/tvInterviewTitle"
         android:text="TextView" />
 
 

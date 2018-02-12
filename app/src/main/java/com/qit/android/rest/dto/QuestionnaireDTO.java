@@ -82,4 +82,19 @@ public class QuestionnaireDTO extends QuizDTO {
     public void setQuestions(Set<QuestionDTO> questions) {
         this.questions = questions;
     }
+
+
+    @Override
+    public String toString() {
+        return "QuestionnaireDTO{" +
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", answerLimit=" + answerLimit +
+                ", password='" + password + '\'' +
+                ", vote=" + vote +
+                ", anonymity=" + anonymity +
+                ", resultVisibility=" + resultVisibility +
+                ", questions=" + questions +
+                '}';
+    }
 }

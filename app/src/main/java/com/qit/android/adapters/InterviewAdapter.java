@@ -8,29 +8,30 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.qit.R;
-import com.qit.android.rest.dto.QuestionnaireDTO;
-import com.qit.android.rest.dto.QuizDTO;
+import com.qit.android.rest.dto.InterviewDTO;
 
 import java.util.List;
 
-public class QuizAdapter extends BaseAdapter {
+import de.hdodenhof.circleimageview.CircleImageView;
 
-    private List<QuestionnaireDTO> questionnaireDTOs;
+public class InterviewAdapter extends BaseAdapter {
+
+    private List<InterviewDTO> interviewDTOs;
     private LayoutInflater inflater;
 
-    public QuizAdapter(Context context, List<QuestionnaireDTO> questionnaireDTOs) {
-        this.questionnaireDTOs = questionnaireDTOs;
+    public InterviewAdapter(Context context, List<InterviewDTO> interviewDTOs) {
+        this.interviewDTOs = interviewDTOs;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return questionnaireDTOs.size();
+        return interviewDTOs.size();
     }
 
     @Override
-    public QuizDTO getItem(int i) {
-        return questionnaireDTOs.get(i);
+    public InterviewDTO getItem(int i) {
+        return interviewDTOs.get(i);
     }
 
     @Override
@@ -41,11 +42,12 @@ public class QuizAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = inflater.inflate(R.layout.item_questionnaire_list, viewGroup, false);
+            view = inflater.inflate(R.layout.item_interview_list, viewGroup, false);
         }
 
-        TextView tvTitle = view.findViewById(R.id.tvQuestionnaireTitle);
-        TextView tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
+        CircleImageView civQuestionnaire = view.findViewById(R.id.civInterview);
+        TextView tvTitle = view.findViewById(R.id.tvInterviewTitle);
+        TextView tvTopic = view.findViewById(R.id.tvInterviewTopic);
 
         tvTitle.setText(getItem(i).getTitle());
         tvTopic.setText(getItem(i).getTopic());

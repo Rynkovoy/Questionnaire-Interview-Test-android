@@ -62,7 +62,7 @@ public class QuestionnaireTabFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<QuestionnaireDTO>> call, Throwable t) {
-                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG);
+                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG).show();
             }
         });
 

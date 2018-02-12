@@ -45,9 +45,9 @@ public class QuestionnaireAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.item_questionnaire_list, viewGroup, false);
         }
 
-        CircleImageView civQuiz = view.findViewById(R.id.civQuiz);
-        TextView tvTitle = view.findViewById(R.id.tvTitle);
-        TextView tvTopic = view.findViewById(R.id.tvTopic);
+        CircleImageView civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
+        TextView tvTitle = view.findViewById(R.id.tvQuestionnaireTitle);
+        TextView tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
 
         tvTitle.setText(getItem(position).getTitle());
         tvTopic.setText(getItem(position).getTopic());

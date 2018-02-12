@@ -10,7 +10,7 @@ public class UserCredentialDTO {
         this.enabled = true;
     }
 
-    public UserCredentialDTO(String username, String password, boolean enabled) {
+    public UserCredentialDTO(String username, String password, String email, boolean enabled) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;

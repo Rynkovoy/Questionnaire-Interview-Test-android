@@ -66,8 +66,6 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 .build();
     }
 
-
-
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         switch (String.valueOf(drawerItem.getTag())) {
