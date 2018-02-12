@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 
 import com.qit.R;
+import com.qit.android.constants.SharedPreferencesTags;
 import com.qit.android.rest.api.AuthorizationApi;
 import com.qit.android.rest.dto.UserCredentialDTO;
 import com.qit.android.rest.utils.QitApi;
@@ -20,8 +22,6 @@ import retrofit2.Response;
 
 public class AuthorizationActivity extends AppCompatActivity {
 
-    private static final String IS_AUTHORIZE = AuthorizationActivity.class.getSimpleName();
-
     private AppCompatEditText etLogin;
     private AppCompatEditText etPassword;
     private SharedPreferences sharedPreferences;
@@ -31,15 +31,14 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        sharedPreferences = getPreferences(MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(IS_AUTHORIZE, false)) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        sharedPreferences = getSharedPreferences(this.getClass().getName(), Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(SharedPreferencesTags.IS_AUTHORIZE, false)) {
+            Intent intent = new Intent(getApplicationContext(), QitActivity.class);
             startActivity(intent);
         }
 
         etLogin = findViewById(R.id.etLogin);
         etPassword = findViewById(R.id.etPassword);
-
     }
 
     public void logIn(final View view) {
@@ -55,16 +54,15 @@ public class AuthorizationActivity extends AppCompatActivity {
         QitApi.getApi(AuthorizationApi.class).authorize(userCredentialDTO).enqueue(new Callback<UserCredentialDTO>() {
             @Override
             public void onResponse(Call<UserCredentialDTO> call, Response<UserCredentialDTO> response) {
-                if (!response.body().isEnabled()) {
+                if (response.body() != null && !response.body().isEnabled()) {
                     Snackbar.make(view, getResources().getText(R.string.auth_banned), Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                sharedPreferences = getPreferences(MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(IS_AUTHORIZE, true);
-                editor.commit();
+                editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
+                editor.apply();
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent(getApplicationContext(), QitActivity.class);
                 startActivity(intent);
             }
 
@@ -75,5 +73,9 @@ public class AuthorizationActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
 

@@ -31,7 +31,10 @@ public class QitAccountHeaderBuilder {
                 .withActivity(activity)
                 .withHeaderBackground(R.color.material_drawer_primary_light)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon(R.drawable.person)
+                        new ProfileDrawerItem()
+                                .withName("Mike Penz")
+                                .withEmail("mikepenz@gmail.com")
+                                .withIcon(R.drawable.person)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override

@@ -23,7 +23,7 @@ public class QitApi extends Application {
                 .build();
     }
 
-    public static <T> T getApi(Class<T> qitApi) {
+    public synchronized static <T> T getApi(Class<T> qitApi) {
         return retrofit.create(qitApi);
     }
 }

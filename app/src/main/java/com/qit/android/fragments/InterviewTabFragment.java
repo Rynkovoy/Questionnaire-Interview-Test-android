@@ -50,8 +50,6 @@ public class InterviewTabFragment extends Fragment {
         MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView);
     }
 
-
-
     private List<InterviewDTO> initInterviewList() {
         final List<InterviewDTO> interviewDTOs = new ArrayList<>();
         QitApi.getApi(InterviewApi.class).findAllInterviews().enqueue(new Callback<List<InterviewDTO>>() {
