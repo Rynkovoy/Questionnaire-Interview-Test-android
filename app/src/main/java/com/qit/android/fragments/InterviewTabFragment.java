@@ -36,10 +36,10 @@ public class InterviewTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_questionnaire_tab, container, false);
-        mScrollView = view.findViewById(R.id.scrollView);
+        view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
+        mScrollView = view.findViewById(R.id.scrollViewInterview);
         interviewAdapter = new InterviewAdapter(view.getContext(), initInterviewList());
-        listView = view.findViewById(R.id.questionnaireListView);
+        listView = view.findViewById(R.id.interviewListView);
 
         return view;
     }

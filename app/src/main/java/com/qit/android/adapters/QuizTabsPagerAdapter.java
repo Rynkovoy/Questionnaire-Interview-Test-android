@@ -18,9 +18,11 @@ import java.util.List;
 public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<String> tabsTitle;
+    private FragmentManager fragmentManager;
 
-    public QuizTabsPagerAdapter(FragmentManager fm) {
-        super(fm);
+    public QuizTabsPagerAdapter(FragmentManager fragmentManager) {
+        super(fragmentManager);
+        this.fragmentManager = fragmentManager;
         this.tabsTitle = new ArrayList<>();
         this.tabsTitle.add(0, "Questionnaires");
         this.tabsTitle.add(1, "Interviews");
@@ -29,20 +31,27 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        Log.i("POS", position + "");
+        Fragment selectedTabFragment;
         switch (position % 4) {
             case 0:
-                QuestionnaireTabFragment questionnaireTabFragment = new QuestionnaireTabFragment();
-                return questionnaireTabFragment;
+                selectedTabFragment = new QuestionnaireTabFragment();
+                break;
             case 1:
-                InterviewTabFragment interviewTabFragment = new InterviewTabFragment();
-                return interviewTabFragment;
+                selectedTabFragment = new InterviewTabFragment();
+                break;
             case 2:
-                TestTabFragment testTabFragment = new TestTabFragment();
-                return testTabFragment;
+                selectedTabFragment = new TestTabFragment();
+                break;
             default:
                 return null;
         }
+
+        /*fragmentManager.beginTransaction()
+                .detach(selectedTabFragment)
+                .attach(selectedTabFragment)
+                .commit();*/
+
+        return selectedTabFragment;
     }
 
     @Override

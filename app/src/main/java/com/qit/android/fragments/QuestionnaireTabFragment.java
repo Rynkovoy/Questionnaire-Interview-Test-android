@@ -1,15 +1,22 @@
 package com.qit.android.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.qit.R;
 import com.qit.android.adapters.QuestionnaireAdapter;
@@ -33,12 +40,11 @@ public class QuestionnaireTabFragment extends Fragment {
     private View view;
     private ListView listView;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_questionnaire_tab, container, false);
-        mScrollView = view.findViewById(R.id.scrollView);
+        mScrollView = view.findViewById(R.id.scrollViewQuestionnaire);
         questionnaireAdapter = new QuestionnaireAdapter(view.getContext(), initQuestionnaireList());
         listView = view.findViewById(R.id.questionnaireListView);
 
