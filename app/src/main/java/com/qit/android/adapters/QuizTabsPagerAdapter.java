@@ -46,6 +46,7 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
                 return null;
         }
 
+        //todo refresh list view on fragments when tab is changed
         /*fragmentManager.beginTransaction()
                 .detach(selectedTabFragment)
                 .attach(selectedTabFragment)

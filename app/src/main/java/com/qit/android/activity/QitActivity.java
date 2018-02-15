@@ -23,54 +23,28 @@ import com.qit.android.navigation.QitDrawerBuilder;
 public class QitActivity extends MainActivity {
 
     private MaterialViewPager mViewPager;
-    private Toolbar toolbar;
-    private boolean doubleBackToExitPressedOnce = false;
     private FloatingActionButton mFab;
     private int mPreviousVisibleItem;
+    private QuizTabsPagerAdapter quizTabsPagerAdapter;
 
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qit);
 
+        addMaterialViewPager();
+        addToolbar();
+        addFloatingActionButton();
+    }
+
+
+    private void addMaterialViewPager() {
         mViewPager = findViewById(R.id.materialViewPager);
-        toolbar = findViewById(R.id.qitToolbar);
-        Toolbar toolbar = mViewPager.getToolbar();
-        if (toolbar != null) {
-            addNavigationDrawer(toolbar);
-        }
 
-        final QuizTabsPagerAdapter quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
+        quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
-
-        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Toast.makeText(QitActivity.this,
-                        quizTabsPagerAdapter.getItem(position).getClass().getSimpleName(),
-                Toast.LENGTH_SHORT)
-                .show();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                Log.i("SCROLL", "SCROLLING") ;
-                if (state > mPreviousVisibleItem) {
-                    mFab.hide(true);
-                } else if (state < mPreviousVisibleItem) {
-                    mFab.show(true);
-                }
-                mPreviousVisibleItem = state;
-            }
-        });
-
-
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
@@ -93,24 +67,7 @@ public class QitActivity extends MainActivity {
             }
         });
 
-
-        mFab = findViewById(R.id.fabAddQuiz);
-        mFab.hide(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mFab.show(true);
-                mFab.setShowAnimation(AnimationUtils.loadAnimation(QitActivity.this, R.anim.show_from_bottom));
-                mFab.setHideAnimation(AnimationUtils.loadAnimation(QitActivity.this, R.anim.hide_to_bottom));
-            }
-        }, 300);
-
-
-
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-        final View logo = findViewById(R.id.logo_white);
+        View logo = findViewById(R.id.logo_white);
         if (logo != null) {
             logo.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -122,25 +79,54 @@ public class QitActivity extends MainActivity {
         }
     }
 
-    private void addNavigationDrawer(Toolbar toolbar) {
-        Drawer drawer = new QitDrawerBuilder()
-                .setToolbar(toolbar)
-                .build(this);
+
+    private void addToolbar() {
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (mViewPager != null && toolbar != null) {
+            new QitDrawerBuilder()
+                    .setToolbar(toolbar)
+                    .build(this);
+        }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            finishAffinity();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+    private void addFloatingActionButton() {
+        mFab = findViewById(R.id.fabAddQuiz);
+
+        mFab.hide(false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                mFab.show(true);
+                mFab.setShowAnimation(AnimationUtils.loadAnimation(QitActivity.this, R.anim.show_from_bottom));
+                mFab.setHideAnimation(AnimationUtils.loadAnimation(QitActivity.this, R.anim.hide_to_bottom));
             }
-        }, 2000);
+        }, 300);
+
+        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Toast.makeText(QitActivity.this,
+                        quizTabsPagerAdapter.getItem(position).getClass().getSimpleName(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state > mPreviousVisibleItem) {
+                    mFab.hide(true);
+                } else if (state < mPreviousVisibleItem) {
+                    mFab.show(true);
+                }
+                mPreviousVisibleItem = state;
+            }
+        });
     }
+
 }

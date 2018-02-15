@@ -13,6 +13,7 @@ import com.qit.android.rest.dto.QuizDTO;
 
 import java.util.List;
 
+@Deprecated
 public class QuizAdapter extends BaseAdapter {
 
     private List<QuestionnaireDTO> questionnaireDTOs;

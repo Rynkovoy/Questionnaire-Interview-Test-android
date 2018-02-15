@@ -11,6 +11,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class QitApi extends Application {
 
     private static final String HOST = "http://192.168.1.6:8080";
+    private static final String HOST2 = "http://10.238.10.74:8080";
     private static Retrofit retrofit;
 
     @Override
@@ -18,7 +19,7 @@ public class QitApi extends Application {
         super.onCreate();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(HOST)
+                .baseUrl(HOST2)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
