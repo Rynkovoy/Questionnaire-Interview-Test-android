@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".android.activity.MainActivity" />
         <activity android:name=".android.activity.QitActivity" />
+        <activity android:name=".android.activity.QuestionnaireCreationActivity" />
+        <activity android:name=".android.activity.InterviewCreationActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -131,10 +132,10 @@ public class QitActivity extends MainActivity {
             public void onClick(View view) {
                 switch (mViewPager.getViewPager().getCurrentItem()) {
                     case 0:
-                        Toast.makeText(QitActivity.this, "0", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(QitActivity.this, QuestionnaireCreationActivity.class));
                         break;
                     case 1:
-                        Toast.makeText(QitActivity.this, "1", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(QitActivity.this, InterviewCreationActivity.class));
                         break;
                 }
             }
