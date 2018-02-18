@@ -1,10 +1,12 @@
 package com.qit.android.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
@@ -13,8 +15,10 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.mikepenz.materialdrawer.Drawer;
 import com.qit.R;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
+import com.qit.android.fragments.QuestionnaireTabFragment;
 import com.qit.android.navigation.QitDrawerBuilder;
 
 
@@ -28,20 +32,58 @@ public class QitActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_qit);
 
-        addMaterialViewPager();
+        mViewPager = findViewById(R.id.materialViewPager);
+        mFab = findViewById(R.id.fabAddQuiz);
+
         addToolbar();
-        addFloatingActionButton();
+        configureMaterialViewPager();
+        configureFloatingActionButton();
+        configureTopLogo();
+
     }
 
 
-    private void addMaterialViewPager() {
-        mViewPager = findViewById(R.id.materialViewPager);
+    private void addToolbar() {
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null) {
+            new QitDrawerBuilder().setToolbar(toolbar).build(this);
+        }
+    }
 
+
+    private void configureMaterialViewPager() {
         quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
+
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+
+        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                /*Toast.makeText(QitActivity.this,
+                        quizTabsPagerAdapter.getItem(position).getClass().getSimpleName(),
+                        Toast.LENGTH_SHORT)
+                        .show();*/
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state > mPreviousVisibleItem) {
+                    mFab.hide(true);
+                } else if (state < mPreviousVisibleItem) {
+                    mFab.show(true);
+                }
+                mPreviousVisibleItem = state;
+            }
+        });
 
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
@@ -63,33 +105,10 @@ public class QitActivity extends MainActivity {
                 return null;
             }
         });
-
-        View logo = findViewById(R.id.logo_white);
-        if (logo != null) {
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 
 
-    private void addToolbar() {
-        Toolbar toolbar = mViewPager.getToolbar();
-        if (mViewPager != null && toolbar != null) {
-            new QitDrawerBuilder()
-                    .setToolbar(toolbar)
-                    .build(this);
-        }
-    }
-
-
-    private void addFloatingActionButton() {
-        mFab = findViewById(R.id.fabAddQuiz);
-
+    private void configureFloatingActionButton() {
         mFab.hide(false);
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -100,38 +119,12 @@ public class QitActivity extends MainActivity {
             }
         }, 300);
 
-        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (positionOffsetPixels > mPreviousVisibleItem) {
-                    mFab.hide(true);
-                } else if (positionOffsetPixels < mPreviousVisibleItem) {
-                    mFab.show(true);
-                }
-                mPreviousVisibleItem = positionOffsetPixels;
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (state > mPreviousVisibleItem) {
-                    mFab.hide(true);
-                } else if (state < mPreviousVisibleItem) {
-                    mFab.show(true);
-                }
-                mPreviousVisibleItem = state;
-            }
-        });
-
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switch (mViewPager.getViewPager().getCurrentItem()) {
                     case 0:
+//                        ((QuestionnaireTabFragment) quizTabsPagerAdapter.getItem(0)).refreshRecyclerView();
                         startActivity(new Intent(QitActivity.this, QuestionnaireCreationActivity.class));
                         break;
                     case 1:
@@ -140,7 +133,19 @@ public class QitActivity extends MainActivity {
                 }
             }
         });
-
     }
 
+
+    private void configureTopLogo() {
+        final View logo = findViewById(R.id.logo_white);
+        if (logo != null) {
+            logo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewPager.notifyHeaderChanged();
+                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }

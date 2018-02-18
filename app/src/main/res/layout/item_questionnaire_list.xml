@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:paddingTop="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:layout_height="100dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/civQuestionnaire"
-        android:src="@drawable/question_mark"/>
-
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="18sp"
-        android:id="@+id/tvQuestionnaireTitle"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:layout_toEndOf="@+id/civQuestionnaire"
-        android:layout_toRightOf="@+id/civQuestionnaire"/>
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp">
 
-    <TextView
-        android:id="@+id/tvQuestionnaireTopic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:layout_alignLeft="@+id/tvQuestionnaireTitle"
-        android:layout_alignStart="@+id/tvQuestionnaireTitle"
-        android:layout_below="@+id/tvQuestionnaireTitle"
-        android:text="TextView" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civQuestionnaire"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/question_mark" />
 
+        <TextView
+            android:id="@+id/tvQuestionnaireTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_toEndOf="@+id/civQuestionnaire"
+            android:layout_toRightOf="@+id/civQuestionnaire"
+            android:text="TextView"
+            android:textSize="18sp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tvQuestionnaireTopic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvQuestionnaireTitle"
+            android:layout_alignStart="@+id/tvQuestionnaireTitle"
+            android:layout_below="@+id/tvQuestionnaireTitle"
+            android:text="TextView"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

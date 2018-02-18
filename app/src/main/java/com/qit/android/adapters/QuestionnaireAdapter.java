@@ -1,10 +1,9 @@
 package com.qit.android.adapters;
 
-import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.qit.R;
@@ -14,44 +13,44 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class QuestionnaireAdapter extends BaseAdapter {
+public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdapter.QuestionnaireViewHolder> {
 
     private List<QuestionnaireDTO> questionnaireDTOs;
-    private LayoutInflater inflater;
 
-    public QuestionnaireAdapter(Context context, List<QuestionnaireDTO> questionnaireDTOs) {
-        this.questionnaireDTOs = questionnaireDTOs;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
+    public class QuestionnaireViewHolder extends RecyclerView.ViewHolder {
+        public CircleImageView civQuestionnaire;
+        public TextView tvTitle;
+        public TextView tvTopic;
 
-    @Override
-    public int getCount() {
-        return questionnaireDTOs.size();
-    }
-
-    @Override
-    public QuestionnaireDTO getItem(int position) {
-        return questionnaireDTOs.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_questionnaire_list, viewGroup, false);
+        public QuestionnaireViewHolder(View view) {
+            super(view);
+            civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
+            tvTitle = view.findViewById(R.id.tvQuestionnaireTitle);
+            tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
         }
+    }
 
-        CircleImageView civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
-        TextView tvTitle = view.findViewById(R.id.tvQuestionnaireTitle);
-        TextView tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
+    public QuestionnaireAdapter(List<QuestionnaireDTO> questionnaireDTOs) {
+        this.questionnaireDTOs = questionnaireDTOs;
+    }
 
-        tvTitle.setText(getItem(position).getTitle());
-        tvTopic.setText(getItem(position).getTopic());
+    @Override
+    public QuestionnaireViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_questionnaire_list, parent,false);
 
-        return view;
+        return new QuestionnaireViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(QuestionnaireViewHolder holder, int position) {
+        QuestionnaireDTO questionnaireDTO = questionnaireDTOs.get(position);
+        holder.tvTitle.setText(questionnaireDTO.getTitle());
+        holder.tvTopic.setText(questionnaireDTO.getTopic());
+    }
+
+    @Override
+    public int getItemCount() {
+        return questionnaireDTOs.size();
     }
 }

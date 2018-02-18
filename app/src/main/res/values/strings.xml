@@ -17,4 +17,18 @@
     <string name="auth_banned">You have been banned</string>
     <string name="logout">Logout</string>
 
+
+    <!--Quiz creation-->
+    <string name="title_create_questionnaire">Create questionnaire</string>
+    <string name="title_create_interview">Create interview</string>
+    <string name="creation_title">Title</string>
+    <string name="creation_description">Description</string>
+    <string name="creation_is_password">Password</string>
+    <string name="creation_start_date">Start date</string>
+    <string name="creation_end_date">End date</string>
+    <string name="creation_is_anonymity">Anonymity</string>
+    <string name="creation_answers_limit">Answers limit</string>
+
+
+
 </resources>

@@ -22,7 +22,7 @@
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        app:hintTextAppearance="@style/AuthorizationHintText"
+        app:hintTextAppearance="@style/HintTextLight"
         android:textColorHint="@color/colorAuthHintText">
 
         <android.support.v7.widget.AppCompatEditText
@@ -44,7 +44,7 @@
         app:passwordToggleEnabled="true"
         app:passwordToggleTintMode="multiply"
         app:passwordToggleTint="#bb2daae1"
-        app:hintTextAppearance="@style/AuthorizationHintText"
+        app:hintTextAppearance="@style/HintTextLight"
         android:textColorHint="@color/colorAuthHintText">
 
         <android.support.v7.widget.AppCompatEditText
@@ -63,9 +63,9 @@
         android:layout_height="60dp"
         android:id="@+id/btnLogIn"
         android:text="@string/log_in"
-        android:background="@color/colorLogInButton"
+        android:background="@drawable/button_login_rounded_corners"
         android:textColor="@color/colorAuthText"
         android:layout_marginTop="40dp"
-        android:onClick="logIn"/>
+        android:onClick="logIn" />
 
 </LinearLayout>

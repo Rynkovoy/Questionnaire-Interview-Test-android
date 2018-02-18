@@ -3,11 +3,27 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorMainBackground">#232b36</color>
 
-    <!--Authorization-->
+<!--
+    &lt;!&ndash; **** DARK STYLE **** &ndash;&gt;
+    &lt;!&ndash;background&ndash;&gt;
+    <color name="colorMainBackground">#232b36</color>
+    &lt;!&ndash;auth&ndash;&gt;
     <color name="colorAuthHintText">#782daae1</color>
     <color name="colorAuthText">#fefefe</color>
     <color name="colorLogInButton">#39a8e4</color>
+-->
+
+
+    <!-- **** LIGHT STYLE **** -->
+    <!--background-->
+    <color name="colorMainBackground">#edeeef</color>
+    <!--auth-->
+    <color name="colorAuthHintText">#a800080b</color>
+    <color name="colorAuthText">#a800080b</color>
+
+    <color name="colorSpace">#20f25f</color>
+
+<color name="colorLogInButton">#20f25f</color>
 
 </resources>

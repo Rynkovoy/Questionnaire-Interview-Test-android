@@ -1,13 +1,9 @@
 package com.qit.android.adapters;
 
-import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-import com.github.florent37.materialviewpager.MaterialViewPager;
-import com.qit.R;
 import com.qit.android.fragments.InterviewTabFragment;
 import com.qit.android.fragments.QuestionnaireTabFragment;
 import com.qit.android.fragments.TestTabFragment;

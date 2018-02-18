@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,15 +33,20 @@ public class InterviewTabFragment extends Fragment {
     private NestedScrollView mScrollView;
     private InterviewAdapter interviewAdapter;
     private View view;
-    private ListView listView;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
         mScrollView = view.findViewById(R.id.scrollViewInterview);
-        interviewAdapter = new InterviewAdapter(view.getContext(), initInterviewList());
-        listView = view.findViewById(R.id.interviewListView);
+
+        interviewAdapter = new InterviewAdapter(initInterviewList());
+        recyclerView = view.findViewById(R.id.interviewRV);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(interviewAdapter);
 
         return view;
     }
@@ -56,7 +63,7 @@ public class InterviewTabFragment extends Fragment {
             @Override
             public void onResponse(Call<List<InterviewDTO>> call, Response<List<InterviewDTO>> response) {
                 interviewDTOs.addAll(response.body());
-                listView.setAdapter(interviewAdapter);
+                interviewAdapter.notifyDataSetChanged();
             }
 
             @Override

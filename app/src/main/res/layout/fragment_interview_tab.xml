@@ -27,10 +27,11 @@
                 android:layout_height="1000dp"
                 android:orientation="vertical">
 
-                <ListView
-                    android:id="@+id/interviewListView"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/interviewRV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

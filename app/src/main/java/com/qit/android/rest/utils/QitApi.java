@@ -19,7 +19,8 @@ public class QitApi extends Application {
         super.onCreate();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(HOST2)
+                .baseUrl(HOST)
+                .baseUrl(HOST)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
     }
