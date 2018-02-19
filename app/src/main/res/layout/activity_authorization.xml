@@ -63,7 +63,7 @@
         android:layout_height="60dp"
         android:id="@+id/btnLogIn"
         android:text="@string/log_in"
-        android:background="@drawable/button_login_rounded_corners"
+        android:background="@drawable/button_login_green_rounded_corners"
         android:textColor="@color/colorAuthText"
         android:layout_marginTop="40dp"
         android:onClick="logIn" />
