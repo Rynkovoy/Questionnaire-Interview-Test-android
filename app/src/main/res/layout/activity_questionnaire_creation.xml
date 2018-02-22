@@ -9,7 +9,8 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.qit.android.activity.QuestionnaireCreationActivity">
+    tools:context="com.qit.android.activity.QuestionnaireCreationActivity"
+    android:layout_weight="1">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarQuestionnaireCreation"
@@ -18,13 +19,13 @@
         android:background="@color/colorMainBackground"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
- <!--   <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="65dp"
-        android:layout_height="31dp"
-        android:layout_gravity="right"
-        android:layout_marginRight="30dp"
-        app:srcCompat="@drawable/qit_logo" />-->
+    <!--   <ImageView
+           android:id="@+id/imageView"
+           android:layout_width="65dp"
+           android:layout_height="31dp"
+           android:layout_gravity="right"
+           android:layout_marginRight="30dp"
+           app:srcCompat="@drawable/qit_logo" />-->
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilTitle"
@@ -42,8 +43,8 @@
             android:backgroundTint="@color/colorAuthHintText"
             android:hint="@string/creation_title"
             android:inputType="text"
-            android:textColor="@color/colorAuthText"
-            android:maxLength="50"/>
+            android:maxLength="50"
+            android:textColor="@color/colorAuthText" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -65,8 +66,8 @@
             android:backgroundTint="@color/colorAuthHintText"
             android:hint="@string/creation_description"
             android:inputType="text"
-            android:textColor="@color/colorAuthText"
-            android:maxLength="150"/>
+            android:maxLength="150"
+            android:textColor="@color/colorAuthText" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -78,160 +79,175 @@
         android:background="@color/colorSpace"
         app:layout_constraintTop_toBottomOf="@+id/tilDescription" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/llUnderSroll">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="32dp"
+                android:paddingTop="32dp">
+
+                <TextView
+                    android:id="@+id/tvIsPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_lock_open_black_18dp"
+                    android:drawablePadding="18dp"
+                    android:text="@string/creation_is_password"
+                    android:textColor="@color/colorAuthHintText"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/colorSpace"
+                    android:theme="@style/QITSwitch" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="32dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_date_range_black_18dp"
+                    android:drawablePadding="18dp"
+                    android:text="@string/creation_start_date"
+                    android:textColor="@color/colorAuthHintText"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/colorSpace"
+                    android:theme="@style/QITSwitch" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="32dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tvEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_date_range_black_18dp"
+                    android:drawablePadding="18dp"
+                    android:text="@string/creation_end_date"
+                    android:textColor="@color/colorAuthHintText"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/colorSpace"
+                    android:theme="@style/QITSwitch" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="32dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tvIsAnonymity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_anonymity_black_18dp"
+                    android:drawablePadding="18dp"
+                    android:text="@string/creation_is_anonymity"
+                    android:textColor="@color/colorAuthHintText"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchIsAnonymity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/colorSpace"
+                    android:theme="@style/QITSwitch" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="32dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:id="@+id/tvAnswersLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_answers_limit_black_18dp"
+                    android:drawablePadding="18dp"
+                    android:text="@string/creation_answers_limit"
+                    android:textColor="@color/colorAuthHintText"
+                    android:textSize="18sp" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/switchAnswersLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:shadowColor="@color/colorSpace"
+                    android:theme="@style/QITSwitch" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="32dp"
-        android:paddingTop="32dp">
-
-        <TextView
-            android:id="@+id/tvIsPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_lock_open_black_18dp"
-            android:drawablePadding="18dp"
-            android:text="@string/creation_is_password"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:shadowColor="@color/colorSpace"
-            android:theme="@style/QITSwitch" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="32dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:id="@+id/tvStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_date_range_black_18dp"
-            android:drawablePadding="18dp"
-            android:text="@string/creation_start_date"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:shadowColor="@color/colorSpace"
-            android:theme="@style/QITSwitch" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="32dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:id="@+id/tvEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_date_range_black_18dp"
-            android:drawablePadding="18dp"
-            android:text="@string/creation_end_date"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:shadowColor="@color/colorSpace"
-            android:theme="@style/QITSwitch" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="32dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:id="@+id/tvIsAnonymity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_anonymity_black_18dp"
-            android:drawablePadding="18dp"
-            android:text="@string/creation_is_anonymity"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchIsAnonymity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:shadowColor="@color/colorSpace"
-            android:theme="@style/QITSwitch" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="32dp"
-        android:paddingTop="15dp">
-
-        <TextView
-            android:id="@+id/tvAnswersLimit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_answers_limit_black_18dp"
-            android:drawablePadding="18dp"
-            android:text="@string/creation_answers_limit"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/switchAnswersLimit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:shadowColor="@color/colorSpace"
-            android:theme="@style/QITSwitch" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/btnCancel"
@@ -240,8 +256,8 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/button_cancel_green_rounded_corners"
-            android:text="Cancel"
-            android:onClick="handleBtnNext"/>
+            android:onClick="handleBtnNext"
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/btnNext"
