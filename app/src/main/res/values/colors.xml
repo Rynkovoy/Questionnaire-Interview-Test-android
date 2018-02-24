@@ -22,8 +22,8 @@
     <color name="colorAuthHintText">#a800080b</color>
     <color name="colorAuthText">#a800080b</color>
 
-    <color name="colorSpace">#20f25f</color>
+    <color name="colorGreenMain">#20f25f</color>
 
-<color name="colorLogInButton">#20f25f</color>
+    <color name="colorLogInButton">#20f25f</color>
 
 </resources>

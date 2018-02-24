@@ -5,19 +5,17 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.rest.dto.QuestionnaireDTO;
-import com.qit.android.utils.DimensionUtils;
+import com.qit.android.utils.QitEditTextCreator;
+import com.qit.android.utils.QitInputType;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.Calendar;
@@ -25,7 +23,7 @@ import java.util.Calendar;
 public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private Toolbar toolbar;
-    private LinearLayout llQuestionnaire;
+    private LinearLayout llUnderScroll;
     private LinearLayout llPassword;
     private LinearLayout llStartDate;
     private LinearLayout llEndDate;
@@ -41,6 +39,8 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private Button btnCancel;
     private Button btnNext;
     private QuestionnaireDTO questionnaireDTO;
+
+    private String strStartDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,19 +61,19 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         int switchId = compoundButton.getId();
         switch (switchId) {
             case R.id.switchPassword:
-                createEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
                 break;
             case R.id.switchStartDate:
-                createEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
                 break;
             case R.id.switchEndDate:
-                createEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
                 break;
             case R.id.switchIsAnonymity:
                 handleAnonymity();
                 break;
             case R.id.switchAnswersLimit:
-                createEditText(switchId, isChecked, QitInputType.TIMESTAMP, null); //todo change input type to null
+                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
                 break;
             default:
                 return;
@@ -84,17 +84,20 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     }
 
-    private void addStartDateHandler() {
-
+    private String addStartDateHandler() {
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                String date = "You picked the following date: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-
+                strStartDate = dayOfMonth + "/" + monthOfYear + 1 + "/" + year;
+                Toast.makeText(QuestionnaireCreationActivity.this, strStartDate, Toast.LENGTH_SHORT).show();
             }
         }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
         );
+        dpd.setAccentColor(getResources().getColor(R.color.colorGreenMain));
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+
+        return strStartDate;
     }
 
 
@@ -110,7 +113,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     }
 
     private void initViewComponents() {
-        llQuestionnaire = findViewById(R.id.llUnderSroll);
+        llUnderScroll = findViewById(R.id.llUnderSroll);
 
         etTitle = findViewById(R.id.etTitle);
         etDescription = findViewById(R.id.etDescription);
@@ -154,44 +157,14 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         view.startAnimation(animate);
     }
 
-
-    private AppCompatEditText createEditText(int viewId, boolean isChecked, QitInputType inputType, String text) {
-        AppCompatEditText appCompatEditText = null;
-        SwitchCompat switchCompat = findViewById(viewId);
-        LinearLayout parentView = (LinearLayout) switchCompat.getParent();
-        int viewPosition = llQuestionnaire.indexOfChild(parentView) + 1;
-
-        if (isChecked) {
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(
-                    DimensionUtils.dp2px(QuestionnaireCreationActivity.this, 16), 0,
-                    DimensionUtils.dp2px(QuestionnaireCreationActivity.this, 16), 0);
-            appCompatEditText = new AppCompatEditText(QuestionnaireCreationActivity.this);
-            appCompatEditText.setLayoutParams(layoutParams);
-            View etChild = parentView.getChildAt(0);
-            appCompatEditText.setHint(((TextView)etChild).getText());
-            appCompatEditText.setTextColor(getResources().getColor(R.color.colorAuthText));
-            appCompatEditText.setText(text);
-
-            switch (inputType) {
-                case PASSWORD:
-                    appCompatEditText.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    appCompatEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    break;
-            }
-
-            llQuestionnaire.addView(appCompatEditText, viewPosition);
-
-        } else {
-            llQuestionnaire.removeViewAt(viewPosition);
-        }
-
-
-        return appCompatEditText;
+    private void addEditText(int switchId, boolean isChecked, QitInputType inputType, String text) {
+       new QitEditTextCreator.QuizCreationBuilder()
+                .addSwitch((SwitchCompat) findViewById(switchId))
+                .addCheck(isChecked)
+                .addInputType(inputType)
+                .addText(text)
+                .addParent(llUnderScroll)
+                .create(QuestionnaireCreationActivity.this);
     }
 
-    private enum QitInputType {
-        PASSWORD, TIMESTAMP
-    }
 }

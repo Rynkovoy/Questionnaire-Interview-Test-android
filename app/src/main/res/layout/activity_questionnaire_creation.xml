@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginTop="16dp"
-        android:background="@color/colorSpace"
+        android:background="@color/colorGreenMain"
         app:layout_constraintTop_toBottomOf="@+id/tilDescription" />
 
     <ScrollView
@@ -115,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorSpace"
+                    android:shadowColor="@color/colorGreenMain"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -145,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorSpace"
+                    android:shadowColor="@color/colorGreenMain"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorSpace"
+                    android:shadowColor="@color/colorGreenMain"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -205,7 +205,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorSpace"
+                    android:shadowColor="@color/colorGreenMain"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -236,7 +236,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorSpace"
+                    android:shadowColor="@color/colorGreenMain"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
