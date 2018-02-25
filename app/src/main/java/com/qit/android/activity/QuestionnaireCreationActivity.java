@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -13,10 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qit.R;
+import com.qit.android.events.CancelDatePickerDialog;
 import com.qit.android.rest.dto.QuestionnaireDTO;
+import com.qit.android.utils.QitDatePickerWrapper;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Calendar;
 
@@ -24,11 +31,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     private Toolbar toolbar;
     private LinearLayout llUnderScroll;
-    private LinearLayout llPassword;
-    private LinearLayout llStartDate;
-    private LinearLayout llEndDate;
-    private LinearLayout llAnonymity;
-    private LinearLayout llAnswersLimit;
     private AppCompatEditText etTitle;
     private AppCompatEditText etDescription;
     private SwitchCompat switchPassword;
@@ -40,7 +42,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private Button btnNext;
     private QuestionnaireDTO questionnaireDTO;
 
-    private String strStartDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     private void addDescriptionHandler() {}
 
-
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         int switchId = compoundButton.getId();
@@ -64,10 +64,11 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
                 break;
             case R.id.switchStartDate:
-                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                switchStartDate.getTag();
+                addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
                 break;
             case R.id.switchEndDate:
-                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
                 break;
             case R.id.switchIsAnonymity:
                 handleAnonymity();
@@ -84,23 +85,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     }
 
-    private String addStartDateHandler() {
-        Calendar now = Calendar.getInstance();
-        DatePickerDialog dpd = DatePickerDialog.newInstance(new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                strStartDate = dayOfMonth + "/" + monthOfYear + 1 + "/" + year;
-                Toast.makeText(QuestionnaireCreationActivity.this, strStartDate, Toast.LENGTH_SHORT).show();
-            }
-        }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)
-        );
-        dpd.setAccentColor(getResources().getColor(R.color.colorGreenMain));
-        dpd.show(getFragmentManager(), "Datepickerdialog");
-
-        return strStartDate;
-    }
-
-
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbarQuestionnaireCreation);
         setSupportActionBar(toolbar);
@@ -110,6 +94,36 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setTitle(getResources().getString(R.string.title_create_questionnaire));
         }
+    }
+
+    private void initQuestionnaire() {
+        questionnaireDTO = new QuestionnaireDTO();
+        questionnaireDTO.setTitle(etTitle.getText().toString());
+        questionnaireDTO.setTopic(etDescription.getText().toString());
+    }
+
+    public void handleBtnNext(View view) {
+    }
+
+    private void slideDown(View view, float toYDelta){
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                toYDelta,                 // fromYDelta
+                0); // toYDelta
+        animate.setDuration(2000);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    private AppCompatEditText addEditText(int switchId, boolean isChecked, QitInputType inputType, String text) {
+       return new QitEditTextCreator.QuizCreationBuilder()
+                .addSwitch((SwitchCompat) findViewById(switchId))
+                .addCheck(isChecked)
+                .addInputType(inputType)
+                .addText(text)
+                .addParent(llUnderScroll)
+                .create(QuestionnaireCreationActivity.this);
     }
 
     private void initViewComponents() {
@@ -135,36 +149,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
         btnCancel = findViewById(R.id.btnCancel);
         btnNext = findViewById(R.id.btnNext);
-    }
 
-    private void initQuestionnaire() {
-        questionnaireDTO = new QuestionnaireDTO();
-        questionnaireDTO.setTitle(etTitle.getText().toString());
-        questionnaireDTO.setTopic(etDescription.getText().toString());
     }
-
-    public void handleBtnNext(View view) {
-    }
-
-    private void slideDown(View view, float toYDelta){
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                toYDelta,                 // fromYDelta
-                0); // toYDelta
-        animate.setDuration(2000);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
-
-    private void addEditText(int switchId, boolean isChecked, QitInputType inputType, String text) {
-       new QitEditTextCreator.QuizCreationBuilder()
-                .addSwitch((SwitchCompat) findViewById(switchId))
-                .addCheck(isChecked)
-                .addInputType(inputType)
-                .addText(text)
-                .addParent(llUnderScroll)
-                .create(QuestionnaireCreationActivity.this);
-    }
-
 }
