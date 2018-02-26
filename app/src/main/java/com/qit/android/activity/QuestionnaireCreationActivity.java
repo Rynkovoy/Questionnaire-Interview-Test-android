@@ -228,6 +228,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         } else {
             questionnaire.setStartDate(new Date());
         }
+
     }
 
 }
