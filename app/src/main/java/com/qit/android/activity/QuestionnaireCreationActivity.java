@@ -6,28 +6,21 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.qit.R;
-import com.qit.android.events.CancelDatePickerDialog;
 import com.qit.android.rest.dto.QuestionnaireDTO;
-import com.qit.android.utils.QitDatePickerWrapper;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Calendar;
-
-public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TextWatcher {
 
     private Toolbar toolbar;
     private LinearLayout llUnderScroll;
@@ -41,6 +34,11 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private Button btnCancel;
     private Button btnNext;
     private QuestionnaireDTO questionnaireDTO;
+    private AppCompatEditText etPassword;
+    private AppCompatEditText etStartDate;
+    private AppCompatEditText etEndDate;
+    private AppCompatEditText etAnonymity;
+    private AppCompatEditText etAnswersLimit;
 
 
     @Override
@@ -49,6 +47,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         setContentView(R.layout.activity_questionnaire_creation);
         initToolbar();
         initViewComponents();
+        initQuestionnaire();
     }
 
 
@@ -61,20 +60,35 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         int switchId = compoundButton.getId();
         switch (switchId) {
             case R.id.switchPassword:
-                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                etPassword = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                if (etPassword != null) {
+                    etPassword.addTextChangedListener(this);
+                }
                 break;
             case R.id.switchStartDate:
-                switchStartDate.getTag();
-                addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                etStartDate = addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                if (etStartDate != null) {
+                    etStartDate.addTextChangedListener(this);
+                }
                 break;
             case R.id.switchEndDate:
-                addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                etEndDate = addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
+                if (etEndDate != null) {
+                    etEndDate.addTextChangedListener(this);
+                }
                 break;
             case R.id.switchIsAnonymity:
-                handleAnonymity();
+                if (isChecked) {
+                    questionnaireDTO.setAnonymity(true);
+                } else {
+                    questionnaireDTO.setAnonymity(false);
+                }
                 break;
             case R.id.switchAnswersLimit:
-                addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                etAnswersLimit = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+                if (etAnswersLimit != null) {
+                    etAnswersLimit.addTextChangedListener(this);
+                }
                 break;
             default:
                 return;
@@ -98,8 +112,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     private void initQuestionnaire() {
         questionnaireDTO = new QuestionnaireDTO();
-        questionnaireDTO.setTitle(etTitle.getText().toString());
-        questionnaireDTO.setTopic(etDescription.getText().toString());
     }
 
     public void handleBtnNext(View view) {
@@ -151,4 +163,39 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         btnNext = findViewById(R.id.btnNext);
 
     }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        if (etPassword != null && editable == etPassword.getEditableText()) {
+            questionnaireDTO.setPassword(String.valueOf(editable));
+        } else if (etStartDate != null && editable == etStartDate.getEditableText()) {
+//            questionnaireDTO.setStartDate(String.valueOf(editable));
+        } else if (etEndDate != null && editable == etEndDate.getEditableText()) {
+
+        } else if (etAnswersLimit != null && editable == etAnswersLimit.getEditableText()) {
+            questionnaireDTO.setAnswerLimit(Integer.parseInt(editable + ""));
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
