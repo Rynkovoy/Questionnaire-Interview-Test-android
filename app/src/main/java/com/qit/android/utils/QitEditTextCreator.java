@@ -135,17 +135,16 @@ public class QitEditTextCreator {
 
         @Override
         public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year + " - ";
+            strDate = String.format("%02d", dayOfMonth) + "/" + String.format("%02d", monthOfYear) + "/" + year + " — ";
             tpd.show(activity.getFragmentManager(), "Timepickerdialog");
 
         }
 
         @Override
         public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-            strDate += hourOfDay + ":" + minute;
+            strDate += hourOfDay + ":" + String.format("%02d", minute);
             appCompatEditText.setText(strDate);
             mainParent.addView(appCompatEditText, viewPosition);
         }
     }
-
 }

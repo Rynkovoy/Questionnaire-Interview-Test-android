@@ -15,9 +15,16 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import com.qit.R;
+import com.qit.android.models.Questionnaire;
 import com.qit.android.rest.dto.QuestionnaireDTO;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
+
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TextWatcher {
@@ -33,7 +40,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private SwitchCompat switchAnswersLimit;
     private Button btnCancel;
     private Button btnNext;
-    private QuestionnaireDTO questionnaireDTO;
+    private Questionnaire questionnaire;
     private AppCompatEditText etPassword;
     private AppCompatEditText etStartDate;
     private AppCompatEditText etEndDate;
@@ -79,9 +86,9 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 break;
             case R.id.switchIsAnonymity:
                 if (isChecked) {
-                    questionnaireDTO.setAnonymity(true);
+                    questionnaire.setAnonymity(true);
                 } else {
-                    questionnaireDTO.setAnonymity(false);
+                    questionnaire.setAnonymity(false);
                 }
                 break;
             case R.id.switchAnswersLimit:
@@ -111,11 +118,9 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     }
 
     private void initQuestionnaire() {
-        questionnaireDTO = new QuestionnaireDTO();
+        questionnaire = new Questionnaire();
     }
 
-    public void handleBtnNext(View view) {
-    }
 
     private void slideDown(View view, float toYDelta){
         TranslateAnimation animate = new TranslateAnimation(
@@ -177,15 +182,55 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     @Override
     public void afterTextChanged(Editable editable) {
         if (etPassword != null && editable == etPassword.getEditableText()) {
-            questionnaireDTO.setPassword(String.valueOf(editable));
+            if (switchPassword.isChecked()) {
+                questionnaire.setPassword(String.valueOf(editable));
+            } else {
+                questionnaire.setPassword(null);
+            }
         } else if (etStartDate != null && editable == etStartDate.getEditableText()) {
-//            questionnaireDTO.setStartDate(String.valueOf(editable));
+
         } else if (etEndDate != null && editable == etEndDate.getEditableText()) {
 
         } else if (etAnswersLimit != null && editable == etAnswersLimit.getEditableText()) {
-            questionnaireDTO.setAnswerLimit(Integer.parseInt(editable + ""));
+            if (switchAnswersLimit.isChecked()) {
+                questionnaire.setAnswerLimit(Integer.parseInt(String.valueOf(editable)));
+            } else {
+                questionnaire.setAnswerLimit(null);
+            }
         }
     }
+
+    public void handleBtnNext(View view) {
+        if (switchStartDate.isChecked()) {
+            String strDate = String.valueOf(etStartDate.getText());
+            Format formatter = new SimpleDateFormat("dd/MM/yyyy — hh:mm");
+            Date date;
+            try {
+                date = ((DateFormat) formatter).parse(strDate);
+                questionnaire.setStartDate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            questionnaire.setStartDate(new Date());
+        }
+
+        if (switchEndDate.isChecked()) {
+            String strDate = String.valueOf(switchEndDate.getText());
+            Format formatter = new SimpleDateFormat("dd/MM/yyyy — hh:mm");
+            Date date;
+            try {
+                date = ((DateFormat) formatter).parse(strDate);
+                questionnaire.setEndDate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            questionnaire.setStartDate(new Date());
+        }
+
+    }
+
 }
 
 
