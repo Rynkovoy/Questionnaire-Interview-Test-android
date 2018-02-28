@@ -181,7 +181,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     @Override
     public void afterTextChanged(Editable editable) {
-        if (etPassword != null && editable == etPassword.getEditableText()) {
+       /* if (etPassword != null && editable == etPassword.getEditableText()) {
             if (switchPassword.isChecked()) {
                 questionnaire.setPassword(String.valueOf(editable));
             } else {
@@ -197,10 +197,19 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             } else {
                 questionnaire.setAnswerLimit(null);
             }
-        }
+        }*/
     }
 
     public void handleBtnNext(View view) {
+
+        if (switchPassword.isChecked()) {
+            questionnaire.setPassword(String.valueOf(etPassword.getText()));
+        } else {
+            questionnaire.setPassword(null);
+        }
+
+        questionnaire.setAnonymity(switchIsAnonymity.isChecked());
+
         if (switchStartDate.isChecked()) {
             String strDate = String.valueOf(etStartDate.getText());
             Format formatter = new SimpleDateFormat("dd/MM/yyyy — hh:mm");
@@ -226,7 +235,13 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
         } else {
-            questionnaire.setStartDate(new Date());
+            questionnaire.setStartDate(null);
+        }
+
+        if (switchAnswersLimit.isChecked()) {
+            questionnaire.setAnswerLimit(Integer.parseInt(String.valueOf(etAnswersLimit.getText())));
+        } else {
+            questionnaire.setAnswerLimit(null);
         }
 
     }
