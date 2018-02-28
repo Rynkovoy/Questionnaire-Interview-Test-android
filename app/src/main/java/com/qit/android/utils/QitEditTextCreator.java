@@ -104,6 +104,11 @@ public class QitEditTextCreator {
                         initCalendarWidget();
                         dpd.show(activity.getFragmentManager(), "Datepickerdialog");
                         break;
+
+                    case NUMBER:
+                        appCompatEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        mainParent.addView(appCompatEditText, viewPosition);
+                        break;
                 }
 
             } else {

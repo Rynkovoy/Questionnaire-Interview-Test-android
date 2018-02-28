@@ -1,6 +1,7 @@
 package com.qit.android.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, TextWatcher {
+public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private Toolbar toolbar;
     private LinearLayout llUnderScroll;
@@ -44,7 +45,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private AppCompatEditText etPassword;
     private AppCompatEditText etStartDate;
     private AppCompatEditText etEndDate;
-    private AppCompatEditText etAnonymity;
     private AppCompatEditText etAnswersLimit;
 
 
@@ -68,34 +68,17 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         switch (switchId) {
             case R.id.switchPassword:
                 etPassword = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
-                if (etPassword != null) {
-                    etPassword.addTextChangedListener(this);
-                }
                 break;
             case R.id.switchStartDate:
                 etStartDate = addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
-                if (etStartDate != null) {
-                    etStartDate.addTextChangedListener(this);
-                }
                 break;
             case R.id.switchEndDate:
                 etEndDate = addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
-                if (etEndDate != null) {
-                    etEndDate.addTextChangedListener(this);
-                }
                 break;
             case R.id.switchIsAnonymity:
-                if (isChecked) {
-                    questionnaire.setAnonymity(true);
-                } else {
-                    questionnaire.setAnonymity(false);
-                }
                 break;
             case R.id.switchAnswersLimit:
-                etAnswersLimit = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
-                if (etAnswersLimit != null) {
-                    etAnswersLimit.addTextChangedListener(this);
-                }
+                etAnswersLimit = addEditText(switchId, isChecked, QitInputType.NUMBER, null);
                 break;
             default:
                 return;
@@ -159,7 +142,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         switchEndDate.setOnCheckedChangeListener(this);
 
         switchIsAnonymity = findViewById(R.id.switchIsAnonymity);
-        switchIsAnonymity.setOnCheckedChangeListener(this);
+        switchEndDate.setOnCheckedChangeListener(this);
 
         switchAnswersLimit = findViewById(R.id.switchAnswersLimit);
         switchAnswersLimit.setOnCheckedChangeListener(this);
@@ -169,40 +152,12 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-       /* if (etPassword != null && editable == etPassword.getEditableText()) {
-            if (switchPassword.isChecked()) {
-                questionnaire.setPassword(String.valueOf(editable));
-            } else {
-                questionnaire.setPassword(null);
-            }
-        } else if (etStartDate != null && editable == etStartDate.getEditableText()) {
-
-        } else if (etEndDate != null && editable == etEndDate.getEditableText()) {
-
-        } else if (etAnswersLimit != null && editable == etAnswersLimit.getEditableText()) {
-            if (switchAnswersLimit.isChecked()) {
-                questionnaire.setAnswerLimit(Integer.parseInt(String.valueOf(editable)));
-            } else {
-                questionnaire.setAnswerLimit(null);
-            }
-        }*/
-    }
 
     public void handleBtnNext(View view) {
+        questionnaire.setSummary(String.valueOf(etTitle.getText()));
+        questionnaire.setDescription(String.valueOf(etDescription.getText()));
 
-        if (switchPassword.isChecked()) {
+        if (etPassword != null && switchPassword.isChecked()) {
             questionnaire.setPassword(String.valueOf(etPassword.getText()));
         } else {
             questionnaire.setPassword(null);
@@ -210,7 +165,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
 
         questionnaire.setAnonymity(switchIsAnonymity.isChecked());
 
-        if (switchStartDate.isChecked()) {
+        if (etStartDate != null && switchStartDate.isChecked()) {
             String strDate = String.valueOf(etStartDate.getText());
             Format formatter = new SimpleDateFormat("dd/MM/yyyy — hh:mm");
             Date date;
@@ -224,8 +179,8 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             questionnaire.setStartDate(new Date());
         }
 
-        if (switchEndDate.isChecked()) {
-            String strDate = String.valueOf(switchEndDate.getText());
+        if (etEndDate != null && switchEndDate.isChecked()) {
+            String strDate = String.valueOf(etEndDate.getText());
             Format formatter = new SimpleDateFormat("dd/MM/yyyy — hh:mm");
             Date date;
             try {
@@ -235,17 +190,24 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
         } else {
-            questionnaire.setStartDate(null);
+            questionnaire.setStartDate(new Date());
         }
 
-        if (switchAnswersLimit.isChecked()) {
+        if (etAnswersLimit != null && switchAnswersLimit.isChecked()) {
             questionnaire.setAnswerLimit(Integer.parseInt(String.valueOf(etAnswersLimit.getText())));
         } else {
             questionnaire.setAnswerLimit(null);
         }
 
+        Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
+        intent.putExtra("Questionnaire", questionnaire);
+        startActivity(intent);
+
     }
 
+    public void handleBtnCancel(View view) {
+        startActivity(new Intent(QuestionnaireCreationActivity.this, QitActivity.class));
+    }
 }
 
 

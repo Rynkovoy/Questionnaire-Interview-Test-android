@@ -1,11 +1,14 @@
 package com.qit.android.models;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Data;
 
 @Data
-public abstract class Quiz {
+public abstract class Quiz implements Serializable {
 
     private Long id;
     private String summary;

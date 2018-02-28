@@ -1,5 +1,6 @@
 package com.qit.android.models;
 
+
 import lombok.Data;
 
 @Data
