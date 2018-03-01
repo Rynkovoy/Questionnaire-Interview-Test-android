@@ -8,6 +8,7 @@ import lombok.Data;
 public class Question {
 
     private Long id;
+    private String text;
     private boolean isNecessary;
     private QuestionType questionType;
     private Quiz quiz;

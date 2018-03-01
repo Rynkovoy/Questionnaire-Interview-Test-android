@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".android.activity.AuthorizationActivity"
+            android:name=".android.activity.QitActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".android.activity.MainActivity" />
-        <activity android:name=".android.activity.QitActivity" />
+        <!--<activity android:name=".android.activity.QitActivity" />-->
         <activity android:name=".android.activity.QuestionnaireCreationActivity" />
         <activity android:name=".android.activity.InterviewCreationActivity" />
         <activity android:name=".android.activity.QuestionsCreationActivity"></activity>

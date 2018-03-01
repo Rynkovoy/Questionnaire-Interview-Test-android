@@ -29,5 +29,11 @@
     <string name="creation_is_anonymity">Anonymity</string>
     <string name="creation_answers_limit">Answers limit</string>
 
+    <array name="question_type">
+        <item>One of the list</item>
+        <item>A few from the list</item>
+        <item>Text (detailed)</item>
+    </array>
+
 
 </resources>
