@@ -53,6 +53,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         layoutScrolledQuestions = findViewById(R.id.layoutScrolledQuestions);
         questionLayoutList = new ArrayList();
         radioGroup = new RadioGroup(QuestionsCreationActivity.this);
+        LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        radioLayoutParams.setMargins(0,22,0,0 );
+        radioGroup.setLayoutParams(radioLayoutParams);
 
         Questionnaire questionnaire = (Questionnaire) getIntent().getSerializableExtra("Questionnaire");
 
@@ -101,30 +104,35 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                 switch (i) {
                     case 0:
                         Toast.makeText(QuestionsCreationActivity.this, "One of the list", Toast.LENGTH_SHORT).show();
-                        RadioGroup radioGroup = new RadioGroup(QuestionsCreationActivity.this);
 
                         AppCompatRadioButton radioButton = new AppCompatRadioButton(QuestionsCreationActivity.this);
-                        LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        radioLayoutParams.setMargins(0,22,0,0 );
-                        radioGroup.setLayoutParams(radioLayoutParams);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.green)));
                         }
 
+                        
+                        RadioGroup radioGroup = new RadioGroup(QuestionsCreationActivity.this);
+                        LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        radioLayoutParams.setMargins(0,22,0,0 );
+                        radioGroup.setLayoutParams(radioLayoutParams);
                         radioGroup.addView(radioButton);
+
 
                         EditText editText = new EditText(QuestionsCreationActivity.this);
                         editText.setTextColor(getResources().getColor(R.color.colorAuthText));
                         editText.setHint("Question");
+                        editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
                         LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         imageLayoutParams.setMargins(0,22,0,0 );
                         ImageView btnDelete = new ImageView(QuestionsCreationActivity.this);
                         btnDelete.setLayoutParams(imageLayoutParams);
                         btnDelete.setImageResource(R.drawable.ic_remove_circle_outline_black_18dp);
+                        btnDelete.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 8.5f));
 
                         LinearLayout linearLayoutAnswer = new LinearLayout(QuestionsCreationActivity.this);
                         linearLayoutAnswer.setOrientation(LinearLayout.HORIZONTAL);
+
 
                         linearLayoutAnswer.addView(radioGroup);
                         linearLayoutAnswer.addView(editText);
