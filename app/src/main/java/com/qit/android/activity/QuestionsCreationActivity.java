@@ -1,9 +1,6 @@
 package com.qit.android.activity;
 
-import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -12,28 +9,22 @@ import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qit.R;
-import com.qit.android.models.Question;
 import com.qit.android.models.Questionnaire;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +33,6 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     private LinearLayout layoutScrolledQuestions;
     private List<CardView> questionLayoutList;
     private Toolbar toolbar;
-    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +42,8 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
         layoutScrolledQuestions = findViewById(R.id.layoutScrolledQuestions);
         questionLayoutList = new ArrayList();
-        radioGroup = new RadioGroup(QuestionsCreationActivity.this);
         LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         radioLayoutParams.setMargins(0,22,0,0 );
-        radioGroup.setLayoutParams(radioLayoutParams);
 
         Questionnaire questionnaire = (Questionnaire) getIntent().getSerializableExtra("Questionnaire");
 
@@ -96,50 +84,37 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         linearLayout1.setWeightSum(10f);
         linearLayout1.addView(etQuestion, 0);
         linearLayout1.addView(spinnerQuestionType, 1);
+//        final RadioGroup radioGroup = new RadioGroup(QuestionsCreationActivity.this);
 
+        final List<RadioButton> radioButtons = new ArrayList<>();
 
         spinnerQuestionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        Toast.makeText(QuestionsCreationActivity.this, "One of the list", Toast.LENGTH_SHORT).show();
-
-                        AppCompatRadioButton radioButton = new AppCompatRadioButton(QuestionsCreationActivity.this);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.green)));
+                        int childCount = linearLayoutMain.getChildCount();
+                        int childIndex = linearLayoutMain.indexOfChild(linearLayout1);
+                        for (int j = childCount - 1; j > childIndex; j--) {
+                            linearLayoutMain.removeViewAt(j);
                         }
 
-                        
-                        RadioGroup radioGroup = new RadioGroup(QuestionsCreationActivity.this);
-                        LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        radioLayoutParams.setMargins(0,22,0,0 );
-                        radioGroup.setLayoutParams(radioLayoutParams);
-                        radioGroup.addView(radioButton);
+                        linearLayoutMain.addView(addRadioQuestion(radioButtons));
 
+                        final Button btnAdd = new Button(QuestionsCreationActivity.this);
+                        btnAdd.setText("Add");
 
-                        EditText editText = new EditText(QuestionsCreationActivity.this);
-                        editText.setTextColor(getResources().getColor(R.color.colorAuthText));
-                        editText.setHint("Question");
-                        editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
+                        linearLayoutMain.addView(btnAdd);
 
-                        LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        imageLayoutParams.setMargins(0,22,0,0 );
-                        ImageView btnDelete = new ImageView(QuestionsCreationActivity.this);
-                        btnDelete.setLayoutParams(imageLayoutParams);
-                        btnDelete.setImageResource(R.drawable.ic_remove_circle_outline_black_18dp);
-                        btnDelete.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 8.5f));
-
-                        LinearLayout linearLayoutAnswer = new LinearLayout(QuestionsCreationActivity.this);
-                        linearLayoutAnswer.setOrientation(LinearLayout.HORIZONTAL);
-
-
-                        linearLayoutAnswer.addView(radioGroup);
-                        linearLayoutAnswer.addView(editText);
-                        linearLayoutAnswer.addView(btnDelete);
-
-
-                        linearLayoutMain.addView(linearLayoutAnswer);
+                        btnAdd.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int childIndex = linearLayoutMain.indexOfChild(btnAdd);
+                                linearLayoutMain.removeViewAt(childIndex);
+                                linearLayoutMain.addView(addRadioQuestion(radioButtons));
+                                linearLayoutMain.addView(btnAdd);
+                            }
+                        });
 
                         break;
                     case 1:
@@ -157,12 +132,70 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             }
         });
 
-
         questionLayoutList.add(cardView);
 
         linearLayoutMain.addView(linearLayout1);
         layoutScrolledQuestions.addView(cardView);
+    }
 
+    private LinearLayout addRadioQuestion(final List<RadioButton> radioButtons) {
+        Toast.makeText(QuestionsCreationActivity.this, "One of the list", Toast.LENGTH_SHORT).show();
+
+        LinearLayout linearLayoutAnswer = new LinearLayout(QuestionsCreationActivity.this);
+        linearLayoutAnswer.setOrientation(LinearLayout.HORIZONTAL);
+
+
+
+        final AppCompatRadioButton radioButton = new AppCompatRadioButton(QuestionsCreationActivity.this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.green)));
+        }
+        LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        radioLayoutParams.setMargins(0,22,0,0 );
+        radioButton.setLayoutParams(radioLayoutParams);
+        radioButtons.add(radioButton);
+        radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int i = 0; i < radioButtons.size(); i++) {
+                    if (!radioButtons.get(i).equals(radioButton)) {
+                        radioButtons.get(i).setChecked(false);
+                    }
+                }
+            }
+        });
+
+        EditText editText = new EditText(QuestionsCreationActivity.this);
+        editText.setTextColor(getResources().getColor(R.color.colorAuthText));
+        editText.setHint("Question");
+        editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
+
+        LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        imageLayoutParams.setMargins(0,22,0,0 );
+        final ImageView btnDelete = new ImageView(QuestionsCreationActivity.this);
+        btnDelete.setLayoutParams(imageLayoutParams);
+        btnDelete.setImageResource(R.drawable.ic_remove_circle_outline_black_18dp);
+        btnDelete.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 8.5f));
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LinearLayout parentLayoutAnswer = (LinearLayout) btnDelete.getParent();
+                LinearLayout layoutMain = (LinearLayout) parentLayoutAnswer.getParent();
+                layoutMain.removeView(parentLayoutAnswer);
+
+            }
+        });
+
+        linearLayoutAnswer.addView(radioButton);
+        linearLayoutAnswer.addView(editText);
+        linearLayoutAnswer.addView(btnDelete);
+
+        return linearLayoutAnswer;
+    }
+
+    private LinearLayout addCheckboxQuestion() {
+        return null;
     }
 
     private void initToolbar() {
