@@ -17,7 +17,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="50dp"
+        android:id="@+id/scrollView">
 
         <LinearLayout
             android:id="@+id/layoutScrolledQuestions"
@@ -31,7 +32,7 @@
     </ScrollView>
 
 
-<android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -40,14 +41,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="55dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
+            android:onClick="createQuestion"
             android:src="@drawable/ic_add_white_24dp"
-            app:fab_elevationCompat="4dp"
-            android:onClick="createQuestion">
+            app:fab_elevationCompat="4dp">
 
         </com.github.clans.fab.FloatingActionButton>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@+id/scrollView">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@drawable/button_cancel_green_rounded_corners"
+                android:onClick="handleBtnCancel"
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="@drawable/button_next_green_rounded_corners"
+                android:onClick="handleBtnCreate"
+                android:text="Next" />
+        </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 

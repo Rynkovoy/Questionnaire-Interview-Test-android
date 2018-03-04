@@ -2,13 +2,12 @@ package com.qit.android.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -16,8 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
 import com.qit.R;
-import com.qit.android.models.Questionnaire;
-import com.qit.android.rest.dto.QuestionnaireDTO;
+import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.models.user.User;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
 
@@ -199,6 +198,12 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             questionnaire.setAnswerLimit(null);
         }
 
+        //todo change to user from realm
+        User user = new User();
+        user.setLogin("rynkovoy");
+
+        questionnaire.setAuthor(user);
+
         Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
         intent.putExtra("Questionnaire", questionnaire);
         startActivity(intent);
@@ -206,7 +211,26 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     }
 
     public void handleBtnCancel(View view) {
-        startActivity(new Intent(QuestionnaireCreationActivity.this, QitActivity.class));
+        createAndShowAlertDialog();
+    }
+
+    private void createAndShowAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MaterialBaseTheme_AlertDialog);
+        builder.setTitle("Are you sure?");
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                startActivity(new Intent(QuestionnaireCreationActivity.this, QitActivity.class));
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //TODO
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
