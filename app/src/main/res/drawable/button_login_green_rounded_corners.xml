@@ -5,7 +5,7 @@
             <solid android:color="@color/colorLogInButton"/>
             <stroke android:color="#FF2DAAE1" android:width="1dp" />
             <!--corners allow us to make the rounded corners button-->
-            <corners android:radius="15dp" />
+            <corners android:radius="7dp" />
         </shape>
     </item>
 </selector>

@@ -164,6 +164,8 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                             linearLayoutMain.removeViewAt(j);
                         }
 
+                        question.setQuestionType(QuestionType.CHECKBOX.toString());
+
                         linearLayoutMain.addView(addCheckboxQuestion());
 
                         final Button btnAdd2 = new Button(QuestionsCreationActivity.this);
@@ -185,6 +187,8 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         for (int j = childCount - 1; j > childIndex; j--) {
                             linearLayoutMain.removeViewAt(j);
                         }
+
+                        question.setQuestionType(QuestionType.DETAILED.toString());
                         break;
                 }
             }

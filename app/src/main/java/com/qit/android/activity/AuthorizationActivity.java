@@ -77,5 +77,9 @@ public class AuthorizationActivity extends AppCompatActivity {
     public void onBackPressed() {
         finishAffinity();
     }
+
+    public void register(View view) {
+        startActivity(new Intent(this, RegistrationActivity.class));
+    }
 }
 

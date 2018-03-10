@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum QuestionType {
 	CHECKBOX("CHECKBOX"),
-	RADIO("RADIO");
+	RADIO("RADIO"),
+	DETAILED("DETAILED");
 
 	private String questionType;
 

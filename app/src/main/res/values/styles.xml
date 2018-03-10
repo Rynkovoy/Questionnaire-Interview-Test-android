@@ -41,7 +41,7 @@
     </style>
 
     <style name="HintTextLight" parent="TextAppearance.AppCompat.Small">
-        <item name="android:textColor">#FF2DAAE1</item>
+        <item name="android:textColor">#20f25f</item>
     </style>
 
     <style name="QITSwitch" parent="Theme.AppCompat.Light">

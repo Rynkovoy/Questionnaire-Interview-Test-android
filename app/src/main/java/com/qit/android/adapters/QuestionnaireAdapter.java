@@ -1,6 +1,7 @@
 package com.qit.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.activity.QitActivity;
+import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.quiz.Questionnaire;
 
 import java.util.List;
@@ -48,7 +50,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
 
     @Override
     public void onBindViewHolder(final QuestionnaireViewHolder holder, int position) {
-        Questionnaire questionnaire = questionnaires.get(position);
+        final Questionnaire questionnaire = questionnaires.get(position);
         holder.tvTitle.setText(questionnaire.getSummary());
         holder.tvTopic.setText(questionnaire.getDescription());
 
@@ -56,6 +58,10 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, holder.tvTitle.getText(), Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(context, QuestionnaireAnswersActivity.class);
+                intent.putExtra("Questionnaire", questionnaire);
+                context.startActivity(intent);
             }
         });
     }

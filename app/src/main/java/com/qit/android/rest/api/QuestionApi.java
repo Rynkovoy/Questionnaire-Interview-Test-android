@@ -10,6 +10,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface QuestionApi {
 
@@ -25,4 +26,6 @@ public interface QuestionApi {
     @DELETE("/api/questions/{questionId}")
     void removeQuestion(@Path("questionId") Long questionId);
 
+    @GET("/api/questions")
+    Call<List<Question>> findQuestionByQuestionnaireId(@Query("quizId") Long questionId);
 }

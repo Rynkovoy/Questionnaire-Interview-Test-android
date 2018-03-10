@@ -20,7 +20,7 @@
     <color name="colorMainBackground">#edeeef</color>
     <!--auth-->
     <color name="colorAuthHintText">#a800080b</color>
-    <color name="colorAuthText">#a800080b</color>
+    <color name="colorAuthText">#ffffff</color>
 
     <color name="colorGreenMain">#20f25f</color>
 
