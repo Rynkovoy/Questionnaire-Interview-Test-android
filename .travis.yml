@@ -1,122 +1,86 @@
-language: android
-sudo: required
-jdk: oraclejdk8
-
-before_cache:
-
- - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-
- - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-cache:
-
- directories:
-
- - $HOME/.gradle/caches/
-
- - $HOME/.gradle/wrapper/
-
-env:
-
- global:
-
- - ANDROID_API=24
-
- - EMULATOR_API=21
-
- - ANDROID_BUILD_TOOLS=24.0.2
-
- - ADB_INSTALL_TIMEOUT=5 # minutes
- - secure: "kYQFW12wY9zzMNqtor4sTeE4k/877t0igpS/AaPon7MNr+ebqEkeg9z6L1sE+81bopDX+0K62AxO4mKVxOiGGGVU5JS1ZFWg/BhPyKCThm1tUzXCBs5s8AxWU9s9MudfTHgPLwsOhvpKogivA0ZXt5iEFrkv57A51qZFMQ0Irl8iAaMiwjzv+FRT26jCCBCKB5jlRwocwOB7wEujlUN289i5y9o/wcWhBmA5YY7y64hdlZEs/bmF7RXXFpsRzmpvcm9rbnffBfSgDXAmnM1U7S9BLNgxtEoXraXlVlejnkti8+7aBmAqbQTto69eLPJlnGZ917BQLuhPqdapMNvLOwGP/CUVkzAMYsIndQafJsleRTYIRTlH2I+/ZMmaCZVUE4dxO97j1Nrbbksqb5zTzxKVJjgF5FpgZoa8KZeKh5TvFzWP5ZON53UcKM34J2D9juV6iNt34yffYq5OPkCblDHPiL9SbK01fGYlgVhdO9w9O/D+ybdsPC32syHnQgNQTH7GZlIJdJzamv9dN4zB/Hqk3LlECMHXWdYxCP/2EnEIFWO9P0TPw+Fb2B0t7hi/8ksvd7O2PaK3JL9i39prR4ZGeNkrJ3EmmM4dOV8CVZpTLrx+FshHgEszkmkn/nuiMrEqdz/4LK0fRsPLXkr9RFd2HJGrW6ng/lPYkVBT60w="
- - secure: "0Pm10LgXvYeSTGpK6QD3+BCMQv2C5OrBubk67im9R1r9HnxBViyGihZrnOzOdUDnP/j3VwCiuRmWBjmXVmG3c1K+vSpba14H3G9FFKQAwaXcKx3fsMVrXc2NFINjwL8tjKYWAQOPrXC2c1GDQiPOYgWP0YNK17UkAX0nRDZ7nCXZRvlG9xV+TF7lHKgsg7Twjp9hvXZaPJYnGPSyuko6JkBtuGstdptaO7OjfaRCrotiWT848Q/KzOQdVAzTmxMARInMRMXEP+XFkzEh7MKCx1rfz6xVvnA4iTEK8XHmk+/iqpTMFRHr2TpfT0QAF/+4hBpnJ6460ySqybUYd5kgJap+v+lL6w3s8o6gISR6m7YltqelwDeku51ZmgDtOPVmsfJIAd+XQ0SwD0gYd8r//wnNPKssGoGgDqp56g9lVlhzo9ZAkRk2PZh+o8G6vZpARIPnG2a/ENx8tC4QqoiGoR4swrgqDtqU6eruB0dfoNkkr+RiNTKsfJPs4ktQ31dF/qRJW/uLHSPWWrzonn2TE2+wf4pq1lYXadGfl+GhMcuXxTaWP9mEviS2BliGwVHQ8hn2yI40dXfIjZ0yZJPujQfRW/9tbAuKPGFdUm8RcglOpHOdNczMnodq0WfkbIVi/ohYEWmlK8LLvrhafNsevy+gP+c2Fqxw5mI3WnY/T1o="
-
-android:
-
- components:
-
- - tools
-
- - platform-tools
-
- - build-tools-$ANDROID_BUILD_TOOLS
-
- - android-$ANDROID_API
-
- - android-$EMULATOR_API_LEVEL
-
- - extra-google-m2repository
-
- - extra-android-m2repository # for design library
-
- - addon-google_apis-google-19 # google play services
-
- - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
-
- - sys-img-armeabi-v7a-addon-google_apis-google-$EMULATOR_API_LEVEL
-
- licenses:
-
- - android-sdk-preview-license-.+
-
- - android-sdk-license-.+
-
- - google-gdk-license-.+
+language: java
+jdk: oraclejdk7
 
 before_install:
+  - chmod +x $PWD/.travis_install_android.sh
+  - $PWD/.travis_install_android.sh
 
-- openssl aes-256-cbc -K $encrypted_c0801aa05af4_key -iv $encrypted_c0801aa05af4_iv -in example_keystore.jks.enc -out example_keystore.jks -d
-- mkdir "$ANDROID_HOME/licenses" || true
+  - export ANDROID_HOME=$PWD/android-sdk-linux
+  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
-- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - chmod +x $PWD/.travis_install_android_dependencies.sh
+  - $PWD/.travis_install_android_dependencies.sh
 
-- chmod +x gradlew
-- ./gradlew dependencies || true
+  - chmod +x $PWD/.travis_start_emulator.sh
+  - $PWD/.travis_start_emulator.sh
 
 before_script:
+  - chmod +x $PWD/.travis_wait_for_emulator.sh
+  - $PWD/.travis_wait_for_emulator.sh
 
-- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-
-- emulator -avd test -no-skin -no-audio -no-window &
-
-- android-wait-for-emulator
-
-- adb shell input keyevent 82 &
-
-script:
-
-- "./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"
-
-before_deploy:
-
-- cp $TRAVIS_BUILD_DIR/example_keystore.jks $HOME
-
-- cd app/build/outputs/apk/
-
-- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $HOME/example_keystore.jks -storepass $storepass -keypass $keypass app-release-unsigned.apk ExampleKeystoreAlias
+script: mvn install -Pwith-tests
 
 
-# Verification
+#!/bin/sh
 
-- jarsigner -verify app-release-unsigned.apk
+# Script installs Android SDK
 
-- "${ANDROID_HOME}/build-tools/24.0.2/zipalign -v 4 app-release-unsigned.apk TravisExample.apk"
+sudo apt-get update -qq
+if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq libstdc++6:i386 lib32z1; fi
+wget -O android-sdk.tgz http://dl.google.com/android/android-sdk_r22.0.4-linux.tgz
+tar xzf android-sdk.tgz
 
-deploy:
+export ANDROID_HOME=$PWD/android-sdk-linux
+export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 
-  provider: releases
+sudo apt-get install expect
+chmod +x $PWD/.travis_install_android_sdk.sh
+$PWD/.travis_install_android_sdk.sh
 
-  file: TravisExample.apk
-  skip_cleanup: true
+#!/usr/bin/expect -f
 
-  on:
+# Script installs Android SDK components
 
-    repo: harmittaa/travis-example-android
+spawn android update sdk --filter tools,platform-tools,build-tools-19.0.0,extra-android-support,android-17,sysimg-17,addon-google_apis-google-17,android-19,sysimg-19,addon-google_apis-google-19,addon-google_apis-google-19,extra-google-play_billing,extra-google-m2repository,extra-google-analytics_sdk_v2,extra-google-gcm,extra-google-google_play_services,extra-google-play_apk_expansion,extra-android-m2repository --no-ui --force --all
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+expect "Do you accept the license *:"
+send -- "y\r"
+interact
 
-    tags: true
+# WORKAROUND: for some reason we need to download following extras separately (otherwise we will get PkgVersion=2 instead of PkgVersion=2.0.0)
+spawn android update sdk --filter extra-google-admob_ads_sdk,extra-google-play_licensing --no-ui --force --all
+expect "Do you accept the license *:"
+send -- "y\r"
+interact
 
-    jdk: oraclejdk8
 
-  api_key:
+#!/bin/sh
 
-    secure: "ShxzZffSJIrdwKSLbyBl8u9GLjo7kAT0a1FkAeD187qSZV4rUqM/tvNDeH6ySR/YxLvRg/UyfGyidcmh1z98heq5aBCfZj3xHn8rLi8HBfrTsMFs/NqhnJXKVzjbEGHe3hw9XghPV1QqWkZl9DGb5Bgptpz0wuF9m9X3C5ywKBFUdLbIKKgwv/6Qx3ByROECndKvkhwtNdXcO3NVPm68TIuGU5AMhyNFhbyattyDY8TyCDnSOQXoFSto71lYyKY5WafFiS4b92HgIHTZxOV2FBnWIaHTIDKdtHcBj/eNYRVb8CVjjxu2xoBcmgWVtxl/04RDq+mZX/lZuLLyIN0UN0h9Zj0Ks9ywmWRQQYKPm2qMJeCBDpBAqXTU6m0AeY3CdHTwvM4lx5gAO/exBe257Dk+TpvUdVH1auu9df3V7ERgfOkoUC9bRyy1E/kzK7p5dtEoyIJtGq+dqL5iMvaDbmrqFpUxtPShJupaaXHiSjD1gcusd+r7BklpbAWIDoLm7q3iuOzA/L86fB7VGkTOUaVYpJQ2AJRx8GfqcxxDAzQDfW7Ev7qsQmjUMjE1ck1XVlZmXgMmvCgnAve9yph0mPPma6iHsaocoE9SDJi07x6NFVfAEWLQupZufYBCsc8VCFUDrx2g/YsxoAecF+AEPkQ45eG9YRp2r6nayB1S864="
+# Scripts installs Android SDK artifacts in local Maven repository
+
+git clone git://github.com/serso/maven-android-sdk-deployer.git
+cd ./maven-android-sdk-deployer/
+git checkout tags/api-19
+mvn install -P4.2
+cd ..
+
+
+#!/bin/sh
+
+# Scripts starts Android emulator with name 'Default'
+
+echo no | android create avd --force -n Default -t android-17 --abi armeabi-v7a
+emulator -avd Default -no-skin -no-audio -no-window &
+
+script: mvn install -Pwith-tests
