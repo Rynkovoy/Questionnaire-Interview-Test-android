@@ -5,4 +5,5 @@
     android:fitsSystemWindows="true"
     android:adjustViewBounds="true"
     android:layout_centerHorizontal="true"
-    android:src="@drawable/qit_logo" />
+    android:src="@drawable/qit_logo"
+    android:transitionName="appLogo"/>

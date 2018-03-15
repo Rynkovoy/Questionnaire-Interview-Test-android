@@ -41,8 +41,7 @@
                 android:backgroundTint="@color/colorAuthText"
                 android:hint="@string/auth_login"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/colorAuthText"
-                android:textColorHint="@color/colorAuthHintText" />
+                android:textColor="@color/colorAuthText" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -64,8 +63,7 @@
                 android:backgroundTint="@color/colorAuthText"
                 android:hint="@string/auth_password"
                 android:inputType="textPassword"
-                android:textColor="@color/colorAuthText"
-                android:textColorHint="@color/colorAuthHintText" />
+                android:textColor="@color/colorAuthText" />
 
         </android.support.design.widget.TextInputLayout>
 

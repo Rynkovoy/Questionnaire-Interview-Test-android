@@ -40,19 +40,15 @@ public class AuthorizationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
 
-        //TODO: UNCOMMIT HERE!
-//        sharedPreferences = getSharedPreferences(this.getClass().getName(), Context.MODE_PRIVATE);
-//        if (sharedPreferences.getBoolean(SharedPreferencesTags.IS_AUTHORIZE, false)) {
-//            Intent intent = new Intent(getApplicationContext(), QitActivity.class);
-//            startActivity(intent);
-//        }
+        sharedPreferences = getSharedPreferences(this.getClass().getName(), Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean(SharedPreferencesTags.IS_AUTHORIZE, false)) {
+            Intent intent = new Intent(getApplicationContext(), QitActivity.class);
+            startActivity(intent);
+        }
 
         etLogin = findViewById(R.id.etLoginAut);
         etPassword = findViewById(R.id.etPasswordAut);
-
-        // EDITED BLOCK
         etForgotePass = findViewById(R.id.etForgotPass);
-        //-- END EDITED BLOCK
     }
 
     public void logIn(final View view) {
@@ -73,13 +69,20 @@ public class AuthorizationActivity extends AppCompatActivity {
                     return;
                 }
 
-                //TODO: UNCOMMIT HERE!
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
-//                editor.apply();
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
+                editor.apply();
 
-                Intent intent = new Intent(getApplicationContext(), QitActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(AuthorizationActivity.this, QitActivity.class);
+
+                View sharedView = findViewById(R.id.imgLogo);
+                String transitionName = "appLogo";
+
+                ActivityOptions transitionActivityOptions = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(AuthorizationActivity.this, sharedView, transitionName);
+                }
+                startActivity(i, transitionActivityOptions.toBundle());
             }
 
             @Override
@@ -118,7 +121,6 @@ public class AuthorizationActivity extends AppCompatActivity {
         }
         startActivity(i, transitionActivityOptions.toBundle());
 
-        //startActivity(new Intent(this, RegistrationActivity.class));
     }
 }
 
