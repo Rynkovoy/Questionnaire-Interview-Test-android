@@ -47,7 +47,6 @@
                     android:textSize="14sp" />
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -57,7 +56,7 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etLoginReg"
+                        android:id="@+id/regUserLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
@@ -67,7 +66,6 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserPassFirst"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -77,18 +75,17 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etPasRegFirst"
+                        android:id="@+id/regUserPassFirst"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="Password"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:textColor="@color/colorAuthText" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserPassSec"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -98,12 +95,12 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etPasRegSec"
+                        android:id="@+id/regUserPassSec"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="Password repeat"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:textColor="@color/colorAuthText" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -128,7 +125,6 @@
                     android:textSize="14sp" />
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserLogin"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -138,17 +134,16 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etLoginReg"
+                        android:id="@+id/regUserFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="First name"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textCapWords"
                         android:textColor="@color/colorAuthText" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserPassFirst"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -158,18 +153,17 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etPasRegFirst"
+                        android:id="@+id/regUserLastName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="Last name"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textCapWords"
                         android:textColor="@color/colorAuthText" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserPassSec"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -179,12 +173,12 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etPasRegSec"
+                        android:id="@+id/regUserPhoneNum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="Phone number +380"
-                        android:inputType="textEmailAddress"
+                        android:inputType="phone"
                         android:textColor="@color/colorAuthText" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -195,7 +189,6 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/regUserPassSec"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
@@ -206,12 +199,11 @@
                         tools:ignore="MissingConstraints">
 
                         <android.support.v7.widget.AppCompatEditText
-                            android:id="@+id/etPasRegSec"
+                            android:id="@+id/regUserBirthDay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
                             android:hint="Birth day DD.MM.YYYY"
-                            android:inputType="textEmailAddress"
                             android:textColor="@color/colorAuthText" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -243,28 +235,32 @@
                     android:textColor="@color/colorAuthText"
                     android:textSize="14sp" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserLogin"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
+                    android:orientation="vertical"
                     android:textColorHint="@color/colorAuthText"
                     tools:ignore="MissingConstraints">
 
-                    <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etLoginReg"
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Gender"
+                        android:textColor="@color/colorAuthText" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/regUserGender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/colorAuthText"
-                        android:hint="Gender (HERE NEED SPINNER)"
-                        android:inputType="textEmailAddress"
                         android:textColor="@color/colorAuthText" />
-                </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/regUserPassFirst"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -274,12 +270,12 @@
                     tools:ignore="MissingConstraints">
 
                     <android.support.v7.widget.AppCompatEditText
-                        android:id="@+id/etPasRegFirst"
+                        android:id="@+id/regUserInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorAuthText"
                         android:hint="About yourself"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:textColor="@color/colorAuthText" />
 
                 </android.support.design.widget.TextInputLayout>

@@ -17,12 +17,30 @@ public class User implements Serializable{
 	private boolean isEnabled = true;
 	private String firstName;
 	private String lastName;
-	private String email;
+	//private String email;
 	private String phoneNumber;
 	private Date birthday;
 	private String additionalInfo;
-	private Gender gender;
-	private Set<Quiz> quizzes;
-	private Set<Result> results;
+	private String gender;
+
+
+    public User(String login, String password, boolean isEnabled, String firstName, String lastName, /*String email,*/ String phoneNumber, Date birthday, String additionalInfo, String gender/*, Set<Quiz> quizzes, Set<Result> results*/) {
+        this.login = login;
+        this.password = password;
+        this.isEnabled = isEnabled;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        //this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.birthday = birthday;
+        this.additionalInfo = additionalInfo;
+        this.gender = gender;
+        //this.quizzes = quizzes;
+        //this.results = results;
+    }
+
+    public User(){
+
+    }
 
 }
