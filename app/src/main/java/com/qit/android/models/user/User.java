@@ -21,8 +21,6 @@ public class User implements Serializable{
 	private String phoneNumber;
 	private Date birthday;
 	private String additionalInfo;
-	private Gender gender;
-	private Set<Quiz> quizzes;
-	private Set<Result> results;
+	private String gender;
 
 }
