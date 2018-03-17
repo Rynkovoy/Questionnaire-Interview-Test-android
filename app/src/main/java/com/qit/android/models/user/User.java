@@ -17,14 +17,14 @@ public class User implements Serializable{
 	private boolean isEnabled = true;
 	private String firstName;
 	private String lastName;
-	//private String email;
+	private String email;
 	private String phoneNumber;
 	private Date birthday;
 	private String additionalInfo;
 	private String gender;
 
 
-    public User(String login, String password, boolean isEnabled, String firstName, String lastName, /*String email,*/ String phoneNumber, Date birthday, String additionalInfo, String gender/*, Set<Quiz> quizzes, Set<Result> results*/) {
+    public User(String login, String password, boolean isEnabled, String firstName, String lastName, String phoneNumber, Date birthday, String additionalInfo, String gender) {
         this.login = login;
         this.password = password;
         this.isEnabled = isEnabled;
@@ -35,13 +35,10 @@ public class User implements Serializable{
         this.birthday = birthday;
         this.additionalInfo = additionalInfo;
         this.gender = gender;
-        //this.quizzes = quizzes;
-        //this.results = results;
     }
 
     public User(){
 
     }
-	private String gender;
 
 }

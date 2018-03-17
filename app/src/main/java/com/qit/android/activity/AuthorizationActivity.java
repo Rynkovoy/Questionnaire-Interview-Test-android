@@ -16,10 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.constants.SharedPreferencesTags;
 import com.qit.android.models.user.User;
+import com.qit.android.models.user.UserCreds;
 import com.qit.android.rest.api.AuthorizationApi;
 import com.qit.android.rest.dto.UserCredentialDTO;
 import com.qit.android.rest.utils.QitApi;
@@ -59,12 +61,16 @@ public class AuthorizationActivity extends AppCompatActivity {
             return;
         }
 
-        final User user = new User();
+        final UserCreds user = new UserCreds();
         user.setLogin(String.valueOf(etLogin.getText()));
         user.setPassword(String.valueOf(etPassword.getText()));
         QitApi.getApi(AuthorizationApi.class).authorize(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+                if (response.body() == null) {
+                    Snackbar.make(view, getResources().getText(R.string.wrong_credentials), Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 if (response.body() != null && !response.body().isEnabled()) {
                     Snackbar.make(view, getResources().getText(R.string.auth_banned), Snackbar.LENGTH_LONG).show();
                     return;
