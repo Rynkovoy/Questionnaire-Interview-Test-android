@@ -1,19 +1,29 @@
 package com.qit.android.activity;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qit.R;
@@ -30,6 +40,7 @@ import com.qit.android.rest.utils.QitApi;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -49,7 +60,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private AppCompatEditText firstNameEditText;
     private AppCompatEditText lastNameEditText;
     private AppCompatEditText phoneEditText;
-    private AppCompatEditText birthDayEditText;
+    public static AppCompatEditText birthDayEditText;
     private AppCompatSpinner genderSpinner;
     private AppCompatEditText userInfoEditText;
 
@@ -74,10 +85,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         firstNameEditText = findViewById(R.id.regUserFirstName);
         lastNameEditText = findViewById(R.id.regUserLastName);
         phoneEditText = findViewById(R.id.regUserPhoneNum);
-        birthDayEditText = findViewById(R.id.regUserBirthDay);
         userInfoEditText = findViewById(R.id.regUserInfo);
-        genderSpinner = findViewById(R.id.regUserGender);
 
+        birthDayEditText = findViewById(R.id.regUserBirthDay);
+        birthDayEditText.addTextChangedListener(birthDayCorrector(birthDayEditText));
+
+        genderSpinner = findViewById(R.id.regUserGender);
         {
             List<String> list = new ArrayList<String>();
             list.add(Gender.MALE.toString());
@@ -88,6 +101,31 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
+
+    public TextWatcher birthDayCorrector(final AppCompatEditText birthDayEditText) {
+        final TextWatcher txwatcher = new TextWatcher() {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i("TAG", start+" "+" "+count);
+                if (count == 1) {
+                    if (start == 1) {
+                        birthDayEditText.getText().insert(birthDayEditText.getSelectionStart(), ".");
+                    } else if (start == 4) {
+                        birthDayEditText.getText().insert(birthDayEditText.getSelectionStart(), ".");
+                    }
+                }
+            }
+
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+        return txwatcher;
+    }
+
 
     private boolean samePassCheck(String aPass, String bPass) {
         return aPass.equals(bPass);
@@ -113,13 +151,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     public boolean isFilledFields(String login, String pass, String firstName, String lastName, String phone, String birthDay) {
-        if (login.equalsIgnoreCase("") || pass.equalsIgnoreCase("")
+        return (login.equalsIgnoreCase("") || pass.equalsIgnoreCase("")
                 || firstName.equalsIgnoreCase("") || lastName.equalsIgnoreCase("") ||
-                phone.equalsIgnoreCase("") || birthDay.equalsIgnoreCase("")) {
-            return false;
-        } else {
-            return true;
-        }
+                phone.equalsIgnoreCase("") || birthDay.equalsIgnoreCase(""));
     }
 
     @Override
@@ -167,7 +201,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
 
             case (R.id.regBtnCalendar): {
-
+                DialogFragment newFragment = new SelectDateFragment();
+                newFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MyDialog);
+                newFragment.show(getFragmentManager(), "DatePicker");
             }
 
             default: {
@@ -175,7 +211,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public void pushUser (User user){
+    public void pushUser(User user) {
         QitApi.getApi(UserApi.class).registerUser(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -202,5 +238,32 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 Toast.makeText(RegistrationActivity.this, "There are some problems, try later", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    public static class SelectDateFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+            final Calendar calendar = Calendar.getInstance();
+            int yy = calendar.get(Calendar.YEAR);
+            int mm = calendar.get(Calendar.MONTH);
+            int dd = calendar.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, yy, mm, dd);
+        }
+
+        public void onDateSet(DatePicker view, int yy, int mm, int dd) {
+            populateSetDate(yy, mm + 1, dd);
+        }
+
+        public void populateSetDate(int year, int month, int day) {
+            if (month < 10) {
+                birthDayEditText.setText(day + ".0" + month + "." + year);
+            } else {
+                birthDayEditText.setText(day + "." + month + "." + year);
+            }
+        }
+
     }
 }
