@@ -28,6 +28,7 @@
     <string name="creation_end_date">End date</string>
     <string name="creation_is_anonymity">Anonymity</string>
     <string name="creation_answers_limit">Answers limit</string>
+    <string name="password_hint">Password</string>
 
     <array name="question_type">
         <item>One of the list</item>

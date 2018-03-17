@@ -1,14 +1,21 @@
 package com.qit.android.activity;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
+import android.support.transition.Slide;
+import android.support.transition.TransitionInflater;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.View;
+import android.widget.TextView;
 
 import com.qit.R;
 import com.qit.android.constants.SharedPreferencesTags;
@@ -26,6 +33,8 @@ public class AuthorizationActivity extends AppCompatActivity {
     private AppCompatEditText etPassword;
     private SharedPreferences sharedPreferences;
 
+    private TextView etForgotePass;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +46,9 @@ public class AuthorizationActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        etLogin = findViewById(R.id.etLogin);
-        etPassword = findViewById(R.id.etPassword);
+        etLogin = findViewById(R.id.etLoginAut);
+        etPassword = findViewById(R.id.etPasswordAut);
+        etForgotePass = findViewById(R.id.etForgotPass);
     }
 
     public void logIn(final View view) {
@@ -58,17 +68,38 @@ public class AuthorizationActivity extends AppCompatActivity {
                     Snackbar.make(view, getResources().getText(R.string.auth_banned), Snackbar.LENGTH_LONG).show();
                     return;
                 }
+
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
                 editor.apply();
 
-                Intent intent = new Intent(getApplicationContext(), QitActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(AuthorizationActivity.this, QitActivity.class);
+
+                View sharedView = findViewById(R.id.imgLogo);
+                String transitionName = "appLogo";
+
+                ActivityOptions transitionActivityOptions = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(AuthorizationActivity.this, sharedView, transitionName);
+                }
+                startActivity(i, transitionActivityOptions.toBundle());
             }
 
             @Override
             public void onFailure(Call<UserCredentialDTO> call, Throwable t) {
                 Snackbar.make(view, getResources().getText(R.string.wrong_credentials), Snackbar.LENGTH_LONG).show();
+
+                //EDITED BLOCK
+                etForgotePass.setVisibility(View.VISIBLE);
+                Handler handler = new Handler();
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        etForgotePass.setVisibility(View.GONE);
+                    }
+                };
+                handler.postDelayed(runnable, 5000);
+                //-- END EDITED BLOCK
             }
         });
     }
@@ -79,7 +110,17 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        startActivity(new Intent(this, RegistrationActivity.class));
+        Intent i = new Intent(AuthorizationActivity.this, RegistrationActivity.class);
+
+        View sharedView = findViewById(R.id.imgLogo);
+        String transitionName = "appLogo";
+
+        ActivityOptions transitionActivityOptions = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(AuthorizationActivity.this, sharedView, transitionName);
+        }
+        startActivity(i, transitionActivityOptions.toBundle());
+
     }
 }
 

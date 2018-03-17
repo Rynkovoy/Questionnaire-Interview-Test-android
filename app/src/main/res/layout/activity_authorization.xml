@@ -3,97 +3,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBackground"
-    android:gravity="center|top"
-    android:orientation="vertical"
-    tools:context="com.qit.android.activity.AuthorizationActivity"
+    android:background="@drawable/back_ground_img_login"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp">
+    android:gravity="center|top"
+    android:orientation="vertical"
+    tools:context="com.qit.android.activity.AuthorizationActivity">
 
     <ImageView
-        android:id="@+id/imageLogo"
+        android:id="@+id/imgLogo"
         android:layout_width="220dp"
         android:layout_height="120dp"
+        android:layout_marginTop="70dp"
         android:src="@drawable/qit_logo"
-        android:layout_marginTop="70dp"/>
+        android:transitionName="appLogo" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilLogin"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        app:hintTextAppearance="@style/HintTextLight"
-        android:textColorHint="@color/colorAuthHintText">
+        android:orientation="vertical"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/etLogin"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilLoginAut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="@color/colorMainBackground">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/etLoginAut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAuthText"
+                android:hint="@string/auth_login"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorAuthText" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilPasswordAut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="@color/colorMainBackground"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorMainBackground"
+            app:passwordToggleTintMode="multiply">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/etPasswordAut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAuthText"
+                android:hint="@string/auth_password"
+                android:inputType="textPassword"
+                android:textColor="@color/colorAuthText" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorGreen"
+            android:onClick="logIn"
+            android:text="@string/log_in"
+            android:textColor="@color/colorAuthText"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="@string/auth_login"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:onClick="register"
+            android:text="Registration"
+            android:textAllCaps="false"
             android:textColor="@color/colorAuthText"
-            android:backgroundTint="@color/colorAuthHintText"/>
+            android:textSize="18sp" />
 
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tilPassword"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTintMode="multiply"
-        app:passwordToggleTint="@color/mdtp_light_gray"
-        app:hintTextAppearance="@style/HintTextLight"
-        android:textColorHint="@color/colorAuthHintText">
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/etPassword"
+        <TextView
+            android:id="@+id/etForgotPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/auth_password"
-            android:inputType="textPassword"
-            android:textColor="@color/colorAuthText"
-            android:backgroundTint="@color/colorAuthHintText"/>
+            android:layout_marginTop="40dp"
+            android:ems="10"
+            android:gravity="right"
+            android:inputType="textPersonName"
+            android:text="Forgot your password?"
+            android:textColor="@color/colorRed"
+            android:textSize="17sp"
+            android:visibility="gone" />
 
-    </android.support.design.widget.TextInputLayout>
-
-    <TextView
-        android:id="@+id/etForgotPass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:layout_marginTop="40dp"
-        android:text="Forgot your password?"
-        android:gravity="right"
-        android:textSize="17sp"
-        android:textColor="@color/colorLogInButton"/>
-
-    <Button
-        android:id="@+id/btnLogIn"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/button_login_green_rounded_corners"
-        android:onClick="logIn"
-        android:text="@string/log_in"
-        android:textColor="@color/colorAuthText" />
-
-    <TextView
-        android:id="@+id/etRegistration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Registration"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@color/colorLogInButton"
-        android:layout_marginTop="12dp"
-        android:onClick="register"/>
+    </LinearLayout>
 
 
 </LinearLayout>

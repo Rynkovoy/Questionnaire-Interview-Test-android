@@ -15,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".android.activity.AuthorizationActivity"
-            android:screenOrientation="portrait">
+            android:name=".android.activity.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +30,8 @@
         <activity android:name=".android.activity.InterviewCreationActivity" />
         <activity android:name=".android.activity.QuestionsCreationActivity" />
         <activity android:name=".android.activity.QuestionnaireAnswersActivity" />
-        <activity android:name=".android.activity.RegistrationActivity"></activity>
+        <activity android:name=".android.activity.RegistrationActivity" />
+        <activity android:name=".android.activity.AuthorizationActivity"/>
     </application>
 
 </manifest>
