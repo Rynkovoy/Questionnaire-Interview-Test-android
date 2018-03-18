@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/questionnaire-interview-test-android.iml" filepath="$PROJECT_DIR$/.idea/questionnaire-interview-test-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/questionnaire-interview-test-android.iml" filepath="$PROJECT_DIR$/questionnaire-interview-test-android.iml" />
+      <module fileurl="file://C:\Workspace\Projects\questionnaire-interview-test-android\.idea\questionnaire-interview-test-android.iml" filepath="C:\Workspace\Projects\questionnaire-interview-test-android\.idea\questionnaire-interview-test-android.iml" />
     </modules>
   </component>
 </project>

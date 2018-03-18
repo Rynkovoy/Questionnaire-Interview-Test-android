@@ -75,6 +75,7 @@ public class AuthorizationActivity extends AppCompatActivity {
                     Snackbar.make(view, getResources().getText(R.string.auth_banned), Snackbar.LENGTH_LONG).show();
                     return;
                 }
+
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
                 editor.apply();
