@@ -8,7 +8,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 public class QitApi extends Application {
 
     private static final String HOST = "http://192.168.0.106:8080";
-    private static final String HOST2 = "http://10.238.10.74:8080";
+    private static final String HOST2 = "http://192.168.1.7:8080";
     private static Retrofit retrofit;
 
     @Override
