@@ -5,18 +5,18 @@
     android:id="@+id/llQuestionnaire"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorMainBackground"
+    android:layout_weight="1"
+    android:background="@drawable/back_ground_img_login"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.qit.android.activity.QuestionnaireCreationActivity"
-    android:layout_weight="1">
+    tools:context="com.qit.android.activity.QuestionnaireCreationActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarQuestionnaireCreation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorMainBackground"
+        android:background="@color/colorGreen"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <!--   <ImageView
@@ -27,48 +27,53 @@
            android:layout_marginRight="30dp"
            app:srcCompat="@drawable/qit_logo" />-->
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="Fill the form bellow:"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:textColorHint="@color/colorAuthHintText"
-        app:hintTextAppearance="@style/HintTextLight">
+        tools:ignore="MissingConstraints">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/etTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAuthHintText"
-            android:hint="@string/creation_title"
+            android:hint="Title"
             android:inputType="text"
-            android:maxLength="50"
-            android:textColor="@color/colorAuthText" />
-
+            android:textColor="@color/colorAuthHintText"
+            android:textSize="18sp" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:textColorHint="@color/colorAuthHintText"
-        app:hintTextAppearance="@style/HintTextLight"
-        app:layout_constraintTop_toBottomOf="@+id/tilTitle">
+        tools:ignore="MissingConstraints">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAuthHintText"
-            android:hint="@string/creation_description"
+            android:hint="Description"
             android:inputType="text"
-            android:maxLength="150"
-            android:textColor="@color/colorAuthText" />
-
+            android:textColor="@color/colorAuthHintText"
+            android:textSize="14sp" />
     </android.support.design.widget.TextInputLayout>
 
     <View
@@ -76,19 +81,18 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginTop="16dp"
-        android:background="@color/colorGreenMain"
+        android:background="@color/colorLightBlue"
         app:layout_constraintTop_toBottomOf="@+id/tilDescription" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="100">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/llUnderSroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/llUnderSroll">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorGreenMain"
+                    android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -145,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorGreenMain"
+                    android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -175,7 +179,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorGreenMain"
+                    android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -205,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorGreenMain"
+                    android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -236,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:shadowColor="@color/colorGreenMain"
+                    android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
             </LinearLayout>
@@ -251,23 +255,27 @@
 
         <Button
             android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/button_cancel_green_rounded_corners"
+            android:background="@color/colorRed"
             android:onClick="handleBtnCancel"
-            android:text="Cancel" />
+            android:text="Cancel"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/button_next_green_rounded_corners"
+            android:background="@color/colorGreen"
             android:onClick="handleBtnNext"
-            android:text="Next" />
+            android:text="Next"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

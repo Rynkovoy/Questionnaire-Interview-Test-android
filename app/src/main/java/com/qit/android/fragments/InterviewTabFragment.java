@@ -57,20 +57,20 @@ public class InterviewTabFragment extends Fragment {
         MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView);
     }
 
+    List<InterviewDTO> interviewDTOs = new ArrayList<>();
     private List<InterviewDTO> initInterviewList() {
-        final List<InterviewDTO> interviewDTOs = new ArrayList<>();
-        /*QitApi.getApi(InterviewApi.class).findAllInterviews().enqueue(new Callback<List<InterviewDTO>>() {
-            @Override
-            public void onResponse(Call<List<InterviewDTO>> call, Response<List<InterviewDTO>> response) {
-                interviewDTOs.addAll(response.body());
-                interviewAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<InterviewDTO>> call, Throwable t) {
-                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG);
-            }
-        });*/
+//        QitApi.getApi(InterviewApi.class).findAllInterviews().enqueue(new Callback<List<InterviewDTO>>() {
+//            @Override
+//            public void onResponse(Call<List<InterviewDTO>> call, Response<List<InterviewDTO>> response) {
+//                interviewDTOs.addAll(response.body());
+//                interviewAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<InterviewDTO>> call, Throwable t) {
+//                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG);
+//            }
+//        });
 
         return interviewDTOs;
     }

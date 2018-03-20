@@ -17,7 +17,7 @@ public class User implements Serializable{
 	private boolean isEnabled = true;
 	private String firstName;
 	private String lastName;
-	//private String email;
+	private String email; //TODO: DEL E_MAIL FROM FIELDS ON DB, EMAIL IS LOGIN
 	private String phoneNumber;
 	private Date birthday;
 	private String additionalInfo;

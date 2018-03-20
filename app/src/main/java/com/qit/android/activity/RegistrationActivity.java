@@ -71,13 +71,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         UiElemInitialise();
 
+        saveBtn.setOnClickListener(this);
+        calendarBtn.setOnClickListener(this);
+
     }
 
     private void UiElemInitialise() {
         saveBtn = findViewById(R.id.regBtnSave);
         calendarBtn = findViewById(R.id.regBtnCalendar);
-        saveBtn.setOnClickListener(this);
-        calendarBtn.setOnClickListener(this);
 
         loginEditText = findViewById(R.id.regUserLogin);
         passFirstEditText = findViewById(R.id.regUserPassFirst);

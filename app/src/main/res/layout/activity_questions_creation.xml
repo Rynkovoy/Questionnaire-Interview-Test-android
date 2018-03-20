@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_ground_img_login"
     android:orientation="vertical"
     tools:context="com.qit.android.activity.QuestionsCreationActivity">
 
@@ -11,14 +12,14 @@
         android:id="@+id/questionToolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorMainBackground"
+        android:background="@color/colorGreen"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:id="@+id/scrollView">
+        android:layout_marginTop="50dp">
 
         <LinearLayout
             android:id="@+id/layoutScrolledQuestions"
@@ -53,8 +54,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:layout_below="@+id/scrollView">
+            android:layout_below="@+id/scrollView"
+            android:layout_gravity="center_horizontal|bottom">
 
             <Button
                 android:id="@+id/btnCancel"
@@ -62,9 +63,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@drawable/button_cancel_green_rounded_corners"
+                android:background="@color/colorRed"
                 android:onClick="handleBtnCancel"
-                android:text="Cancel" />
+                android:text="Cancel"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnNext"
@@ -72,9 +75,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="@drawable/button_next_green_rounded_corners"
+                android:background="@color/colorGreen"
                 android:onClick="handleBtnCreate"
-                android:text="Next" />
+                android:text="Next"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

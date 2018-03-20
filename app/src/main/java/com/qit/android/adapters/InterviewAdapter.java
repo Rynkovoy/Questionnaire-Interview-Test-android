@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qit.R;
@@ -21,13 +22,17 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
-        public CircleImageView civQuestionnaire;
+        public ImageView civQuestionnaire;
         public TextView tvTitle;
         public TextView tvTopic;
+
+        public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
 
         public InterviewViewHolder(View view) {
             super(view);
             civQuestionnaire = view.findViewById(R.id.civInterview);
+            civQuestionnaire.setImageResource(rImagesCivQuestionnaire[(int) (Math.random()*7)]);
+
             tvTitle = view.findViewById(R.id.tvInterviewTitle);
             tvTopic = view.findViewById(R.id.tvInterviewTopic);
         }

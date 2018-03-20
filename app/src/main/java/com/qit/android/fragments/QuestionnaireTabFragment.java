@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,6 @@ import retrofit2.Response;
 public class QuestionnaireTabFragment extends Fragment {
 
     private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
-
-
 
     private NestedScrollView mScrollView;
     private QuestionnaireAdapter questionnaireAdapter;
