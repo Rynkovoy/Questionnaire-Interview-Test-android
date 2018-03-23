@@ -1,6 +1,6 @@
 package com.qit.android.rest.dto;
 
-
+@Deprecated
 public class QuizDTO {
 
     private Long quizId;

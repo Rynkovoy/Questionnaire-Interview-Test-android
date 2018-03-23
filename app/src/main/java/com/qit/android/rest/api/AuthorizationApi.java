@@ -6,7 +6,7 @@ import com.qit.android.models.user.UserCreds;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-
+@Deprecated
 public interface AuthorizationApi {
 
     @POST("/api/authorization")

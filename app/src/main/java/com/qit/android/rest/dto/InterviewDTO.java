@@ -1,7 +1,7 @@
 package com.qit.android.rest.dto;
 
 import java.util.Set;
-
+@Deprecated
 public class InterviewDTO extends QuizDTO{
 
     private Integer membersLimit;

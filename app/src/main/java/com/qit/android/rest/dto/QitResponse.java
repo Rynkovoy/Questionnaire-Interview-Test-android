@@ -1,7 +1,7 @@
 package com.qit.android.rest.dto;
 
 import lombok.Data;
-
+@Deprecated
 @Data
 public class QitResponse {
 

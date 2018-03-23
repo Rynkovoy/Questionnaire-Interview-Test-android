@@ -4,7 +4,7 @@ import android.app.Application;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
-
+@Deprecated
 public class QitApi extends Application {
 
     private static final String HOST = "http://192.168.0.106:8080";

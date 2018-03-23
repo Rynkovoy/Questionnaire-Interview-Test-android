@@ -1,5 +1,5 @@
 package com.qit.android.rest.dto;
-
+@Deprecated
 public class AnswerDTO {
 
     private Long questionId;

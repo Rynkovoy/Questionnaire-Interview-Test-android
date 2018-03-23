@@ -11,7 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-
+@Deprecated
 public interface QuestionnaireApi2 {
 
     @GET("/api/questionnaires/{quizId}")

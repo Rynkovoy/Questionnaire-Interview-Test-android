@@ -2,7 +2,7 @@ package com.qit.android.rest.dto;
 
 
 import java.util.Set;
-
+@Deprecated
 public class QuestionDTO {
 
     private Long quizId;

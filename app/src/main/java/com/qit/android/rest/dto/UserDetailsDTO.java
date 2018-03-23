@@ -1,7 +1,7 @@
 package com.qit.android.rest.dto;
 
 import java.sql.Date;
-
+@Deprecated
 public class UserDetailsDTO extends UserCredentialDTO{
 
     private String firstName;

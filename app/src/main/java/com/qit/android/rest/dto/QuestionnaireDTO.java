@@ -2,7 +2,7 @@ package com.qit.android.rest.dto;
 
 import java.sql.Timestamp;
 import java.util.Set;
-
+@Deprecated
 public class QuestionnaireDTO extends QuizDTO {
 
     private Timestamp startDate;
