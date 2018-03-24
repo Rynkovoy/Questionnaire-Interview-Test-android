@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">QIT</string>
-    <string name="questionnaire">Questionnaire</string>
-    <string name="interview">Interview</string>
-    <string name="test">Test</string>
+    <string name="Questionnaires">Questionnaires</string>
+    <string name="Interviews">Interviews</string>
+    <string name="Events">Events</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_authorization">Sign in</string>

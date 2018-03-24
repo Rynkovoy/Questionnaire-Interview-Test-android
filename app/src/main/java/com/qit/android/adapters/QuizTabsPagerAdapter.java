@@ -22,7 +22,7 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
         this.tabsTitle = new ArrayList<>();
         this.tabsTitle.add(0, "Questionnaires");
         this.tabsTitle.add(1, "Interviews");
-        this.tabsTitle.add(2, "Tests");
+        this.tabsTitle.add(2, "Events");
     }
 
     @Override

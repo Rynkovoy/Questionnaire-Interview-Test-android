@@ -5,10 +5,12 @@ import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,15 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qit.R;
-import com.qit.android.constants.SharedPreferencesTags;
-import com.qit.android.models.quiz.Quiz;
 import com.qit.android.models.user.Gender;
 import com.qit.android.models.user.User;
-import com.qit.android.rest.api.AuthorizationApi;
-import com.qit.android.rest.api.UserApi;
-import com.qit.android.rest.dto.UserCredentialDTO;
-import com.qit.android.rest.dto.UserDetailsDTO;
-import com.qit.android.rest.utils.QitApi;
+import com.qit.android.rest.utils.QitFirebaseUserCreation;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,11 +39,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -73,6 +64,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         saveBtn.setOnClickListener(this);
         calendarBtn.setOnClickListener(this);
+
 
     }
 
@@ -110,7 +102,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("TAG", start+" "+" "+count);
+                Log.i("TAG", start + " " + " " + count);
                 if (count == 1) {
                     if (start == 1) {
                         birthDayEditText.getText().insert(birthDayEditText.getSelectionStart(), ".");
@@ -152,7 +144,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     }
 
     public boolean isFilledFields(String login, String pass, String firstName, String lastName, String phone, String birthDay) {
-        return (login.equalsIgnoreCase("") || pass.equalsIgnoreCase("")
+        return !(login.equalsIgnoreCase("") || pass.equalsIgnoreCase("")
                 || firstName.equalsIgnoreCase("") || lastName.equalsIgnoreCase("") ||
                 phone.equalsIgnoreCase("") || birthDay.equalsIgnoreCase(""));
     }
@@ -161,6 +153,10 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case (R.id.regBtnSave): {
+                Log.i("LOG", loginEditText.getText().toString() + " " + passFirstEditText.getText().toString() + " " +
+                        firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString() + " " +
+                        phoneEditText.getText().toString() + " " + birthDayEditText.getText().toString());
+
                 if (isFilledFields(loginEditText.getText().toString(), passFirstEditText.getText().toString(),
                         firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
                         phoneEditText.getText().toString(), birthDayEditText.getText().toString())) {
@@ -198,47 +194,41 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 } else {
                     Toast.makeText(this, "Some fields are not filled!", Toast.LENGTH_SHORT).show();
                 }
-
+                break;
             }
 
             case (R.id.regBtnCalendar): {
                 DialogFragment newFragment = new SelectDateFragment();
                 newFragment.setStyle(DialogFragment.STYLE_NO_FRAME, R.style.MyDialog);
                 newFragment.show(getFragmentManager(), "DatePicker");
+                break;
             }
 
             default: {
+                break;
             }
         }
     }
 
-    public void pushUser(User user) {
-        QitApi.getApi(UserApi.class).registerUser(user).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+    public void pushUser(final User user) {
 
-                SharedPreferences sharedPreferences = getSharedPreferences(this.getClass().getName(), Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, true);
-                editor.apply();
+        ProgressDialog dialog = new ProgressDialog(RegistrationActivity.this);
+        dialog.setMessage("Processing...");
+        dialog.show();
 
-                Intent i = new Intent(RegistrationActivity.this, QitActivity.class);
+        Intent i = new Intent(RegistrationActivity.this, QitActivity.class);
 
-                View sharedView = findViewById(R.id.imgLogo);
-                String transitionName = "appLogo";
+        View sharedView = findViewById(R.id.regLogoImg);
+        String transitionName = "appLogo";
 
-                ActivityOptions transitionActivityOptions = null;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
-                }
-                startActivity(i, transitionActivityOptions.toBundle());
-            }
+        ActivityOptions transitionActivityOptions = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
+        }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(RegistrationActivity.this, "There are some problems, try later", Toast.LENGTH_SHORT).show();
-            }
-        });
+        QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
+        qitFirebaseUserCreation.registerUser(user, this, dialog, i, transitionActivityOptions);
+
     }
 
 

@@ -57,7 +57,7 @@ public class QitActivity extends MainActivity {
         quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
 
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount()+1);
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -109,7 +109,7 @@ public class QitActivity extends MainActivity {
 
 
     private void configureFloatingActionButton() {
-        mFab.hide(false);
+        mFab.hide(true);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -124,7 +124,6 @@ public class QitActivity extends MainActivity {
             public void onClick(View view) {
                 switch (mViewPager.getViewPager().getCurrentItem()) {
                     case 0:
-//                        ((QuestionnaireTabFragment) quizTabsPagerAdapter.getItem(0)).refreshRecyclerView();
                         startActivity(new Intent(QitActivity.this, QuestionnaireCreationActivity.class));
                         break;
                     case 1:

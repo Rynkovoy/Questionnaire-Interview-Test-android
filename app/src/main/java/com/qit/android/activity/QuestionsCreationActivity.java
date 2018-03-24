@@ -34,10 +34,6 @@ import com.qit.android.models.answer.Variant;
 import com.qit.android.models.question.Question;
 import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Questionnaire;
-import com.qit.android.rest.api.QuestionApi;
-import com.qit.android.rest.api.QuestionnaireApi;
-import com.qit.android.rest.api.VariantApi;
-import com.qit.android.rest.utils.QitApi;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -77,7 +73,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         questionSet.add(question);
 
         LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(15, 15, 15, 0);
+        layoutParams.setMargins(32, 32, 32, 0);
         final CardView cardView = new CardView(this);
         cardView.setLayoutParams(layoutParams);
 
@@ -93,7 +89,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         EditText etQuestion = new EditText(this);
         etQuestion.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         etQuestion.setSingleLine(false);
-        etQuestion.setTextColor(getResources().getColor(R.color.colorAuthText));
+        etQuestion.setTextColor(getResources().getColor(R.color.colorDarkBlue));
         etQuestion.setHint("Question");
         etQuestion.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 4.0f));
 
@@ -146,7 +142,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
                         final Button btnAdd = new Button(QuestionsCreationActivity.this);
                         btnAdd.setText("Add");
+                        btnAdd.setBackgroundColor(getResources().getColor(R.color.colorGreen));
 
+                        linearLayoutMain.setPadding(16,16,16,16);
                         linearLayoutMain.addView(btnAdd);
 
                         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -234,7 +232,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         });
 
         final EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.colorAuthText));
+        editText.setTextColor(getResources().getColor(R.color.colorDarkBlue));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
@@ -292,7 +290,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         }
 
         EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.colorAuthText));
+        editText.setTextColor(getResources().getColor(R.color.colorDarkBlue));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
@@ -341,48 +339,50 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             return;
         }
 
-        QitApi.getApi(QuestionnaireApi.class).saveQuestionnaire(questionnaire).enqueue(new Callback<Questionnaire>() {
-            @Override
-            public void onResponse(Call<Questionnaire> call, Response<Questionnaire> response) {
-                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created successful");
-                for (final Question question : questionSet) {
-                    question.setQuizId(response.body().getId());
-                    QitApi.getApi(QuestionApi.class).saveQuestion(question).enqueue(new Callback<Question>() {
-                        @Override
-                        public void onResponse(Call<Question> call, Response<Question> response) {
-                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created successful");
-                            for (final Variant variant : question.getVariants()) {
-                                variant.setQuestionId(response.body().getId());
-                                QitApi.getApi(VariantApi.class).saveVariant(variant).enqueue(new Callback<Variant>() {
-                                    @Override
-                                    public void onResponse(Call<Variant> call, Response<Variant> response) {
-                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created successful");
-                                    }
 
-                                    @Override
-                                    public void onFailure(Call<Variant> call, Throwable t) {
-                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created with error \n" +
-                                                "Cause: " + t.getMessage());
-                                    }
-                                });
-                            }
 
-                        }
-
-                        @Override
-                        public void onFailure(Call<Question> call, Throwable t) {
-                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created with error \n" +
-                                    "Cause: " + t.getMessage());
-                        }
-                    });
-                }
-            }
-            @Override
-            public void onFailure(Call<Questionnaire> call, Throwable t) {
-                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created with error \n" +
-                        "Cause: " + t.getMessage());
-            }
-        });
+//        QitApi.getApi(QuestionnaireApi.class).saveQuestionnaire(questionnaire).enqueue(new Callback<Questionnaire>() {
+//            @Override
+//            public void onResponse(Call<Questionnaire> call, Response<Questionnaire> response) {
+//                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created successful");
+//                for (final Question question : questionSet) {
+//                    question.setQuizId(response.body().getId());
+//                    QitApi.getApi(QuestionApi.class).saveQuestion(question).enqueue(new Callback<Question>() {
+//                        @Override
+//                        public void onResponse(Call<Question> call, Response<Question> response) {
+//                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created successful");
+//                            for (final Variant variant : question.getVariants()) {
+//                                variant.setQuestionId(response.body().getId());
+//                                QitApi.getApi(VariantApi.class).saveVariant(variant).enqueue(new Callback<Variant>() {
+//                                    @Override
+//                                    public void onResponse(Call<Variant> call, Response<Variant> response) {
+//                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created successful");
+//                                    }
+//
+//                                    @Override
+//                                    public void onFailure(Call<Variant> call, Throwable t) {
+//                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created with error \n" +
+//                                                "Cause: " + t.getMessage());
+//                                    }
+//                                });
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Question> call, Throwable t) {
+//                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created with error \n" +
+//                                    "Cause: " + t.getMessage());
+//                        }
+//                    });
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<Questionnaire> call, Throwable t) {
+//                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created with error \n" +
+//                        "Cause: " + t.getMessage());
+//            }
+//        });
     }
 
     private void createAndShowAlertDialog() {

@@ -30,7 +30,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     private SecondaryDrawerItem itemQuestionnaire;
     private SecondaryDrawerItem itemInterview;
-    private SecondaryDrawerItem itemTest;
+    private SecondaryDrawerItem itemEvent;
     private SecondaryDrawerItem itemLogout;
 
     public QitDrawerBuilder() {
@@ -51,9 +51,9 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     public Drawer build(Activity activity) {
         setActivity(activity);
-        itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.questionnaire);
-        itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.interview);
-        itemTest = new SecondaryDrawerItem().withTag(DrawerItemTags.TEST_TAG).withName(R.string.test);
+        itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.Questionnaires);
+        itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.Interviews);
+        itemEvent = new SecondaryDrawerItem().withTag(DrawerItemTags.EVENT_TAG).withName(R.string.Events);
         itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.logout);
 
         itemQuestionnaire.withBadge("19").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700));
@@ -64,7 +64,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 .addDrawerItems(
                         itemQuestionnaire,
                         itemInterview,
-                        itemTest,
+                        itemEvent,
                         itemLogout
                 )
                 .withOnDrawerItemClickListener(this)
@@ -76,13 +76,13 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         switch (String.valueOf(drawerItem.getTag())) {
             case DrawerItemTags.QUEST_TAB:
-                Toast.makeText(view.getContext(), "Questionnaire", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Questionnaires", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.INTER_TAB:
-                Toast.makeText(view.getContext(), "Interview", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Interviews", Toast.LENGTH_SHORT).show();
                 break;
-            case DrawerItemTags.TEST_TAG:
-                Toast.makeText(view.getContext(), "Test", Toast.LENGTH_SHORT).show();
+            case DrawerItemTags.EVENT_TAG:
+                Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.LOGOUT_TAG:
                 logout();

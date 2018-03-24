@@ -31,7 +31,8 @@
         <activity android:name=".android.activity.QuestionsCreationActivity" />
         <activity android:name=".android.activity.QuestionnaireAnswersActivity" />
         <activity android:name=".android.activity.RegistrationActivity" />
-        <activity android:name=".android.activity.AuthorizationActivity"/>
+        <activity android:name=".android.activity.AuthorizationActivity" />
+        <activity android:name=".android.activity.NewEventOrChoseEventActivity"></activity>
     </application>
 
 </manifest>
