@@ -1,17 +1,22 @@
 package com.qit.android.activity;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.adapters.EventAdapter;
 import com.qit.android.models.event.Event;
@@ -51,21 +56,36 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        List<Event> event = new ArrayList<>();
-        //TODO HERE NEED TO BE FIREBASSE AND GETTING DATA FROM IT TO LIST VIEW
+        final List<Event> event = new ArrayList<>();
+        DatabaseReference databaseReference = database.getReference("event");
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("LOADING DATA");
+        progressDialog.show();
 
-        event.add(new Event("TEST", "TEST TEST TEST", "21.01.2008", "", mAuth.getCurrentUser().getUid(), null, null, true, false));
-        event.add(new Event("TEST", "TEST TEST TEST", "21.01.2008", "", mAuth.getCurrentUser().getUid(), null, null, true, false));
-        event.add(new Event("TEST", "TEST TEST TEST", "21.01.2008", "", mAuth.getCurrentUser().getUid(), null, null, true, false));
-        event.add(new Event("TEST", "TEST TEST TEST", "21.01.2008", "", mAuth.getCurrentUser().getUid(), null, null, true, false));
-        event.add(new Event("TEST", "TEST TEST TEST", "21.01.2008", "", mAuth.getCurrentUser().getUid(), null, null, true, false));
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                event.clear();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Event eventObj = childDataSnapshot.getValue(Event.class);
+                    event.add(eventObj);
+                }
+                UpdateUi(event);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            UpdateUi(null);
+            }
+        });
+    }
 
-        EventAdapter eventAdapter = new EventAdapter(event);
+    public void UpdateUi(List<Event> events){
+        EventAdapter eventAdapter = new EventAdapter(events);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         eventsRecyclerView.setLayoutManager(mLayoutManager);
         eventsRecyclerView.setItemAnimator(new DefaultItemAnimator());
         eventsRecyclerView.setAdapter(eventAdapter);
-
     }
 
     @Override
@@ -77,6 +97,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("event"+"/event_"+mAuth.getCurrentUser().getUid()+"_"+strDate);
-        myRef.setValue(new Event("TEST", "TEST TEST TEST", strDate, "", mAuth.getCurrentUser().getUid(), null, null, true, false));
+
+        myRef.setValue(new Event("TEST", "TEST TEST TEST", strDate, "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false));
     }
 }

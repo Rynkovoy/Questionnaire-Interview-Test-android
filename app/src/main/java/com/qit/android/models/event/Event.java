@@ -32,6 +32,9 @@ public class Event {
         this.isNewUserInEventeNeedToBeConfirmed = isNewUserInEventeNeedToBeConfirmed;
     }
 
+    public Event() {
+    }
+
 
     public String getFullHeader() {
         return fullHeader;

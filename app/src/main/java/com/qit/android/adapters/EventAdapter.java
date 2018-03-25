@@ -66,6 +66,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvFullDetails.setText(eventList.get(position).getFullDetails());
         holder.tvDate.setText(eventList.get(position).getDate());
         holder.tvEventOwner.setText(eventList.get(position).getEventOwner());
+
         if(eventList.get(position).isEventOpened()){
             holder.tvIsOpened.setText("OPEN EVENT");
             holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorGreen));
