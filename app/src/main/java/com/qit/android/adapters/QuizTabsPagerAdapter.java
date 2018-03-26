@@ -22,7 +22,7 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
         this.tabsTitle = new ArrayList<>();
         this.tabsTitle.add(0, "Questionnaires");
         this.tabsTitle.add(1, "Interviews");
-        this.tabsTitle.add(2, "Events");
+        //this.tabsTitle.add(2, "Events");
     }
 
     @Override
@@ -35,9 +35,9 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 selectedTabFragment = new InterviewTabFragment();
                 break;
-            case 2:
-                selectedTabFragment = new TestTabFragment();
-                break;
+//            case 2:
+//                selectedTabFragment = new TestTabFragment();
+//                break;
             default:
                 return null;
         }

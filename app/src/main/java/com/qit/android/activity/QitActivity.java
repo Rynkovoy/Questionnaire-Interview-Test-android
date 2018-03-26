@@ -15,10 +15,8 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
-import com.mikepenz.materialdrawer.Drawer;
 import com.qit.R;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
-import com.qit.android.fragments.QuestionnaireTabFragment;
 import com.qit.android.navigation.QitDrawerBuilder;
 
 
@@ -97,10 +95,10 @@ public class QitActivity extends MainActivity {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.cyan,
                                 "https://cdn.pixabay.com/photo/2016/03/28/00/37/flat-1284770_960_720.png");
-                    case 2:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.green,
-                                "http://progress.hu/wp-content/uploads/2008/09/mountains.jpg");
+//                    case 2:
+//                        return HeaderDesign.fromColorResAndUrl(
+//                                R.color.green,
+//                                "http://progress.hu/wp-content/uploads/2008/09/mountains.jpg");
                 }
                 return null;
             }

@@ -1,6 +1,7 @@
 package com.qit.android.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qit.R;
+import com.qit.android.activity.NewEventOrChoseEventActivity;
+import com.qit.android.activity.QitActivity;
+import com.qit.android.activity.QuestionnaireCreationActivity;
 import com.qit.android.models.event.Event;
 
 import java.util.List;
@@ -60,12 +64,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     @Override
-    public void onBindViewHolder(EventAdapter.EventViewHolder holder, int position) {
+    public void onBindViewHolder(final EventAdapter.EventViewHolder holder, int position) {
 
         holder.tvFullHeader.setText(eventList.get(position).getFullHeader());
         holder.tvFullDetails.setText(eventList.get(position).getFullDetails());
         holder.tvDate.setText(eventList.get(position).getDate());
-        holder.tvEventOwner.setText(eventList.get(position).getEventOwner());
+        holder.tvEventOwner.setText(eventList.get(position).getEventOwnerName());
 
         if(eventList.get(position).isEventOpened()){
             holder.tvIsOpened.setText("OPEN EVENT");
@@ -78,7 +82,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO HERE NEED TO BE INTENT TO NEXT ACTIVITY
+                holder.context.startActivity(new Intent(holder.context, QitActivity.class));
             }
         });
 

@@ -11,6 +11,7 @@ public class Event {
 
     private String eventPassword;
 
+    private String eventOwnerName;
     private String eventOwner;
 
     private List<String> eventModerators = new ArrayList<>();
@@ -106,6 +107,14 @@ public class Event {
 
     public void setNewUserInEventeNeedToBeConfirmed(boolean newUserInEventeNeedToBeConfirmed) {
         isNewUserInEventeNeedToBeConfirmed = newUserInEventeNeedToBeConfirmed;
+    }
+
+    public String getEventOwnerName() {
+        return eventOwnerName;
+    }
+
+    public void setEventOwnerName(String eventOwnerName) {
+        this.eventOwnerName = eventOwnerName;
     }
 
 }

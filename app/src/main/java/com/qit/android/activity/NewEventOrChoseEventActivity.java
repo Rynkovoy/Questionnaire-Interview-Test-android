@@ -1,6 +1,9 @@
 package com.qit.android.activity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,11 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.adapters.EventAdapter;
+import com.qit.android.fragments.CreateEventFragment;
 import com.qit.android.models.event.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class NewEventOrChoseEventActivity extends AppCompatActivity implements View.OnClickListener {
@@ -37,6 +43,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
     private SearchView searchView;
     private FirebaseAuth mAuth;
+    private List<Event> eventList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        final List<Event> event = new ArrayList<>();
+        eventList = new ArrayList<>();
         DatabaseReference databaseReference = database.getReference("event");
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("LOADING DATA");
@@ -66,21 +73,25 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 progressDialog.dismiss();
-                event.clear();
+                eventList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     Event eventObj = childDataSnapshot.getValue(Event.class);
-                    event.add(eventObj);
+                    eventList.add(eventObj);
                 }
-                UpdateUi(event);
+                Collections.reverse(eventList);
+                UpdateUi(eventList);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-            UpdateUi(null);
+                UpdateUi(null);
             }
         });
+
+        favoriteEventsBtn.performClick();
     }
 
-    public void UpdateUi(List<Event> events){
+    public void UpdateUi(List<Event> events) {
         EventAdapter eventAdapter = new EventAdapter(events);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         eventsRecyclerView.setLayoutManager(mLayoutManager);
@@ -90,14 +101,49 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View view) {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_s");
-        String strDate = sdf.format(c.getTime());
+        switch (view.getId()) {
+            case (R.id.btn_create_new_event): {
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("event"+"/event_"+mAuth.getCurrentUser().getUid()+"_"+strDate);
+                ConstraintLayout cl = findViewById(R.id.mainConstraintLayoutEventCreation);
+                cl.setVisibility(View.GONE);
 
-        myRef.setValue(new Event("TEST", "TEST TEST TEST", strDate, "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false));
+                LinearLayout ll = findViewById(R.id.fragment);
+                ll.setVisibility(View.VISIBLE);
+
+                CreateEventFragment fragment = new CreateEventFragment(mAuth, cl, ll);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fragment,fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                break;
+            }
+            case (R.id.btn_favorite_events): {
+                List<Event> favoriteEventList = new ArrayList<>();
+
+                // Add to list all events that was created by your UID
+                for (int x = 0; x < eventList.size(); x++) {
+                    if (eventList.get(x).getEventOwner().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                        favoriteEventList.add(eventList.get(x));
+                    } else {
+                        // Add to list all events in witch you are in coop already or you moderator
+                        for (int y = 0; y < eventList.get(x).getEventCoop().size(); y++) {
+                            if (eventList.get(x).getEventCoop().get(y).equalsIgnoreCase(mAuth.getCurrentUser().getUid()) || eventList.get(x).getEventModerators().get(y).equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
+                                favoriteEventList.add(eventList.get(x));
+                            }
+                        }
+                    }
+                }
+                UpdateUi(favoriteEventList);
+                break;
+            }
+            case (R.id.btn_all_events): {
+                UpdateUi(eventList);
+
+                break;
+            }
+        }
+
     }
 }

@@ -25,7 +25,7 @@ public class QitFirebaseUserLogin {
     }
 
     FirebaseUser firebaseUser;
-    public FirebaseUser getFirebaseUser(UserCreds user, final Context context, final ProgressDialog progressDialog, final Intent intent,final ActivityOptions transitionActivityOptions){
+    public FirebaseUser getFirebaseUser(UserCreds user, final Context context, final ProgressDialog progressDialog, final Intent intent, final ActivityOptions transitionActivityOptions){
 
         mAuth.signInWithEmailAndPassword(user.getLogin(), user.getPassword())
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {

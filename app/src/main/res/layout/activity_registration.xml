@@ -13,7 +13,7 @@
     <ImageView
         android:id="@+id/regLogoImg"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="200dp"
         android:layout_weight="1"
         android:src="@drawable/qit_logo"
         android:transitionName="appLogo" />
@@ -204,7 +204,8 @@
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
                             android:hint="Birth day DD.MM.YYYY"
-                            android:textColor="@color/colorAuthText" />
+                            android:textColor="@color/colorAuthText"
+                            android:textSize="14sp" />
 
                     </android.support.design.widget.TextInputLayout>
 
