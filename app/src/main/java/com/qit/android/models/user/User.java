@@ -30,13 +30,10 @@ public class User implements Serializable{
         this.isEnabled = isEnabled;
         this.firstName = firstName;
         this.lastName = lastName;
-        //this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.additionalInfo = additionalInfo;
         this.gender = gender;
-        //this.quizzes = quizzes;
-        //this.results = results;
     }
 
     public User(){

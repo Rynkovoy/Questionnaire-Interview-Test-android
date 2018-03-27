@@ -29,11 +29,21 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.models.answer.Variant;
+import com.qit.android.models.event.Event;
 import com.qit.android.models.question.Question;
 import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.models.user.User;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -50,7 +60,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     private List<CardView> questionLayoutList;
     private Toolbar toolbar;
     private Questionnaire questionnaire;
-    private Set<Question> questionSet;
+    private List <Question> questionSet;
     private static final String QUIZ_CREATION = "quiz_creation";
 
     @Override
@@ -65,7 +75,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         radioLayoutParams.setMargins(0,22,0,0 );
 
         questionnaire = (Questionnaire) getIntent().getSerializableExtra("Questionnaire");
-        questionSet = new LinkedHashSet<>();
+        questionSet = new ArrayList<>();
     }
 
     public void createQuestion(View view) {
@@ -332,57 +342,46 @@ public class QuestionsCreationActivity extends AppCompatActivity {
        createAndShowAlertDialog();
     }
 
-    public void handleBtnCreate(View view) {
+    public void handleBtnCreate(final View view) {
 
         if (questionSet.isEmpty()) {
             Snackbar.make(view, "Please, ask some questions", Snackbar.LENGTH_LONG).show();
             return;
         }
 
+        Log.i ("LOG", questionSet.get(0).getText()+" !!!!");
 
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("event");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Event event = childDataSnapshot.getValue(Event.class);
+                    if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
+                        if (event.getQuestionLists().size() == 0){
+                            List<Questionnaire> tempList = new ArrayList<>();
+                            questionnaire.getQuestionList().addAll(questionSet);
+                            tempList.add(questionnaire);
+                            event.setQuestionLists(tempList);
+                        } else {
+                            questionnaire.getQuestionList().addAll(questionSet);
+                            event.getQuestionLists().add(questionnaire);
+                        }
+                        DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                        myRef.setValue(event);
 
-//        QitApi.getApi(QuestionnaireApi.class).saveQuestionnaire(questionnaire).enqueue(new Callback<Questionnaire>() {
-//            @Override
-//            public void onResponse(Call<Questionnaire> call, Response<Questionnaire> response) {
-//                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created successful");
-//                for (final Question question : questionSet) {
-//                    question.setQuizId(response.body().getId());
-//                    QitApi.getApi(QuestionApi.class).saveQuestion(question).enqueue(new Callback<Question>() {
-//                        @Override
-//                        public void onResponse(Call<Question> call, Response<Question> response) {
-//                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created successful");
-//                            for (final Variant variant : question.getVariants()) {
-//                                variant.setQuestionId(response.body().getId());
-//                                QitApi.getApi(VariantApi.class).saveVariant(variant).enqueue(new Callback<Variant>() {
-//                                    @Override
-//                                    public void onResponse(Call<Variant> call, Response<Variant> response) {
-//                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created successful");
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(Call<Variant> call, Throwable t) {
-//                                        Log.i(QUIZ_CREATION, "Variant '" + variant.getText() + "' created with error \n" +
-//                                                "Cause: " + t.getMessage());
-//                                    }
-//                                });
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<Question> call, Throwable t) {
-//                            Log.i(QUIZ_CREATION, "Question '" + question.getText() + "' created with error \n" +
-//                                    "Cause: " + t.getMessage());
-//                        }
-//                    });
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<Questionnaire> call, Throwable t) {
-//                Log.i(QUIZ_CREATION, "Questionnaire '" + questionnaire.getSummary() + "' created with error \n" +
-//                        "Cause: " + t.getMessage());
-//            }
-//        });
+                        startActivity(new Intent(QuestionsCreationActivity.this, QitActivity.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Snackbar.make(view, "There are some trables with firebase, sry!", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     private void createAndShowAlertDialog() {

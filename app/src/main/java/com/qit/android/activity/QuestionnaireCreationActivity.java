@@ -14,9 +14,18 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
+import com.qit.android.models.event.Event;
+import com.qit.android.models.question.Question;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.models.user.User;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
 
@@ -24,7 +33,9 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class QuestionnaireCreationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
@@ -199,15 +210,30 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         }
 
         //todo change to user from realm
-        User user = new User();
-        user.setLogin("rynkovoy");
+        //User user = new User();
+        //user.setLogin("rynkovoy");
 
-        questionnaire.setAuthor(user);
+        // TODO NEED TO BE IN OTHER CLASS LIKE FIREBASE GET USER
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user"+"/"+mAuth.getCurrentUser().getUid());
 
-        Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
-        intent.putExtra("Questionnaire", questionnaire);
-        startActivity(intent);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                questionnaire.setAuthor(user);
 
+                Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
+                intent.putExtra("Questionnaire", questionnaire);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void handleBtnCancel(View view) {

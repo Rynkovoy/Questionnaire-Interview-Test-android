@@ -63,18 +63,20 @@ public class QuestionnaireTabFragment extends Fragment {
     private List<Questionnaire> initQuestionnaireList() {
         final List<Questionnaire> questionnaires = new ArrayList<>();
 
-        QitApi.getApi(QuestionnaireApi.class).findAllQuestionnaires().enqueue(new Callback<List<Questionnaire>>() {
-            @Override
-            public void onResponse(Call<List<Questionnaire>> call, Response<List<Questionnaire>> response) {
-                questionnaires.addAll(response.body());
-                questionnaireAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onFailure(Call<List<Questionnaire>> call, Throwable t) {
-                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG).show();
-            }
-        });
+//
+//        QitApi.getApi(QuestionnaireApi.class).findAllQuestionnaires().enqueue(new Callback<List<Questionnaire>>() {
+//            @Override
+//            public void onResponse(Call<List<Questionnaire>> call, Response<List<Questionnaire>> response) {
+//                questionnaires.addAll(response.body());
+//                questionnaireAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Questionnaire>> call, Throwable t) {
+//                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG).show();
+//            }
+//        });
 
         return questionnaires;
     }

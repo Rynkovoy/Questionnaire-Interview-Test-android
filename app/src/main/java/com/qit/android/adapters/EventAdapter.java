@@ -15,6 +15,7 @@ import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireCreationActivity;
 import com.qit.android.models.event.Event;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     @Override
-    public void onBindViewHolder(final EventAdapter.EventViewHolder holder, int position) {
+    public void onBindViewHolder(final EventAdapter.EventViewHolder holder, final int position) {
 
         holder.tvFullHeader.setText(eventList.get(position).getFullHeader());
         holder.tvFullDetails.setText(eventList.get(position).getFullDetails());
@@ -82,6 +83,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String date = eventList.get(position).getDate();
+                char [] a = date.toCharArray();
+                for (int x= 0 ; x < a.length; x++){
+                    if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
+                        a[x] = '_';
+                    }
+                }
+                date = new String(a);
+                FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
                 holder.context.startActivity(new Intent(holder.context, QitActivity.class));
             }
         });

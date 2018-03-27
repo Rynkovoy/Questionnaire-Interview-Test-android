@@ -1,5 +1,8 @@
 package com.qit.android.models.event;
 
+import com.qit.android.models.question.Question;
+import com.qit.android.models.quiz.Questionnaire;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,8 @@ public class Event {
     private List<String> eventModerators = new ArrayList<>();
 
     private List<String> eventCoop = new ArrayList<>();
+
+    private List<Questionnaire> questionnaireList = new ArrayList<>();
 
     private boolean isEventOpened = true;
     private boolean isNewUserInEventeNeedToBeConfirmed = false;
@@ -115,6 +120,14 @@ public class Event {
 
     public void setEventOwnerName(String eventOwnerName) {
         this.eventOwnerName = eventOwnerName;
+    }
+
+    public List<Questionnaire> getQuestionLists() {
+        return questionnaireList;
+    }
+
+    public void setQuestionLists(List<Questionnaire> questionLists) {
+        this.questionnaireList = questionLists;
     }
 
 }
