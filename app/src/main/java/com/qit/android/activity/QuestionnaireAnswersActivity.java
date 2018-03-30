@@ -51,20 +51,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
     }
 
     private List<Question> getQuestions() {
-        final List<Question> questionList = new ArrayList<>();
-        QitApi.getApi(QuestionApi.class).findQuestionByQuestionnaireId(questionnaire.getId())
-                .enqueue(new Callback<List<Question>>() {
-                    @Override
-                    public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                        questionList.addAll(response.body());
-                        questionAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Question>> call, Throwable t) {
-
-                    }
-                });
+        final List<Question> questionList = questionnaire.getQuestionList();
 
         return questionList;
     }

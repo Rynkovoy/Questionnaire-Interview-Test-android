@@ -20,7 +20,7 @@
         <item name="windowNoTitle">true</item>
 
         <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlNormal">@color/colorMainBackground</item>
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
         <!-- Material Theme -->

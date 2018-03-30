@@ -4,7 +4,7 @@ import com.google.firebase.database.DatabaseReference;
 
 public class QitFirebaseGettingEventList {
 
-    QitFirebaseGettingEventList (){
+    public QitFirebaseGettingEventList(){
     }
 
 

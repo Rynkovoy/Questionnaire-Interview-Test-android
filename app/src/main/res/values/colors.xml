@@ -17,7 +17,7 @@
 
     <!-- **** LIGHT STYLE **** -->
     <!--background-->
-    <color name="colorMainBackground">#edeeef</color>
+    <color name="colorMainBackground">#a800080b</color>
     <!--auth-->
     <color name="colorAuthHintText">#a800080b</color>
     <color name="colorAuthText">#ffffff</color>

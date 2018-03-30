@@ -21,6 +21,8 @@ import com.qit.android.rest.api.QuestionnaireApi;
 import com.qit.android.rest.api.QuestionnaireApi2;
 import com.qit.android.rest.dto.QuestionnaireDTO;
 import com.qit.android.rest.utils.QitApi;
+import com.qit.android.rest.utils.QitFirebaseGetEventQuestionList;
+import com.qit.android.rest.utils.QitFirebaseGettingEventList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,12 @@ public class QuestionnaireTabFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_questionnaire_tab, container, false);
         mScrollView = view.findViewById(R.id.scrollViewQuestionnaire);
 
-        questionnaireAdapter = new QuestionnaireAdapter(initQuestionnaireList());
+        final List<Questionnaire> questionnaires = new ArrayList<>();
+
+        QitFirebaseGetEventQuestionList qitFirebaseGetEventQuestionList = new QitFirebaseGetEventQuestionList();
+        questionnaireAdapter = new QuestionnaireAdapter(questionnaires);
+        qitFirebaseGetEventQuestionList.getListQuestions(questionnaireAdapter, questionnaires);
+
         recyclerView = view.findViewById(R.id.questionnaireRV);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -60,26 +67,6 @@ public class QuestionnaireTabFragment extends Fragment {
         MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView);
     }
 
-    private List<Questionnaire> initQuestionnaireList() {
-        final List<Questionnaire> questionnaires = new ArrayList<>();
-
-
-//
-//        QitApi.getApi(QuestionnaireApi.class).findAllQuestionnaires().enqueue(new Callback<List<Questionnaire>>() {
-//            @Override
-//            public void onResponse(Call<List<Questionnaire>> call, Response<List<Questionnaire>> response) {
-//                questionnaires.addAll(response.body());
-//                questionnaireAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Questionnaire>> call, Throwable t) {
-//                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-
-        return questionnaires;
-    }
 
     public void refreshRecyclerView() {
         if (recyclerView != null) {

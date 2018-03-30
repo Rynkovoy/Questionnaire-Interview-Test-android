@@ -56,8 +56,8 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
     }
 
     @Override
-    public void onBindViewHolder(final QuestionnaireViewHolder holder, int position) {
-        final Questionnaire questionnaire = questionnaires.get(position);
+    public void onBindViewHolder(final QuestionnaireViewHolder holder, final int position) {
+        Questionnaire questionnaire = questionnaires.get(position);
         holder.tvTitle.setText(questionnaire.getSummary());
 
         if (!questionnaire.getDescription().equalsIgnoreCase("")) {
@@ -69,10 +69,8 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, holder.tvTitle.getText(), Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(context, QuestionnaireAnswersActivity.class);
-                intent.putExtra("Questionnaire", questionnaire);
+                intent.putExtra("Questionnaire", questionnaires.get(position));
                 context.startActivity(intent);
             }
         });

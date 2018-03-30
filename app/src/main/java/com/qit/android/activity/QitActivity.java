@@ -27,6 +27,8 @@ public class QitActivity extends MainActivity {
     private int mPreviousVisibleItem;
     private QuizTabsPagerAdapter quizTabsPagerAdapter;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,9 +125,11 @@ public class QitActivity extends MainActivity {
                 switch (mViewPager.getViewPager().getCurrentItem()) {
                     case 0:
                         startActivity(new Intent(QitActivity.this, QuestionnaireCreationActivity.class));
+                        finish();
                         break;
                     case 1:
                         startActivity(new Intent(QitActivity.this, InterviewCreationActivity.class));
+                        finish();
                         break;
                 }
             }
@@ -144,5 +148,11 @@ public class QitActivity extends MainActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+                startActivity(new Intent(QitActivity.this, NewEventOrChoseEventActivity.class));
+                finish();
     }
 }
