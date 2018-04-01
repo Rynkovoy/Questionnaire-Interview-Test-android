@@ -97,19 +97,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="32dp"
                 android:paddingTop="32dp">
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
+                    app:srcCompat="@drawable/ic_vpn_key_black_36dp" />
+
                 <TextView
                     android:id="@+id/tvIsPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_lock_open_black_18dp"
-                    android:drawablePadding="18dp"
+                    android:drawablePadding="12dp"
                     android:text="@string/creation_is_password"
                     android:textColor="@color/colorAuthHintText"
                     android:textSize="18sp" />
@@ -118,7 +126,7 @@
                     android:id="@+id/switchPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
@@ -127,18 +135,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="32dp"
                 android:paddingTop="15dp">
 
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
+                    app:srcCompat="@drawable/ic_date_range_black_36dp" />
+
                 <TextView
                     android:id="@+id/tvStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_date_range_black_18dp"
                     android:drawablePadding="18dp"
                     android:text="@string/creation_start_date"
                     android:textColor="@color/colorAuthHintText"
@@ -148,7 +164,7 @@
                     android:id="@+id/switchStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
@@ -157,18 +173,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="32dp"
                 android:paddingTop="15dp">
 
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
+                    app:srcCompat="@drawable/ic_date_range_black_36dp" />
+
                 <TextView
                     android:id="@+id/tvEndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_date_range_black_18dp"
                     android:drawablePadding="18dp"
                     android:text="@string/creation_end_date"
                     android:textColor="@color/colorAuthHintText"
@@ -178,7 +202,7 @@
                     android:id="@+id/switchEndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
@@ -187,18 +211,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="32dp"
                 android:paddingTop="15dp">
 
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
+                    app:srcCompat="@drawable/ic_hot_tub_black_36dp" />
+
                 <TextView
                     android:id="@+id/tvIsAnonymity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_anonymity_black_18dp"
                     android:drawablePadding="18dp"
                     android:text="@string/creation_is_anonymity"
                     android:textColor="@color/colorAuthHintText"
@@ -208,7 +240,7 @@
                     android:id="@+id/switchIsAnonymity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 
@@ -218,18 +250,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="fill_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="32dp"
                 android:paddingTop="15dp">
 
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
+                    app:srcCompat="@drawable/ic_reorder_black_36dp" />
+
                 <TextView
                     android:id="@+id/tvAnswersLimit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_answers_limit_black_18dp"
                     android:drawablePadding="18dp"
                     android:text="@string/creation_answers_limit"
                     android:textColor="@color/colorAuthHintText"
@@ -239,7 +279,7 @@
                     android:id="@+id/switchAnswersLimit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="center_vertical"
                     android:shadowColor="@color/colorGreen"
                     android:theme="@style/QITSwitch" />
 

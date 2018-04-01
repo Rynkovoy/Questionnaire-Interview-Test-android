@@ -1,13 +1,19 @@
 package com.qit.android.activity;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.qit.R;
 import com.qit.android.adapters.QuestionAdapter;
@@ -31,6 +37,8 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
     private RecyclerView rvQuestion;
     private Questionnaire questionnaire;
 
+    private LinearLayout cardViewMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +48,14 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
         rvQuestion = findViewById(R.id.rvQuestion);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvQuestion.setLayoutManager(mLayoutManager);
+
+        TextView text = (TextView) findViewById(R.id.tvQuestion);
+        TextView text2= (TextView) findViewById(R.id.tvIsNecessary);
+        TextView text3 = (TextView) findViewById(R.id.tvAuthor);
+
+        text.setText(questionnaire.getSummary());
+        text2.setText(questionnaire.getDescription());
+        text3.setText(questionnaire.getAuthor().getFirstName()+" "+questionnaire.getAuthor().getLastName());
 
         showQuestions();
     }

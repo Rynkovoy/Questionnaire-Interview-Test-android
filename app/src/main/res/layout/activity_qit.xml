@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_ground_img_login">
+    android:background="@color/md_blue_grey_100">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
             android:id="@+id/materialViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             app:viewpager_animatedHeaderImage="true"
             app:viewpager_color="@color/colorMainBackground"
             app:viewpager_disableToolbar="false"
@@ -40,14 +41,17 @@
             android:id="@+id/fabAddQuiz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
             android:layout_marginBottom="16dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/ic_add_white_24dp"
-            app:fab_elevationCompat="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginEnd="16dp"
+            android:foreground="@drawable/fab_add"
+            android:foregroundGravity="center"
+            android:onClick="createQuestion"
+            app:fab_shadowRadius="8dp"
+            app:fab_showShadow="true"
+            app:layout_constraintBottom_toBottomOf="@+id/materialViewPager"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        </com.github.clans.fab.FloatingActionButton>
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.DrawerLayout>

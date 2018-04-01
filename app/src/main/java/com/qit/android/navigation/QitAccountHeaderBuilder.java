@@ -17,6 +17,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.qit.R;
 import com.qit.android.models.user.User;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 public class QitAccountHeaderBuilder {
 
@@ -35,9 +36,6 @@ public class QitAccountHeaderBuilder {
     }
 
 
-    private String fullName = "LOADING...";
-    private String email = "LOADING DATA...";
-    User user;
     public AccountHeader build() {
 
         final AccountHeader headerResult = new AccountHeaderBuilder()
@@ -45,8 +43,8 @@ public class QitAccountHeaderBuilder {
                 .withHeaderBackground(R.color.colorDarkBlue)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName(fullName)
-                                .withEmail(email)
+                                .withName(FirebaseEventinfoGodObj.getFirebaseUserFullName())
+                                .withEmail(FirebaseEventinfoGodObj.getFirebaseUSerEmail())
                                 .withIcon(R.drawable.ic_face_black_36dp)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {

@@ -45,9 +45,11 @@
             android:layout_marginBottom="55dp"
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
+            android:foreground="@drawable/fab_add"
+            android:foregroundGravity="center"
             android:onClick="createQuestion"
-            android:src="@drawable/ic_add_white_24dp"
-            app:fab_elevationCompat="4dp">
+            app:fab_shadowRadius="8dp"
+            app:fab_showShadow="true">
 
         </com.github.clans.fab.FloatingActionButton>
 
