@@ -19,7 +19,7 @@
 
 
     <!--Quiz creation-->
-    <string name="title_create_questionnaire">Create questionnaire</string>
+    <string name="title_create_questionnaire">Answer question</string>
     <string name="title_create_interview">Create interview</string>
     <string name="creation_title">Title</string>
     <string name="creation_description">Description</string>

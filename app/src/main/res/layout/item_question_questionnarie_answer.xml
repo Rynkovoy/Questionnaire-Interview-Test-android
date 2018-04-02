@@ -75,13 +75,12 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/detailed_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="PLASE ANSWER HERE"
                     android:inputType="textPersonName"
-                    android:text="Name"
                     android:textColor="@color/colorDarkBlue"
                     android:textSize="14sp" />
             </LinearLayout>

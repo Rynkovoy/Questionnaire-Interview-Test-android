@@ -1,13 +1,20 @@
 package com.qit.android.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qit.R;
 import com.qit.android.models.question.Question;
+import com.qit.android.models.question.QuestionType;
 
 import java.util.List;
 
@@ -17,14 +24,35 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     public static class QuestionViewHolder extends RecyclerView.ViewHolder {
         public TextView tvQuestion;
-        public TextView tvIsNecessary;
+
+        public LinearLayout llCheckBox;
+        public LinearLayout llRadioBox;
+        public LinearLayout llDetailed;
+
+        public CheckBox checkBoxPlace;
+        public RadioGroup radioGroupPlace;
+        public RadioButton radioButton;
+        public EditText editText;
+
+        Context context;
+
 
 
         public QuestionViewHolder(View view) {
             super(view);
 
+            context = view.getContext();
             tvQuestion = view.findViewById(R.id.question_haeder);
-            //tvIsNecessary = view.findViewById(R.id.tvIsNecessary);
+
+            llCheckBox = view.findViewById(R.id.ll_check_box);
+            llRadioBox = view.findViewById(R.id.ll_radio);
+            llDetailed = view.findViewById(R.id.ll_detailed);
+
+            checkBoxPlace = view.findViewById(R.id.checkBox_place);
+            radioGroupPlace = view.findViewById(R.id.radio_group_place);
+            radioButton = view.findViewById(R.id.radioButton_place);
+            editText = view.findViewById(R.id.detailed_edit_text);
+
         }
     }
 
@@ -40,15 +68,49 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         return new QuestionViewHolder(itemView);
     }
 
+
+    //TODO need tO BE ADDED LISTENERRS AND RESPONSE TO FIREBASE WITH ALL ANSWERS
     @Override
     public void onBindViewHolder(QuestionViewHolder holder, int position) {
         Question question = questionList.get(position);
         holder.tvQuestion.setText(question.getText());
-        //if (!question.getIsNecessary()) {
-        //    holder.tvIsNecessary.setVisibility(View.INVISIBLE);
-        //} else {
-        //    holder.tvIsNecessary.setVisibility(View.VISIBLE);
-        //}
+
+        if (question.getQuestionType().equalsIgnoreCase(QuestionType.CHECKBOX.toString())){
+            if(holder.llRadioBox.getVisibility()!=View.GONE){
+                holder.llRadioBox.setVisibility(View.GONE);
+                holder.llDetailed.setVisibility(View.GONE);
+
+                for (int x= 0; x < question.getVariants().size(); x++){
+                    if (x == 0) {
+                        holder.checkBoxPlace.setText(question.getVariants().get(x).getText());
+                    } else {
+                        CheckBox checkBox = new CheckBox(holder.context);
+                        checkBox.setText(question.getVariants().get(x).getText());
+                        holder.llCheckBox.addView(checkBox);
+                    }
+                }
+            }
+        } else if (question.getQuestionType().equalsIgnoreCase(QuestionType.RADIO.toString())){
+            if(holder.llCheckBox.getVisibility()!=View.GONE) {
+                holder.llCheckBox.setVisibility(View.GONE);
+                holder.llDetailed.setVisibility(View.GONE);
+
+                for (int x = 0; x < question.getVariants().size(); x++) {
+                    if (x == 0) {
+                        holder.radioButton.setText(question.getVariants().get(x).getText());
+                    } else {
+                        RadioButton radioButton = new RadioButton(holder.context);
+                        radioButton.setText(question.getVariants().get(x).getText());
+
+                        holder.radioGroupPlace.addView(radioButton);
+                    }
+                }
+            }
+        } else if (question.getQuestionType().equalsIgnoreCase(QuestionType.DETAILED.toString())){
+            holder.llRadioBox.setVisibility(View.GONE);
+            holder.llCheckBox.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

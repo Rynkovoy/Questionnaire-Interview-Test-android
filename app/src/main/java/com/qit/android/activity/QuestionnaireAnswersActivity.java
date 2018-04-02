@@ -37,8 +37,6 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
     private RecyclerView rvQuestion;
     private Questionnaire questionnaire;
 
-    private LinearLayout cardViewMain;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,13 +47,13 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvQuestion.setLayoutManager(mLayoutManager);
 
-        TextView text = (TextView) findViewById(R.id.tvQuestion);
-        TextView text2= (TextView) findViewById(R.id.tvIsNecessary);
-        TextView text3 = (TextView) findViewById(R.id.tvAuthor);
+        TextView headerQuestion = (TextView) findViewById(R.id.tvQuestion);
+        TextView mainTextQuestion= (TextView) findViewById(R.id.tvIsNecessary);
+        TextView authorOfQuestion = (TextView) findViewById(R.id.tvAuthor);
 
-        text.setText(questionnaire.getSummary());
-        text2.setText(questionnaire.getDescription());
-        text3.setText(questionnaire.getAuthor().getFirstName()+" "+questionnaire.getAuthor().getLastName());
+        headerQuestion.setText(questionnaire.getSummary());
+        mainTextQuestion.setText(questionnaire.getDescription());
+        authorOfQuestion.setText(questionnaire.getAuthor().getFirstName()+" "+questionnaire.getAuthor().getLastName());
 
         showQuestions();
     }
