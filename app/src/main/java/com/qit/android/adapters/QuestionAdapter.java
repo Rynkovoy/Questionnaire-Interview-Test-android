@@ -2,6 +2,8 @@ package com.qit.android.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qit.R;
+import com.qit.android.activity.QuestionnaireAnswersActivity;
+import com.qit.android.models.answer.Answer;
 import com.qit.android.models.question.Question;
 import com.qit.android.models.question.QuestionType;
+import com.qit.android.models.quiz.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
@@ -35,8 +41,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         public EditText editText;
 
         Context context;
-
-
 
         public QuestionViewHolder(View view) {
             super(view);
@@ -71,7 +75,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     //TODO need tO BE ADDED LISTENERRS AND RESPONSE TO FIREBASE WITH ALL ANSWERS
     @Override
-    public void onBindViewHolder(QuestionViewHolder holder, int position) {
+    public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
         Question question = questionList.get(position);
         holder.tvQuestion.setText(question.getText());
 
@@ -80,37 +84,93 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 holder.llRadioBox.setVisibility(View.GONE);
                 holder.llDetailed.setVisibility(View.GONE);
 
+                QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
+
                 for (int x= 0; x < question.getVariants().size(); x++){
                     if (x == 0) {
+                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
                         holder.checkBoxPlace.setText(question.getVariants().get(x).getText());
+                        final int finalX = x;
+                        holder.checkBoxPlace.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                            }
+                        });
                     } else {
+                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
                         CheckBox checkBox = new CheckBox(holder.context);
                         checkBox.setText(question.getVariants().get(x).getText());
                         holder.llCheckBox.addView(checkBox);
+
+                        final int finalX = x;
+                        checkBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                            }
+                        });
                     }
                 }
             }
         } else if (question.getQuestionType().equalsIgnoreCase(QuestionType.RADIO.toString())){
-            if(holder.llCheckBox.getVisibility()!=View.GONE) {
+            if(holder.llCheckBox.getVisibility() != View.GONE) {
                 holder.llCheckBox.setVisibility(View.GONE);
                 holder.llDetailed.setVisibility(View.GONE);
 
+                QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
+
                 for (int x = 0; x < question.getVariants().size(); x++) {
                     if (x == 0) {
+                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
                         holder.radioButton.setText(question.getVariants().get(x).getText());
+
+                        final int finalX = x;
+                        holder.radioButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                            }
+                        });
                     } else {
+                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
                         RadioButton radioButton = new RadioButton(holder.context);
                         radioButton.setText(question.getVariants().get(x).getText());
 
                         holder.radioGroupPlace.addView(radioButton);
+
+                        final int finalX = x;
+                        radioButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                            }
+                        });
                     }
                 }
             }
         } else if (question.getQuestionType().equalsIgnoreCase(QuestionType.DETAILED.toString())){
             holder.llRadioBox.setVisibility(View.GONE);
             holder.llCheckBox.setVisibility(View.GONE);
-        }
 
+            QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
+
+            QuestionnaireAnswersActivity.answer.getResults().add(0, new Result());
+            holder.editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    QuestionnaireAnswersActivity.answer.getResults().get(0).setAnswerStr(holder.editText.getText().toString());
+                }
+            });
+        }
     }
 
     @Override

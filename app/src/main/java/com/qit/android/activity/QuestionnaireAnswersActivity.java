@@ -11,31 +11,50 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.adapters.QuestionAdapter;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
+import com.qit.android.models.answer.Answer;
+import com.qit.android.models.event.Event;
 import com.qit.android.models.question.Question;
 import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.models.user.User;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.api.QuestionApi;
 import com.qit.android.rest.utils.QitApi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionnaireAnswersActivity extends AppCompatActivity {
+public class QuestionnaireAnswersActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Toolbar toolbar;
     private QuestionAdapter questionAdapter;
     private RecyclerView rvQuestion;
     private Questionnaire questionnaire;
+
+    private Button saveAnswer;
+    private Button cancelActivity;
+
+    public static Answer answer = new Answer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +74,17 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
         mainTextQuestion.setText(questionnaire.getDescription());
         authorOfQuestion.setText(questionnaire.getAuthor().getFirstName()+" "+questionnaire.getAuthor().getLastName());
 
+        saveAnswer = findViewById(R.id.answer_save_btn);
+        saveAnswer.setOnClickListener(this);
+        cancelActivity = findViewById(R.id.answer_cancel_btn);
+        cancelActivity.setOnClickListener(this);
+
         showQuestions();
     }
 
     private void showQuestions() {
         List<Question> questionList = getQuestions();
+        answer = new Answer();
         questionAdapter = new QuestionAdapter(questionList);
         rvQuestion.setAdapter(questionAdapter);
     }
@@ -87,5 +112,49 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case (R.id.answer_save_btn) : {
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                final DatabaseReference myRef = database.getReference("event");
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
+
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                assert firebaseUser != null;
+
+                                DatabaseReference myRefTemp = database.getReference("event/"+FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/answerList/"+FirebaseEventinfoGodObj.getFirebaseCurrentQuestion()+"/answer_" + mAuth.getCurrentUser().getUid());
+
+                                answer.setAnswerCreatedByUser(firebaseUser.getUid());
+                                myRefTemp.setValue(answer);
+                                onBackPressed();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(QuestionnaireAnswersActivity.this, "THERE ARE SOME TROUBLES IN THE SKY", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
+                });
+                break;
+            }
+            case (R.id.answer_cancel_btn): {
+                onBackPressed();
+                break;
+            }
+            default: {
+                break;
+            }
+        }
     }
 }

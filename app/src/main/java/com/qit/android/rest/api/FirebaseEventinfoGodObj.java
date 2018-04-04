@@ -5,6 +5,7 @@ public class FirebaseEventinfoGodObj {
     private static String firebaseCurrentEventName;
     private static String firebaseUserFullName;
     private static String firebaseUSerEmail;
+    private static int firebaseCurrentQuestion;
 
     public static String getFirebaseCurrentEventName() {
         return firebaseCurrentEventName;
@@ -30,5 +31,14 @@ public class FirebaseEventinfoGodObj {
     public static void setFirebaseUSerEmail(String firebaseUSerEmail) {
         FirebaseEventinfoGodObj.firebaseUSerEmail = firebaseUSerEmail;
     }
+
+    public static int getFirebaseCurrentQuestion() {
+        return firebaseCurrentQuestion;
+    }
+
+    public static void setFirebaseCurrentQuestion(int firebaseCurrentQuestion) {
+        FirebaseEventinfoGodObj.firebaseCurrentQuestion = firebaseCurrentQuestion;
+    }
+
 
 }

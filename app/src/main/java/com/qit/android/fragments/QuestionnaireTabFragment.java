@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 public class QuestionnaireTabFragment extends Fragment {
 
-    private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
+    //private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
 
     private NestedScrollView mScrollView;
     private QuestionnaireAdapter questionnaireAdapter;

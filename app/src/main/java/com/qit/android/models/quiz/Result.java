@@ -10,9 +10,7 @@ import java.util.Set;
 @Data
 public class Result {
 
-	private Long id;
-	private User author;
-	private Quiz quiz;
-	private Set<Answer> answers;
+    private boolean answerBool;
+    private String answerStr;
 
 }

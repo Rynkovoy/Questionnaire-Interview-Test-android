@@ -16,6 +16,7 @@ import com.qit.R;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireAnswersActivity.class);
                 intent.putExtra("Questionnaire", questionnaires.get(position));
+                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
                 context.startActivity(intent);
             }
         });
