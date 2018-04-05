@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qit.R;
+import com.qit.android.models.quiz.Interview;
 import com.qit.android.rest.dto.InterviewDTO;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.InterviewViewHolder> {
 
-    private List<InterviewDTO> interviewDTOs;
+    private List<Interview> interviewDTOs;
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
@@ -38,7 +39,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         }
     }
 
-    public InterviewAdapter(List<InterviewDTO> interviewDTOs) {
+    public InterviewAdapter(List<Interview> interviewDTOs) {
         this.interviewDTOs = interviewDTOs;
     }
 
@@ -52,9 +53,9 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
     @Override
     public void onBindViewHolder(InterviewViewHolder holder, int position) {
-        InterviewDTO interviewDTO = interviewDTOs.get(position);
-        holder.tvTitle.setText(interviewDTO.getTitle());
-        holder.tvTopic.setText(interviewDTO.getTopic());
+        Interview interviewDTO = interviewDTOs.get(position);
+        holder.tvTitle.setText(interviewDTO.getSummary());
+        holder.tvTopic.setText(interviewDTO.getDescription());
     }
 
     @Override

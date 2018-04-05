@@ -1,6 +1,7 @@
 package com.qit.android.models.answer;
 
 import com.qit.android.models.question.Question;
+import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Result;
 import com.qit.android.models.user.User;
 

@@ -15,9 +15,14 @@ import android.widget.ListView;
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
 import com.qit.R;
 import com.qit.android.adapters.InterviewAdapter;
+import com.qit.android.adapters.QuestionnaireAdapter;
+import com.qit.android.models.quiz.Interview;
+import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.InterviewApi;
 import com.qit.android.rest.dto.InterviewDTO;
 import com.qit.android.rest.utils.QitApi;
+import com.qit.android.rest.utils.QitFirebaseGetEventQuestionList;
+import com.qit.android.rest.utils.QitFirebaseGetInterviewList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +46,13 @@ public class InterviewTabFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
         mScrollView = view.findViewById(R.id.scrollViewInterview);
 
-        interviewAdapter = new InterviewAdapter(initInterviewList());
+        final List<Interview> interviews = new ArrayList<>();
+
+        QitFirebaseGetInterviewList qitFirebaseGetInterviewList = new QitFirebaseGetInterviewList();
+        interviewAdapter = new InterviewAdapter(interviews);
+        qitFirebaseGetInterviewList.getInterviewList(interviewAdapter, interviews);
+
+        //interviewAdapter = new InterviewAdapter(initInterviewList());
         recyclerView = view.findViewById(R.id.interviewRV);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -56,24 +67,5 @@ public class InterviewTabFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         MaterialViewPagerHelper.registerScrollView(getActivity(), mScrollView);
     }
-
-    List<InterviewDTO> interviewDTOs = new ArrayList<>();
-    private List<InterviewDTO> initInterviewList() {
-//        QitApi.getApi(InterviewApi.class).findAllInterviews().enqueue(new Callback<List<InterviewDTO>>() {
-//            @Override
-//            public void onResponse(Call<List<InterviewDTO>> call, Response<List<InterviewDTO>> response) {
-//                interviewDTOs.addAll(response.body());
-//                interviewAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<InterviewDTO>> call, Throwable t) {
-//                Snackbar.make(view, ON_FAILURE_TOAST_MESSAGE, Snackbar.LENGTH_LONG);
-//            }
-//        });
-
-        return interviewDTOs;
-    }
-
 
 }

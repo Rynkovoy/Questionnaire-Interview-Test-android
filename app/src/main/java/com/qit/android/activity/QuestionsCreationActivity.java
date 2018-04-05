@@ -349,7 +349,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             return;
         }
 
-        Log.i ("LOG", questionSet.get(0).getText()+" !!!!");
+        //Log.i ("LOG", questionSet.get(0).getText()+" !!!!");
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("event");

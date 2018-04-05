@@ -135,7 +135,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
                                 answer.setAnswerCreatedByUser(firebaseUser.getUid());
                                 myRefTemp.setValue(answer);
-                                onBackPressed();
+                                //onBackPressed();
                             }
                         }
                     }
@@ -143,7 +143,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         Toast.makeText(QuestionnaireAnswersActivity.this, "THERE ARE SOME TROUBLES IN THE SKY", Toast.LENGTH_SHORT).show();
-                        onBackPressed();
+                        //onBackPressed();
                     }
                 });
                 break;
