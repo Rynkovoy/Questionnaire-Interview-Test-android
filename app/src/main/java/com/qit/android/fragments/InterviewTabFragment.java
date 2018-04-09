@@ -7,17 +7,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.github.florent37.materialviewpager.MaterialViewPagerHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.adapters.InterviewAdapter;
 import com.qit.android.adapters.QuestionnaireAdapter;
+import com.qit.android.models.answer.Comment;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.api.InterviewApi;
 import com.qit.android.rest.dto.InterviewDTO;
 import com.qit.android.rest.utils.QitApi;
@@ -25,6 +33,7 @@ import com.qit.android.rest.utils.QitFirebaseGetEventQuestionList;
 import com.qit.android.rest.utils.QitFirebaseGetInterviewList;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,6 +48,7 @@ public class InterviewTabFragment extends Fragment {
     private InterviewAdapter interviewAdapter;
     private View view;
     private RecyclerView recyclerView;
+    private List<Interview> interviews = new ArrayList<>();
 
     @Nullable
     @Override
@@ -46,7 +56,25 @@ public class InterviewTabFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
         mScrollView = view.findViewById(R.id.scrollViewInterview);
 
-        final List<Interview> interviews = new ArrayList<>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("event/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/interviewsList");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                interviews = new ArrayList<>();
+                for (DataSnapshot child : dataSnapshot.getChildren()){
+                    Interview interview = child.getValue(Interview.class);
+                    interviews.add(interview);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("ERROR", databaseError.getDetails());
+            }
+        });
+
 
         QitFirebaseGetInterviewList qitFirebaseGetInterviewList = new QitFirebaseGetInterviewList();
         interviewAdapter = new InterviewAdapter(interviews);
