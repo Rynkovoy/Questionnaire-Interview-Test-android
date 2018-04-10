@@ -42,7 +42,7 @@ import retrofit2.Response;
 
 public class InterviewTabFragment extends Fragment {
 
-    private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
+    //private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
 
     private NestedScrollView mScrollView;
     private InterviewAdapter interviewAdapter;
@@ -65,7 +65,6 @@ public class InterviewTabFragment extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()){
                     Interview interview = child.getValue(Interview.class);
                     interviews.add(interview);
-
                 }
             }
 

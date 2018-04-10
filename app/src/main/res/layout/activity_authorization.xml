@@ -1,6 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_ground_img_login"
@@ -12,108 +13,133 @@
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="220dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginTop="64dp"
         android:src="@drawable/qit_logo"
-        android:transitionName="appLogo" />
+        android:transitionName="appLogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilLoginAut"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColorHint="@color/colorAuthText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilLoginAut"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColorHint="@color/colorMainBackground">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/etLoginAut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAuthText"
-                android:hint="@string/auth_login"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/colorAuthText" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/tilPasswordAut"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:textColorHint="@color/colorMainBackground"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorMainBackground"
-            app:passwordToggleTintMode="multiply">
-
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/etPasswordAut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAuthText"
-                android:hint="@string/auth_password"
-                android:inputType="textPassword"
-                android:textColor="@color/colorAuthText" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <CheckBox
-            android:id="@+id/rememberCheckBox"
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/etLoginAut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remember me"
+            android:backgroundTint="@color/colorAuthText"
+            android:hint="@string/auth_login"
+            android:inputType="textEmailAddress"
             android:textColor="@color/colorAuthText" />
 
-        <Button
-            android:id="@+id/btnLogIn"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/colorGreen"
-            android:onClick="logIn"
-            android:text="@string/log_in"
-            android:textColor="@color/colorAuthText"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+    </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/etRegistration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:onClick="register"
-            android:text="Registration"
-            android:textAllCaps="false"
-            android:textColor="@color/colorAuthText"
-            android:textSize="18sp" />
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilPasswordAut"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:textColorHint="@color/colorAuthText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilLoginAut"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="@color/colorMainBackground"
+        app:passwordToggleTintMode="multiply">
 
-        <TextView
-            android:id="@+id/etForgotPass"
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/etPasswordAut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:ems="10"
-            android:gravity="right"
-            android:inputType="textPersonName"
-            android:text="Forgot your password?"
-            android:textColor="@color/colorRed"
-            android:textSize="17sp"
-            android:visibility="gone" />
+            android:backgroundTint="@color/colorAuthText"
+            android:hint="@string/auth_password"
+            android:inputType="textPassword"
+            android:textColor="@color/colorAuthText" />
 
-    </LinearLayout>
+    </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/rememberCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="Remember me"
+        android:textColor="@color/colorAuthText"
+        android:textColorLink="@color/colorAuthText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilPasswordAut" />
+
+    <Button
+        android:id="@+id/btnLogIn"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_btn"
+        android:onClick="logIn"
+        android:padding="16dp"
+        android:text="@string/log_in"
+        android:textColor="@color/colorAuthText"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rememberCheckBox" />
+
+    <TextView
+        android:id="@+id/etRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:onClick="register"
+        android:text="Create New Account?"
+        android:textAllCaps="false"
+        android:textColor="@color/material_drawer_dark_header_selection_text"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/etForgotPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="Forgot your password?"
+        android:textColor="@color/material_drawer_dark_header_selection_text"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

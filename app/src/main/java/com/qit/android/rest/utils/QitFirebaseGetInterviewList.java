@@ -23,6 +23,7 @@ public class QitFirebaseGetInterviewList {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                interviews.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
 

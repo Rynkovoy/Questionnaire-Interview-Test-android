@@ -7,6 +7,7 @@
     android:layout_marginTop="24dp"
     android:background="@drawable/back_ground_img_login"
     android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
     tools:context="com.qit.android.activity.RegistrationActivity">
 
 
@@ -286,14 +287,18 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <TextView
         android:id="@+id/regBtnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorGreen"
-        android:text="REGISTER"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        android:layout_margin="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="Register"
+        android:textAlignment="textEnd"
+        android:textColor="@color/colorAuthText"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 </LinearLayout>

@@ -181,6 +181,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
             QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
             QuestionnaireAnswersActivity.answer.getResults().get(position).setQuestionType(QuestionType.DETAILED);
+
             holder.editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

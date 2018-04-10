@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_ground_img_login"
+    android:descendantFocusability="beforeDescendants"
     tools:context="com.qit.android.activity.InterviewCreationActivity">
 
     <LinearLayout

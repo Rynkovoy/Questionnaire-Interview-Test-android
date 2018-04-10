@@ -10,6 +10,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
     tools:context="com.qit.android.activity.QuestionnaireCreationActivity">
 
     <android.support.v7.widget.Toolbar

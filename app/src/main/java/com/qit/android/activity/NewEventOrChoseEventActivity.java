@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,16 +37,18 @@ import java.util.List;
 
 public class NewEventOrChoseEventActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button favoriteEventsBtn;
-    private Button allEventsBtn;
+    private TextView favoriteEventsBtn;
+    private TextView allEventsBtn;
 
-    private Button newEventBtn;
+    private TextView newEventBtn;
 
     private RecyclerView eventsRecyclerView;
 
     private SearchView searchView;
     private FirebaseAuth mAuth;
     private List<Event> eventList;
+
+    public boolean isFragmentinBackStack = false;
 
     private boolean doubleBackToExitPressedOnce = false;
 
@@ -114,11 +117,12 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 LinearLayout ll = findViewById(R.id.fragment);
                 ll.setVisibility(View.VISIBLE);
 
+                isFragmentinBackStack = true;
                 CreateEventFragment fragment = new CreateEventFragment(mAuth, cl, ll);
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fragment,fragment);
-                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.add(R.id.fragment, fragment);
+                fragmentTransaction.addToBackStack(String.valueOf(fragment));
                 fragmentTransaction.commit();
 
                 break;
@@ -153,17 +157,22 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            finishAffinity();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+        if (!isFragmentinBackStack) {
+            if (doubleBackToExitPressedOnce) {
+                finishAffinity();
+                return;
             }
-        }, 2000);
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }else {
+            isFragmentinBackStack = false;
+            super.onBackPressed();
+        }
     }
 }

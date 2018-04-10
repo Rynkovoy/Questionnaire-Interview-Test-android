@@ -74,50 +74,75 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         return new InterviewViewHolder(itemView);
     }
 
+
+    private boolean isAlreadyEditTextOpened = false;
+
     @Override
     public void onBindViewHolder(final InterviewViewHolder holder, final int position) {
         Interview interviewDTO = interviewDTOs.get(position);
         holder.tvTitle.setText(interviewDTO.getSummary());
         holder.tvTopic.setText(interviewDTO.getDescription());
+        final EditText editText = new EditText(holder.view.getContext());
+        final Button saveTextBtn = new Button(holder.view.getContext());
 
         holder.addInterviewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View views) {
-                final EditText editText = new EditText(holder.view.getContext());
-                editText.setTextColor(holder.view.getResources().getColor(R.color.colorDarkBlue));
-                final Button saveTextBtn = new Button(holder.view.getContext());
-                saveTextBtn.setText("SAVE");
-                saveTextBtn.setBackgroundColor(holder.view.getResources().getColor(R.color.colorGreen));
+                Log.i("LOG", isAlreadyEditTextOpened+"");
+                if (!isAlreadyEditTextOpened) {
+                    isAlreadyEditTextOpened = true;
+                    editText.setVisibility(View.VISIBLE);
+                    saveTextBtn.setVisibility(View.VISIBLE);
 
-                holder.ll.addView(editText);
-                holder.ll.addView(saveTextBtn);
+                    editText.setTextColor(holder.view.getResources().getColor(R.color.colorDarkBlue));
 
-                saveTextBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        editText.setVisibility(View.GONE);
-                        saveTextBtn.setVisibility(View.GONE);
+                    saveTextBtn.setText("SAVE");
+                    saveTextBtn.setBackgroundColor(holder.view.getResources().getColor(R.color.colorGreen));
 
-                        TextView tv = new TextView(view.getContext());
-                        tv.setText(editText.getText().toString());
+                    editText.setHint("Place answer here");
+                    editText.clearFocus();
 
-                        TextView authorText = new TextView(view.getContext());
-                        authorText.setText(FirebaseEventinfoGodObj.getFirebaseUserFullName());
+//                    editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                        @Override
+//                        public void onFocusChange(View view, boolean b) {
+//                            if (!b) {
+//                                editText.setVisibility(View.GONE);
+//                                saveTextBtn.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    });
 
-                        TextView borderText = new TextView(view.getContext());
-                        borderText.setText("______________________\n");
+                    try {
+                        holder.ll.addView(editText);
+                        holder.ll.addView(saveTextBtn);
+                    }catch (Exception e){e.printStackTrace();}
 
-                        tv.setTextColor(view.getResources().getColor(R.color.colorGreen));
-                        holder.ll.addView(authorText);
-                        holder.ll.addView(tv);
-                        holder.ll.addView(borderText);
+                    saveTextBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isAlreadyEditTextOpened = false;
+                            editText.setVisibility(View.GONE);
+                            saveTextBtn.setVisibility(View.GONE);
 
-                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        final DatabaseReference myRef = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/" + position);
-                        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            TextView tv = new TextView(view.getContext());
+                            tv.setText(editText.getText().toString());
 
+                            TextView authorText = new TextView(view.getContext());
+                            authorText.setText(FirebaseEventinfoGodObj.getFirebaseUserFullName());
+
+                            TextView borderText = new TextView(view.getContext());
+                            borderText.setText("______________________\n");
+
+                            tv.setTextColor(view.getResources().getColor(R.color.colorGreen));
+                            holder.ll.addView(authorText);
+                            holder.ll.addView(tv);
+                            holder.ll.addView(borderText);
+
+                            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            final DatabaseReference myRef = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/" + position);
+                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
                                     Interview interview = dataSnapshot.getValue(Interview.class);
                                     Comment comment = new Comment();
                                     comment.setComment(editText.getText().toString());
@@ -125,16 +150,20 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                                     comment.setDateOfComment(new Date(System.currentTimeMillis()));
                                     interview.getComments().add(comment);
                                     myRef.setValue(interview);
+                                }
 
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.i("ERROR", databaseError.getDetails());
-                            }
-                        });
-                    }
-                });
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.i("ERROR", databaseError.getDetails());
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    editText.setVisibility(View.GONE);
+                    saveTextBtn.setVisibility(View.GONE);
+                    isAlreadyEditTextOpened = false;
+                }
             }
         });
 

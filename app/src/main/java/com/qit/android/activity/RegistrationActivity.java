@@ -33,6 +33,8 @@ import com.qit.android.models.user.Gender;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.utils.QitFirebaseUserCreation;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import java.util.List;
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button saveBtn;
+    private TextView saveBtn;
     private Button calendarBtn;
 
     private AppCompatEditText loginEditText;

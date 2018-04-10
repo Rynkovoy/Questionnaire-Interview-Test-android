@@ -12,6 +12,7 @@ import com.qit.android.adapters.QuestionnaireAdapter;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class QitFirebaseGetEventQuestionList {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                qList.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
 

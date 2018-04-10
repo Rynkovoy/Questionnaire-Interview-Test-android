@@ -13,10 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.qit.R;
+import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.models.event.Event;
 import com.qit.android.rest.utils.QitFirebaseCreateEvent;
 
@@ -25,7 +27,7 @@ import java.util.ArrayList;
 @SuppressLint("ValidFragment")
 public class CreateEventFragment  extends Fragment implements View.OnClickListener {
 
-    private Button saveEvent;
+    private TextView saveEvent;
     private EditText nameEvent;
     private EditText descriptionEvent;
     private EditText passwordEvent;
@@ -90,6 +92,7 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
 
     @Override
     public void onPause() {
+
         cl.setVisibility(View.VISIBLE);
         ll.setVisibility(View.GONE);
         super.onPause();
