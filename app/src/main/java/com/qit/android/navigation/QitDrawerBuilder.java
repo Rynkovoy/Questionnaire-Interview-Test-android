@@ -19,6 +19,7 @@ import com.qit.R;
 import com.qit.android.activity.AuthorizationActivity;
 import com.qit.android.constants.DrawerItemTags;
 import com.qit.android.constants.SharedPreferencesTags;
+import com.qit.android.rest.utils.FirebaseCountObjInList;
 
 public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
@@ -30,7 +31,8 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     private SecondaryDrawerItem itemQuestionnaire;
     private SecondaryDrawerItem itemInterview;
-    private SecondaryDrawerItem itemEvent;
+    //private SecondaryDrawerItem itemEvent;
+    private SecondaryDrawerItem editProfile;
     private SecondaryDrawerItem itemLogout;
 
     public QitDrawerBuilder() {
@@ -53,10 +55,12 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
         setActivity(activity);
         itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.Questionnaires);
         itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.Interviews);
-        itemEvent = new SecondaryDrawerItem().withTag(DrawerItemTags.EVENT_TAG).withName(R.string.Events);
+        //itemEvent = new SecondaryDrawerItem().withTag(DrawerItemTags.EVENT_TAG).withName(R.string.Events);
+        editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.edit_profile);
         itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.logout);
 
-        itemQuestionnaire.withBadge("19").withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700));
+        FirebaseCountObjInList firebaseCountObjInList = new FirebaseCountObjInList(itemQuestionnaire, itemInterview);
+        firebaseCountObjInList.getIntOfElems();
 
         AccountHeader accountHeaderBuilder = new QitAccountHeaderBuilder().setActivity(activity).build();
 
@@ -64,7 +68,8 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 .addDrawerItems(
                         itemQuestionnaire,
                         itemInterview,
-                        itemEvent,
+                        //itemEvent,
+                        editProfile,
                         itemLogout
                 )
                 .withOnDrawerItemClickListener(this)
@@ -76,13 +81,16 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         switch (String.valueOf(drawerItem.getTag())) {
             case DrawerItemTags.QUEST_TAB:
-                Toast.makeText(view.getContext(), "Questionnaires", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), "Questionnaires", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.INTER_TAB:
-                Toast.makeText(view.getContext(), "Interviews", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), "Interviews", Toast.LENGTH_SHORT).show();
                 break;
-            case DrawerItemTags.EVENT_TAG:
-                Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
+            //case DrawerItemTags.EVENT_TAG:
+                //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
+                //break;
+            case DrawerItemTags.PROFILE_TAG:
+                //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.LOGOUT_TAG:
                 logout();
@@ -90,6 +98,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
         }
         return false;
     }
+
 
     private void logout() {
         if (activity != null) {

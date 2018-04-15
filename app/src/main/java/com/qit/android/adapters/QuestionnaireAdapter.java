@@ -2,12 +2,14 @@ package com.qit.android.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.nfc.Tag;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.List;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,20 +31,34 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
     private Context context;
 
     public class QuestionnaireViewHolder extends RecyclerView.ViewHolder {
-        public ImageView civQuestionnaire;
-        public TextView tvTitle;
-        public TextView tvTopic;
+        private ImageView civQuestionnaire;
+        private TextView tvTitle;
+        private TextView tvTopic;
 
-        public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
+        private ImageButton menuBtn;
+        private ImageButton statBtn;
+        private ImageButton editbtn;
+        private ImageButton delBtn;
+
+        //public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
 
         public QuestionnaireViewHolder(View view) {
             super(view);
             civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
-            civQuestionnaire.setImageResource(rImagesCivQuestionnaire[(int) (Math.random() * 7)]);
+            civQuestionnaire.setImageResource(R.drawable.question_img);
+
+            menuBtn = view.findViewById(R.id.menuImgBtn);
+            statBtn = view.findViewById(R.id.statImgBtn);
+            editbtn = view.findViewById(R.id.editImgBtn);
+            delBtn = view.findViewById(R.id.delImgBtn);
 
             tvTitle = view.findViewById(R.id.tvQuestionnaireTitle);
             tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
             context = view.getContext();
+
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            civQuestionnaire.setColorFilter(color);
         }
     }
 
@@ -74,6 +91,21 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
                 intent.putExtra("Questionnaire", questionnaires.get(position));
                 FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.editbtn.getVisibility() == View.GONE){
+                    holder.editbtn.setVisibility(View.VISIBLE);
+                    holder.statBtn.setVisibility(View.VISIBLE);
+                    holder.delBtn.setVisibility(View.VISIBLE);
+                } else {
+                    holder.editbtn.setVisibility(View.GONE);
+                    holder.statBtn.setVisibility(View.GONE);
+                    holder.delBtn.setVisibility(View.GONE);
+                }
             }
         });
     }

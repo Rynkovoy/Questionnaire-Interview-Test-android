@@ -54,7 +54,7 @@ public class InterviewTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
-        mScrollView = view.findViewById(R.id.scrollViewInterview);
+        //mScrollView = view.findViewById(R.id.scrollViewInterview);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("event/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/interviewsList");

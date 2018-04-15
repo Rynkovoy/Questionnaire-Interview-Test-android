@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -49,8 +50,8 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private SwitchCompat switchEndDate;
     private SwitchCompat switchIsAnonymity;
     private SwitchCompat switchAnswersLimit;
-    private Button btnCancel;
-    private Button btnNext;
+    private TextView btnCancel;
+    private TextView btnNext;
     private Questionnaire questionnaire;
     private AppCompatEditText etPassword;
     private AppCompatEditText etStartDate;

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_ground_img_login"
-    android:orientation="vertical"
+    android:background="@color/cardview_shadow_start_color"
     android:descendantFocusability="beforeDescendants"
+    android:orientation="vertical"
     tools:context="com.qit.android.activity.QuestionsCreationActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/questionToolbar"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
-        android:background="@color/colorGreen"
+        android:background="@color/cardview_shadow_start_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -77,31 +77,36 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/scrollView"
         android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <TextView
             android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/colorRed"
             android:onClick="handleBtnCancel"
             android:text="Cancel"
+            android:textAlignment="center"
+            android:textColor="@color/colorAuthText"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/btnNext"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/colorGreen"
             android:onClick="handleBtnCreate"
             android:text="Next"
+            android:textAlignment="center"
+            android:textColor="@color/colorAuthText"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

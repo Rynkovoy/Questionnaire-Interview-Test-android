@@ -15,6 +15,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,8 +47,8 @@ public class InterviewCreationActivity extends AppCompatActivity {
     private AppCompatEditText etTitle;
     private AppCompatEditText etDescription;
 
-    private Button btnCancel;
-    private Button btnNext;
+    private TextView btnCancel;
+    private TextView btnNext;
     private Interview interview;
 
 

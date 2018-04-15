@@ -44,7 +44,7 @@ public class QuestionnaireTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_questionnaire_tab, container, false);
-        mScrollView = view.findViewById(R.id.scrollViewQuestionnaire);
+        //mScrollView = view.findViewById(R.id.scrollViewQuestionnaire);
 
         final List<Questionnaire> questionnaires = new ArrayList<>();
 

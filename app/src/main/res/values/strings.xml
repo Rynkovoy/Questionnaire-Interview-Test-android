@@ -15,6 +15,7 @@
     <string name="empty_credentials">Type login and password</string>
     <string name="no_internet">No Internet connection</string>
     <string name="auth_banned">You have been banned</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="logout">Logout</string>
 
 

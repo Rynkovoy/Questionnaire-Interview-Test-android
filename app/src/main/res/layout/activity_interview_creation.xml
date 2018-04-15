@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_ground_img_login"
+    android:background="@color/cardview_shadow_start_color"
     android:descendantFocusability="beforeDescendants"
     tools:context="com.qit.android.activity.InterviewCreationActivity">
 
@@ -16,27 +16,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <TextView
             android:id="@+id/btnCancel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/colorRed"
             android:onClick="handleBtnCancel"
             android:text="Cancel"
+            android:textAlignment="center"
+            android:textColor="@color/colorAuthText"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
+        <TextView
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="bottom"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@color/colorGreen"
             android:onClick="handleBtnNext"
             android:text="Next"
+            android:textAlignment="center"
+            android:textColor="@color/colorAuthText"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -89,7 +93,7 @@
         android:id="@+id/toolbarQuestionnaireCreation2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorGreen"
+        android:background="@color/cardview_shadow_start_color"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <TextView

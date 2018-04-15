@@ -1,6 +1,9 @@
 package com.qit.android.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,38 +31,51 @@ import com.qit.android.rest.dto.InterviewDTO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.InterviewViewHolder> {
 
-    public List<Interview> interviewDTOs;
+    private List<Interview> interviewDTOs;
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
-        public ImageView civQuestionnaire;
-        public TextView tvTitle;
-        public TextView tvTopic;
-        public Button addInterviewText;
-        public LinearLayout ll;
-        public View view;
+        private ImageView civQuestionnaire;
+        private TextView tvTitle;
+        private TextView tvTopic;
+        private Button addInterviewText;
+        private LinearLayout ll;
+        private LinearLayout relativeLayout;
+        private View view;
 
-        public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
+        private ImageButton menuBtn;
+        private ImageButton editbtn;
+        private ImageButton delBtn;
 
-        public InterviewViewHolder(final View view) {
+        //public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
+
+        private InterviewViewHolder(final View view) {
             super(view);
             this.view = view;
 
             ll = view.findViewById(R.id.add_interview_answe);
+            relativeLayout = view.findViewById(R.id.relativeLayout);
 
             civQuestionnaire = view.findViewById(R.id.civInterview);
-            civQuestionnaire.setImageResource(rImagesCivQuestionnaire[(int) (Math.random() * 7)]);
+            civQuestionnaire.setImageResource(R.drawable.question_img);
 
             tvTitle = view.findViewById(R.id.tvInterviewTitle);
             tvTopic = view.findViewById(R.id.tvInterviewTopic);
 
-            addInterviewText = view.findViewById(R.id.answer_btn);
+            menuBtn = view.findViewById(R.id.menuImgBtnInterview);
+            editbtn = view.findViewById(R.id.editImgBtnInterview);
+            delBtn = view.findViewById(R.id.delImgBtnInterview);
 
+            addInterviewText = view.findViewById(R.id.answer_btn);
+            Random rnd = new Random();
+            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+            civQuestionnaire.setColorFilter(color);
         }
     }
 
@@ -113,8 +130,8 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 //                    });
 
                     try {
-                        holder.ll.addView(editText);
-                        holder.ll.addView(saveTextBtn);
+                        holder.relativeLayout.addView(editText);
+                        holder.relativeLayout.addView(saveTextBtn);
                     }catch (Exception e){e.printStackTrace();}
 
                     saveTextBtn.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +204,19 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
             }
         }
+
+        holder.menuBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.editbtn.getVisibility() == View.GONE){
+                    holder.editbtn.setVisibility(View.VISIBLE);
+                    holder.delBtn.setVisibility(View.VISIBLE);
+                } else {
+                    holder.editbtn.setVisibility(View.GONE);
+                    holder.delBtn.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override

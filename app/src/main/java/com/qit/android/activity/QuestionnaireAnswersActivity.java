@@ -51,8 +51,8 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     private RecyclerView rvQuestion;
     private Questionnaire questionnaire;
 
-    private Button saveAnswer;
-    private Button cancelActivity;
+    private TextView saveAnswer;
+    private TextView cancelActivity;
 
     public static Answer answer = new Answer();
 

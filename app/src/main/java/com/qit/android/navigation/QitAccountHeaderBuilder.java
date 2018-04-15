@@ -40,7 +40,7 @@ public class QitAccountHeaderBuilder {
 
         final AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
-                .withHeaderBackground(R.color.colorDarkBlue)
+                .withHeaderBackground(R.drawable.bg_5)
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName(FirebaseEventinfoGodObj.getFirebaseUserFullName())

@@ -66,8 +66,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         saveBtn.setOnClickListener(this);
         calendarBtn.setOnClickListener(this);
-
-
     }
 
     private void UiElemInitialise() {
