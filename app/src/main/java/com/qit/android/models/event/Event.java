@@ -1,6 +1,6 @@
 package com.qit.android.models.event;
 
-import com.qit.android.models.question.Question;
+import com.qit.android.models.chat.Message;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.models.quiz.Questionnaire;
 
@@ -24,6 +24,7 @@ public class Event {
 
     private List<Questionnaire> questionnaireList = new ArrayList<>();
     private List<Interview> interviewsList = new ArrayList<>();
+    private List<Message> messageList = new ArrayList<>();
 
     private boolean isEventOpened = true;
     private boolean isNewUserInEventeNeedToBeConfirmed = false;
@@ -140,6 +141,24 @@ public class Event {
     public void setInterviewsList(List<Interview> interviewsList) {
         this.interviewsList = interviewsList;
     }
+
+
+    public List<Questionnaire> getQuestionnaireList() {
+        return questionnaireList;
+    }
+
+    public void setQuestionnaireList(List<Questionnaire> questionnaireList) {
+        this.questionnaireList = questionnaireList;
+    }
+
+    public List<Message> getMassegeList() {
+        return messageList;
+    }
+
+    public void setMassegeList(List<Message> messageList) {
+        this.messageList = messageList;
+    }
+
 
 
 }

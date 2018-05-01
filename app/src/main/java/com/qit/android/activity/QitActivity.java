@@ -97,10 +97,10 @@ public class QitActivity extends MainActivity {
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.cyan,
                                 "https://cdn.pixabay.com/photo/2016/03/28/00/37/flat-1284770_960_720.png");
-//                    case 2:
-//                        return HeaderDesign.fromColorResAndUrl(
-//                                R.color.green,
-//                                "http://progress.hu/wp-content/uploads/2008/09/mountains.jpg");
+                    case 2:
+                        return HeaderDesign.fromColorResAndUrl(
+                                R.color.green,
+                                "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/YqGSkmb/videoblocks-black-on-white-fantasy-abstract-technology-and-engineering-motion-background-with-plexus-lines-dots-and-polygon-connected-elements-depth-of-field-settings-3d-rendering_rsmcwklvym_thumbnail-full01.png");
                 }
                 return null;
             }
@@ -130,6 +130,8 @@ public class QitActivity extends MainActivity {
                     case 1:
                         startActivity(new Intent(QitActivity.this, InterviewCreationActivity.class));
                         finish();
+                        break;
+                    case 2:
                         break;
                 }
             }

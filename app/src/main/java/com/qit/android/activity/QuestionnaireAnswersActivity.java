@@ -49,7 +49,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     private Toolbar toolbar;
     private QuestionAdapter questionAdapter;
     private RecyclerView rvQuestion;
-    private Questionnaire questionnaire;
+    public Questionnaire questionnaire;
 
     private TextView saveAnswer;
     private TextView cancelActivity;

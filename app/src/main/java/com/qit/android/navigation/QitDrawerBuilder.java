@@ -31,7 +31,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     private SecondaryDrawerItem itemQuestionnaire;
     private SecondaryDrawerItem itemInterview;
-    //private SecondaryDrawerItem itemEvent;
+    private SecondaryDrawerItem itemChat;
     private SecondaryDrawerItem editProfile;
     private SecondaryDrawerItem itemLogout;
 
@@ -55,7 +55,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
         setActivity(activity);
         itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.Questionnaires);
         itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.Interviews);
-        //itemEvent = new SecondaryDrawerItem().withTag(DrawerItemTags.EVENT_TAG).withName(R.string.Events);
+        itemChat = new SecondaryDrawerItem().withTag(DrawerItemTags.CHAT_TAG).withName(R.string.Room_Chat);
         editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.edit_profile);
         itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.logout);
 
@@ -68,7 +68,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 .addDrawerItems(
                         itemQuestionnaire,
                         itemInterview,
-                        //itemEvent,
+                        itemChat,
                         editProfile,
                         itemLogout
                 )
@@ -86,9 +86,9 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
             case DrawerItemTags.INTER_TAB:
                 //Toast.makeText(view.getContext(), "Interviews", Toast.LENGTH_SHORT).show();
                 break;
-            //case DrawerItemTags.EVENT_TAG:
+            case DrawerItemTags.CHAT_TAG:
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
-                //break;
+                break;
             case DrawerItemTags.PROFILE_TAG:
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
@@ -106,8 +106,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, false);
             editor.commit();
-            Intent intent = new Intent(activity, AuthorizationActivity.class);
-            activity.startActivity(intent);
+            activity.onBackPressed();
         }
     }
 }

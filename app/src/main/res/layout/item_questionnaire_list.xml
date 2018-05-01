@@ -81,16 +81,16 @@
 
                 <ImageButton
                     android:id="@+id/menuImgBtn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginBottom="4dp"
                     android:background="@drawable/menu_img"
                     android:tint="@color/cardview_dark_background" />
 
                 <ImageButton
                     android:id="@+id/statImgBtn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/stat_img"
@@ -98,8 +98,8 @@
 
                 <ImageButton
                     android:id="@+id/editImgBtn"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/edit_img"
@@ -107,8 +107,8 @@
 
                 <ImageButton
                     android:id="@+id/delImgBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginBottom="4dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/del_img"

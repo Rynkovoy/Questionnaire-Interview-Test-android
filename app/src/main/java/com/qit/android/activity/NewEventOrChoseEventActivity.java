@@ -48,6 +48,8 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     private FirebaseAuth mAuth;
     private List<Event> eventList;
 
+    private List<Event> searchEventListener;
+
     public boolean isFragmentinBackStack = false;
 
     private boolean doubleBackToExitPressedOnce = false;
@@ -92,6 +94,31 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 UpdateUi(null);
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                searchEventListener = new ArrayList<>();
+                for (int x = 0; x < eventList.size(); x++){
+                    if(s.equalsIgnoreCase("")){
+                        searchEventListener = eventList;
+                    } else if (eventList.get(x).getEventOwner().contains(s)){
+                        searchEventListener.add(eventList.get(x));
+                    } else if (eventList.get(x).getFullDetails().contains(s)) {
+                        searchEventListener.add(eventList.get(x));
+                    } else if (eventList.get(x).getFullHeader().contains(s)) {
+                        searchEventListener.add(eventList.get(x));
+                    }
+                }
+                UpdateUi(searchEventListener);
+                return false;
             }
         });
 

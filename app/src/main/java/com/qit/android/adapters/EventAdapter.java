@@ -1,14 +1,22 @@
 package com.qit.android.adapters;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
@@ -59,7 +67,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public EventAdapter.EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event_card, parent,false);
+                .inflate(R.layout.item_event_card, parent, false);
 
         return new EventAdapter.EventViewHolder(itemView);
     }
@@ -72,29 +80,105 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvDate.setText(eventList.get(position).getDate());
         holder.tvEventOwner.setText(eventList.get(position).getEventOwnerName());
 
-        if(eventList.get(position).isEventOpened()){
+        if (eventList.get(position).isEventOpened()) {
             holder.tvIsOpened.setText("OPEN EVENT");
             holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorGreen));
-        } else {
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String date = eventList.get(position).getDate();
+                    char[] a = date.toCharArray();
+                    for (int x = 0; x < a.length; x++) {
+                        if (a[x] == '.' || a[x] == ':' || a[x] == ' ') {
+                            a[x] = '_';
+                        }
+                    }
+                    date = new String(a);
+                    FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_" + eventList.get(position).getEventOwner() + "_" + date);
+                    holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+                }
+            });
+        } else if (!eventList.get(position).getEventPassword().equalsIgnoreCase("")) {
             holder.tvIsOpened.setText("NEED PASSWORD");
             holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorRed));
+
+
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(holder.context, "YOU NEED PASSWORD!", Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder adb = new AlertDialog.Builder(holder.context);
+                    LayoutInflater inflater = (LayoutInflater) holder.context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                    view = (LinearLayout) inflater.inflate(R.layout.item_password_werification, null);
+                    adb.setView(view);
+                    final Dialog dialog = adb.create();
+                    dialog.show();
+
+                    final EditText editText = (EditText) view.findViewById(R.id.password_edit_text_to_event);
+                    Button cancelbtn = (Button) view.findViewById(R.id.cancel_password_btn);
+                    Button entetBtn = (Button) view.findViewById(R.id.enter_password_btn);
+
+                    cancelbtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    entetBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (editText.getText().toString().equalsIgnoreCase(eventList.get(position).getEventPassword())){
+
+                                String date = eventList.get(position).getDate();
+                                char [] a = date.toCharArray();
+                                for (int x= 0 ; x < a.length; x++){
+                                    if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
+                                        a[x] = '_';
+                                    }
+                                }
+                                date = new String(a);
+                                FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
+                                holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+
+                            } else {
+                                Toast.makeText(holder.context, "WRONG PASSWORD, TRY AGAIN!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+
+
+
+
+
+
+                }
+            });
+
+        } else if (eventList.get(position).isNewUserInEventeNeedToBeConfirmed()) {
+            holder.tvIsOpened.setText("NEED CONFIRMATION");
+            holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorDarkBlue));
+
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(holder.context, "YOU NEED TO BE CONFIRMED!", Toast.LENGTH_SHORT).show();
+//                    String date = eventList.get(position).getDate();
+//                    char [] a = date.toCharArray();
+//                    for (int x= 0 ; x < a.length; x++){
+//                        if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
+//                            a[x] = '_';
+//                        }
+//                    }
+//                    date = new String(a);
+//                    FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
+//                    holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+                }
+            });
         }
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String date = eventList.get(position).getDate();
-                char [] a = date.toCharArray();
-                for (int x= 0 ; x < a.length; x++){
-                    if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
-                        a[x] = '_';
-                    }
-                }
-                date = new String(a);
-                FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
-                holder.context.startActivity(new Intent(holder.context, QitActivity.class));
-            }
-        });
 
     }
 
@@ -102,7 +186,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public int getItemCount() {
         return eventList.size();
     }
-
 
 
 }

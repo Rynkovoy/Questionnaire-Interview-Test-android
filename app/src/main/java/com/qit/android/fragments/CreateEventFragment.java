@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,9 +35,8 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
     private FirebaseAuth mAuth;
 
     //TODO edit radio btns!
-    private RadioButton radioButtonFreeEntrance;
-    private RadioButton radioButtonPassword;
-    private RadioButton radioButtonConfirmation;
+    private int currenRadioBtnId = 0;
+    private RadioGroup rb;
 
 
     private Context context;
@@ -67,6 +67,35 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
         descriptionEvent = view.findViewById(R.id.eventDescriptionEditText);
         passwordEvent = view.findViewById(R.id.eventPasswordEditText);
 
+        //radioButtonConfirmation = view.findViewById(R.id.radioButtonConfirm);
+        //radioButtonFreeEntrance = view.findViewById(R.id.radioButtonFreeEntrance);
+        //radioButtonPassword = view.findViewById(R.id.radioButtonPassword);
+
+        rb = (RadioGroup) view.findViewById(R.id.radioGroup);
+        rb.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                currenRadioBtnId = checkedId;
+                switch (checkedId) {
+                    case (R.id.radioButtonConfirm) : {
+                        passwordEvent.setVisibility(View.GONE);
+                        break;
+                    }
+                    case (R.id.radioButtonFreeEntrance) : {
+                        passwordEvent.setVisibility(View.GONE);
+                        break;
+                    }
+                    case (R.id.radioButtonPassword) : {
+                        passwordEvent.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                    default: {
+
+                    }
+                }
+            }
+
+        });
+
     }
 
 
@@ -79,10 +108,19 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
                     Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 } else {
 
+                    if (currenRadioBtnId == 0) {
                     Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false);
-
                     QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
                     qitFirebaseCreateEvent.createEventInFirebase(event);
+                    } else if (currenRadioBtnId == R.id.radioButtonPassword) {
+                        Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", passwordEvent.getText().toString(), mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), false, false);
+                        QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
+                        qitFirebaseCreateEvent.createEventInFirebase(event);
+                    } else if (currenRadioBtnId == R.id.radioButtonConfirm) {
+                        Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), false, true);
+                        QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
+                        qitFirebaseCreateEvent.createEventInFirebase(event);
+                    }
 
                     onPause();
                 }

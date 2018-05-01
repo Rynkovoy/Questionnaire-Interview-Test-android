@@ -50,16 +50,27 @@ public class InterviewCreationActivity extends AppCompatActivity {
     private TextView btnCancel;
     private TextView btnNext;
     private Interview interview;
-
+    private int position = -1;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview_creation);
+
+        try{
+            Intent intent = getIntent();
+            position = intent.getIntExtra("Position", -1);
+        } catch (Exception e){e.printStackTrace();}
+
         initToolbar();
         initViewComponents();
         initInterview();
+
+        if (position != -1){
+            getEventDataFromFB(position);
+        }
+
     }
 
     private void initToolbar() {
@@ -112,9 +123,14 @@ public class InterviewCreationActivity extends AppCompatActivity {
                     Event event = childDataSnapshot.getValue(Event.class);
                     if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
                         if (event.getInterviewsList().size() == 0){
+                                event.getInterviewsList().add(interview);
+                        } else {
+                        if(position == -1) {
                             event.getInterviewsList().add(interview);
                         } else {
-                            event.getInterviewsList().add(interview);
+                            //event.getInterviewsList().remove(event.getInterviewsList().size()-position-1);
+                            event.getInterviewsList().set(event.getInterviewsList().size()-position-1, interview);
+                        }
                         }
                         DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
                         myRef.setValue(event);
@@ -154,4 +170,37 @@ public class InterviewCreationActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public void getEventDataFromFB (final int position) {
+        //interview.setSummary(String.valueOf(etTitle.getText()));
+        //interview.setDescription(String.valueOf(etDescription.getText()));
+
+        // TODO NEED TO BE IN OTHER CLASS LIKE FIREBASE GET USER
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("event");
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    Event event = childDataSnapshot.getValue(Event.class);
+                    if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
+                        if (event.getInterviewsList().size() != 0){
+                            interview = event.getInterviewsList().get(event.getInterviewsList().size()-1-position);
+                            etTitle.setText(interview.getSummary());
+                            etDescription.setText(interview.getDescription());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i("LOG", databaseError.getMessage().toString());
+                //Snackbar.make(view, "There are some trables with firebase, sry!", Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }
