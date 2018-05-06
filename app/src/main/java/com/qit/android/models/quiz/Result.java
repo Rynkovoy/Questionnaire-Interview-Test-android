@@ -6,10 +6,11 @@ import com.qit.android.models.user.User;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Data
-public class Result {
+public class Result implements Serializable {
 
     private boolean answerBool;
     private String answerStr;

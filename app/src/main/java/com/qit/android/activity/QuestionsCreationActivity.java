@@ -359,17 +359,11 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     Event event = childDataSnapshot.getValue(Event.class);
                     if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
-                        if (event.getQuestionLists().size() == 0){
-                            List<Questionnaire> tempList = new ArrayList<>();
-                            questionnaire.getQuestionList().addAll(questionSet);
-                            tempList.add(questionnaire);
-                            event.setQuestionLists(tempList);
-                        } else {
-                            questionnaire.getQuestionList().addAll(questionSet);
+                        questionnaire.getQuestionList().addAll(questionSet);
                             event.getQuestionLists().add(questionnaire);
-                        }
-                        DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
-                        myRef.setValue(event);
+                            DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/questionLists/");
+                            myRef.setValue(event.getQuestionLists());
+
 
                         startActivity(new Intent(QuestionsCreationActivity.this, QitActivity.class));
                     }

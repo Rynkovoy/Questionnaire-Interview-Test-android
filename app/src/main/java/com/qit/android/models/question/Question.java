@@ -2,6 +2,7 @@ package com.qit.android.models.question;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.qit.android.models.answer.Answer;
 import com.qit.android.models.answer.Variant;
 import com.qit.android.models.quiz.Quiz;
 
@@ -25,9 +26,11 @@ public class Question implements Serializable {
 	private String questionType;
 
 	private List<Variant> variants;
+	private List<Answer> answers;
 
 	public Question() {
 		variants = new ArrayList<>();
+		answers = new ArrayList<>();
 	}
 
 	public void addAnswerVariant(Variant variant) {
@@ -90,5 +93,14 @@ public class Question implements Serializable {
 	public void setVariants(List<Variant> variants) {
 		this.variants = variants;
 	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
+
 
 }

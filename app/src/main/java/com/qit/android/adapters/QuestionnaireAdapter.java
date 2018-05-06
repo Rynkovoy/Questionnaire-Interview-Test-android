@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.nfc.Tag;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qit.R;
+import com.qit.android.activity.GraphicActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.quiz.Questionnaire;
@@ -40,12 +42,16 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         private ImageButton editbtn;
         private ImageButton delBtn;
 
+        //private CardView cardView;
+
         //public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
 
         public QuestionnaireViewHolder(View view) {
             super(view);
             civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
             civQuestionnaire.setImageResource(R.drawable.question_img);
+
+            //cardView = view.findViewById(R.id.cardView);
 
             menuBtn = view.findViewById(R.id.menuImgBtn);
             statBtn = view.findViewById(R.id.statImgBtn);
@@ -106,6 +112,14 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
                     holder.statBtn.setVisibility(View.GONE);
                     holder.delBtn.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        holder.statBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
+                context.startActivity(new Intent(context, GraphicActivity.class));
             }
         });
     }

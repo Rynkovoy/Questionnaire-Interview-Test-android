@@ -77,9 +77,9 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         int switchId = compoundButton.getId();
         switch (switchId) {
-            case R.id.switchPassword:
-                etPassword = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
-                break;
+//            case R.id.switchPassword:
+//                etPassword = addEditText(switchId, isChecked, QitInputType.PASSWORD, null);
+//                break;
             case R.id.switchStartDate:
                 etStartDate = addEditText(switchId, isChecked, QitInputType.TIMESTAMP, null);
                 break;
@@ -89,7 +89,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             case R.id.switchIsAnonymity:
                 break;
             case R.id.switchAnswersLimit:
-                etAnswersLimit = addEditText(switchId, isChecked, QitInputType.NUMBER, null);
+                etAnswersLimit = addEditText(switchId, isChecked, QitInputType.LIMIT, null);
                 break;
             default:
                 return;

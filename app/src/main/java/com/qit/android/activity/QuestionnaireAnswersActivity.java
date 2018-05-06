@@ -121,21 +121,40 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                 final DatabaseReference myRef = database.getReference("event");
-                myRef.addValueEventListener(new ValueEventListener() {
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                             if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
 
                                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                final FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                 assert firebaseUser != null;
 
-                                DatabaseReference myRefTemp = database.getReference("event/"+FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/answerList/"+FirebaseEventinfoGodObj.getFirebaseCurrentQuestion()+"/answer_" + mAuth.getCurrentUser().getUid());
+                                final DatabaseReference myRefTemp = database.getReference("event/"+FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/questionLists/"+FirebaseEventinfoGodObj.getFirebaseCurrentQuestion()+"/answerList/");
 
-                                answer.setAnswerCreatedByUser(firebaseUser.getUid());
-                                myRefTemp.setValue(answer);
-                                //onBackPressed();
+                                myRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        List<Answer> answerList = new ArrayList<>();
+                                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
+                                            Answer answer = dataSnapshot1.getValue(Answer.class);
+                                            answerList.add(answer);
+                                        }
+
+                                        answer.setAnswerCreatedByUser(firebaseUser.getUid());
+                                        answerList.add(answer);
+                                        myRefTemp.setValue(answerList);
+                                        onBackPressed();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
                             }
                         }
                     }

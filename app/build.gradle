@@ -63,6 +63,9 @@ dependencies {
     compile 'com.github.stfalcon:chatkit:0.2.2'
     // GRAPHICK DEPENDENCY
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    //
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.12'
 }
 
 

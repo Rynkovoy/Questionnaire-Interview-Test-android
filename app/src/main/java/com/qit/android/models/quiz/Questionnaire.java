@@ -1,6 +1,7 @@
 package com.qit.android.models.quiz;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.qit.android.models.answer.Answer;
 import com.qit.android.models.question.Question;
 
 import java.io.Serializable;

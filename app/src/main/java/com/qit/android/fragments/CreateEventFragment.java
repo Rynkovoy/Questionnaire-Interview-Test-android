@@ -108,7 +108,7 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
                     Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    if (currenRadioBtnId == 0) {
+                    if (currenRadioBtnId == R.id.radioButtonFreeEntrance) {
                     Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false);
                     QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
                     qitFirebaseCreateEvent.createEventInFirebase(event);

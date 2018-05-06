@@ -56,11 +56,6 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
         messagesRV.setLayoutManager(mLayoutManager);
 
 
-        // specify an adapter (see also next example)
-
-
-
-        //final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("event/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/chatRoom/");
 

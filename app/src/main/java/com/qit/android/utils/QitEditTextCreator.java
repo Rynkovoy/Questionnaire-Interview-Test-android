@@ -86,8 +86,8 @@ public class QitEditTextCreator {
                         DimensionUtils.dp2px(activity, 16), 0);
                 appCompatEditText = new AppCompatEditText(activity);
                 appCompatEditText.setLayoutParams(layoutParams);
-                View etChild = parentView.getChildAt(0);
-                appCompatEditText.setHint(((TextView)etChild).getText());
+                //View etChild = parentView.getChildAt(0);
+                appCompatEditText.setHint(inputType.toString().toLowerCase());
                 appCompatEditText.setTextColor(activity.getResources().getColor(R.color.colorAuthText));
                 appCompatEditText.setText(text);
 
@@ -105,7 +105,7 @@ public class QitEditTextCreator {
                         dpd.show(activity.getFragmentManager(), "Datepickerdialog");
                         break;
 
-                    case NUMBER:
+                    case LIMIT:
                         appCompatEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
                         mainParent.addView(appCompatEditText, viewPosition);
                         break;

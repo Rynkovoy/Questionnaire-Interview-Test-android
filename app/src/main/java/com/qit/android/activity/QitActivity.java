@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-
 import com.github.clans.fab.FloatingActionButton;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.qit.R;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
 import com.qit.android.navigation.QitDrawerBuilder;
+
+import pl.droidsonroids.gif.GifImageView;
 
 
 public class QitActivity extends MainActivity {
@@ -61,6 +62,9 @@ public class QitActivity extends MainActivity {
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            int pos = -1;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -68,20 +72,27 @@ public class QitActivity extends MainActivity {
 
             @Override
             public void onPageSelected(int position) {
-                /*Toast.makeText(QitActivity.this,
-                        quizTabsPagerAdapter.getItem(position).getClass().getSimpleName(),
-                        Toast.LENGTH_SHORT)
-                        .show();*/
+                //Toast.makeText(QitActivity.this, position+"", Toast.LENGTH_SHORT).show();
+                if(position == 2) {
+                    pos = position;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if (state > mPreviousVisibleItem) {
+
+                if (pos == 2) {
+                    pos = -1;
                     mFab.hide(true);
-                } else if (state < mPreviousVisibleItem) {
-                    mFab.show(true);
+                } else {
+
+                    if (state > mPreviousVisibleItem) {
+                        mFab.hide(true);
+                    } else if (state < mPreviousVisibleItem) {
+                        mFab.show(true);
+                    }
+                    mPreviousVisibleItem = state;
                 }
-                mPreviousVisibleItem = state;
             }
         });
 
@@ -98,6 +109,7 @@ public class QitActivity extends MainActivity {
                                 R.color.cyan,
                                 "https://cdn.pixabay.com/photo/2016/03/28/00/37/flat-1284770_960_720.png");
                     case 2:
+
                         return HeaderDesign.fromColorResAndUrl(
                                 R.color.green,
                                 "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/YqGSkmb/videoblocks-black-on-white-fantasy-abstract-technology-and-engineering-motion-background-with-plexus-lines-dots-and-polygon-connected-elements-depth-of-field-settings-3d-rendering_rsmcwklvym_thumbnail-full01.png");
@@ -146,7 +158,19 @@ public class QitActivity extends MainActivity {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
+
+                    try {
+                        final GifImageView givImageView = (GifImageView)findViewById(R.id.funnyGif);
+                        givImageView.setVisibility(View.VISIBLE);
+
+                        new Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        givImageView.setVisibility(View.GONE);
+                                    }
+                                }, 1500);
+                    }catch (Exception e) {e.printStackTrace();}
                 }
             });
         }

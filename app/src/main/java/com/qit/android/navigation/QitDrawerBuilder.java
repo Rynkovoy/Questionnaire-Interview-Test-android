@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -17,8 +18,10 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.qit.R;
 import com.qit.android.activity.AuthorizationActivity;
+import com.qit.android.activity.RegistrationActivity;
 import com.qit.android.constants.DrawerItemTags;
 import com.qit.android.constants.SharedPreferencesTags;
+import com.qit.android.models.quiz.Interview;
 import com.qit.android.rest.utils.FirebaseCountObjInList;
 
 public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
@@ -56,7 +59,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
         itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.Questionnaires);
         itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.Interviews);
         itemChat = new SecondaryDrawerItem().withTag(DrawerItemTags.CHAT_TAG).withName(R.string.Room_Chat);
-        editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.edit_profile);
+        editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.PROFILE_TAG).withName(R.string.edit_profile);
         itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.logout);
 
         FirebaseCountObjInList firebaseCountObjInList = new FirebaseCountObjInList(itemQuestionnaire, itemInterview);
@@ -90,6 +93,11 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.PROFILE_TAG:
+                Intent intent = new Intent(activity.getApplicationContext(), RegistrationActivity.class);
+                intent.putExtra("isRegistrationCHangedFlag", true);
+
+                activity.getApplicationContext().startActivity(intent);
+
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.LOGOUT_TAG:

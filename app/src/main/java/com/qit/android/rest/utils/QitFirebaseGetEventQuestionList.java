@@ -36,7 +36,9 @@ public class QitFirebaseGetEventQuestionList {
                                     qList.add(q);
                                 }
                                 Collections.reverse(qList);
-                                questionnaireAdapter.notifyDataSetChanged();
+                                try {
+                                    questionnaireAdapter.notifyDataSetChanged();
+                                } catch (Exception e) {e.printStackTrace();}
                             }
                         }
                     }

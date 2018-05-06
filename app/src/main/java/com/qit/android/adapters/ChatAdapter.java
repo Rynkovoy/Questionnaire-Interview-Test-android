@@ -5,9 +5,11 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
@@ -26,6 +29,7 @@ import com.qit.android.models.chat.Message;
 import com.qit.android.models.event.Event;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
@@ -41,6 +45,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public TextView messageUser;
         public TextView messageText;
         public TextView messageTime;
+        public LinearLayout messageLayout;
+        private FirebaseAuth mAuth;
 
         public ChatViewHolder(View view) {
             super(view);
@@ -51,11 +57,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             messageText = view.findViewById(R.id.text_message_body);
             messageTime = view.findViewById(R.id.text_message_time);
 
+            messageLayout = view.findViewById(R.id.messageLayout);
+            mAuth = FirebaseAuth.getInstance();
         }
     }
 
-    public ChatAdapter(List<Message> eventList) {
-        this.messagesList = eventList;
+    public ChatAdapter(List<Message> messageList) {
+        this.messagesList = messageList;
     }
 
     @Override
@@ -68,9 +76,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(ChatViewHolder holder, int position) {
+
+        if(messagesList.get(position).getUser().getId().equalsIgnoreCase(holder.mAuth.getCurrentUser().getUid())){
+            holder.messageLayout.setGravity(Gravity.RIGHT);
+            Drawable myBackGround = holder.context.getResources().getDrawable( R.drawable.rounded_rectangle_blue );
+            holder.messageText.setBackground(myBackGround);
+        } else {
+            holder.messageLayout.setGravity(Gravity.LEFT);
+            Drawable myBackGround = holder.context.getResources().getDrawable( R.drawable.rounded_rectangle_orange );
+            holder.messageText.setBackground(myBackGround);
+        }
+
         holder.messageUser.setText(messagesList.get(position).getUser().getName());
         holder.messageText.setText(messagesList.get(position).getText());
-        holder.messageTime.setText(messagesList.get(position).getCreatedAt().toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
+        String folderName = formatter.format(messagesList.get(position).getCreatedAt());
+        holder.messageTime.setText(folderName);
     }
 
     @Override

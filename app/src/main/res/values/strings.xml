@@ -36,6 +36,7 @@
         <item>A few from the list</item>
         <item>Text (detailed)</item>
     </array>
+    <string name="title_activity_graphic">GraphicActivity</string>
 
 
 </resources>

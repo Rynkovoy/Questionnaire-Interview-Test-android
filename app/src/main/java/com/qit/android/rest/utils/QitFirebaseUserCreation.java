@@ -29,7 +29,7 @@ public class QitFirebaseUserCreation {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public void registerUser(final User user, final Context context, final ProgressDialog progressDialog, final Intent intent, final ActivityOptions transitionActivityOptions){
+    public void registerUser(final User user, final Context context, final ProgressDialog progressDialog /**, final Intent intent, final ActivityOptions transitionActivityOptions**/){
 
         mAuth.createUserWithEmailAndPassword(user.getLogin(), user.getPassword())
                 .addOnCompleteListener((Activity) context, new OnCompleteListener<AuthResult>() {
@@ -47,7 +47,7 @@ public class QitFirebaseUserCreation {
                             Toast.makeText(context, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                            context.startActivity(intent, transitionActivityOptions.toBundle());
+                            //context.startActivity(intent, transitionActivityOptions.toBundle());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("USER_FIREBASE", "createUserWithEmail:failure", task.getException());

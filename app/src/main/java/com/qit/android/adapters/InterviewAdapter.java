@@ -290,7 +290,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         holder.interviewCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.view.getContext().startActivity(new Intent(holder.view.getContext(), NewEventOrChoseEventActivity.class));
+                //holder.view.getContext().startActivity(new Intent(holder.view.getContext(), NewEventOrChoseEventActivity.class));
             }
         });
     }

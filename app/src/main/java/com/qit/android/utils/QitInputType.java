@@ -1,5 +1,5 @@
 package com.qit.android.utils;
 
 public enum QitInputType {
-    PASSWORD, TIMESTAMP, NUMBER
+    PASSWORD, TIMESTAMP, LIMIT
 }

@@ -109,11 +109,11 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 for (int x = 0; x < eventList.size(); x++){
                     if(s.equalsIgnoreCase("")){
                         searchEventListener = eventList;
-                    } else if (eventList.get(x).getEventOwner().contains(s)){
+                    } else if (eventList.get(x).getEventOwner().toLowerCase().contains(s)){
                         searchEventListener.add(eventList.get(x));
-                    } else if (eventList.get(x).getFullDetails().contains(s)) {
+                    } else if (eventList.get(x).getFullDetails().toLowerCase().contains(s)) {
                         searchEventListener.add(eventList.get(x));
-                    } else if (eventList.get(x).getFullHeader().contains(s)) {
+                    } else if (eventList.get(x).getFullHeader().toLowerCase().contains(s)) {
                         searchEventListener.add(eventList.get(x));
                     }
                 }

@@ -28,6 +28,13 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.models.user.Gender;
 import com.qit.android.models.user.User;
@@ -57,16 +64,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private AppCompatSpinner genderSpinner;
     private AppCompatEditText userInfoEditText;
 
+    private boolean isRegistrationCHangedFlag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        try {
+            Intent intent = getIntent();
+            isRegistrationCHangedFlag = intent.getExtras().getBoolean("isRegistrationCHangedFlag");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         UiElemInitialise();
 
         saveBtn.setOnClickListener(this);
         calendarBtn.setOnClickListener(this);
     }
+
 
     private void UiElemInitialise() {
         saveBtn = findViewById(R.id.regBtnSave);
@@ -91,6 +109,53 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item, list);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             genderSpinner.setAdapter(adapter);
+        }
+
+        if (isRegistrationCHangedFlag) {
+            loginEditText.setFocusable(false);
+            loginEditText.setEnabled(false);
+            loginEditText.setCursorVisible(false);
+            loginEditText.setKeyListener(null);
+
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("user"+"/"+firebaseUser.getUid());
+
+
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    loginEditText.setText(user.getLogin());
+                    passFirstEditText.setText(user.getPassword());
+                    passSecEditText.setText(user.getPassword());
+                    firstNameEditText.setText(user.getFirstName());
+                    lastNameEditText.setText(user.getLastName());
+                    phoneEditText.setText(user.getPhoneNumber());
+                    userInfoEditText.setText(user.getAdditionalInfo());
+
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+                    Date convertedDate = new Date();
+                    try {
+                        convertedDate = dateFormat.parse(user.getBirthday().toString());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    birthDayEditText.setText(convertedDate.toString());
+
+                    saveBtn.setText("Save Edited Profile");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+
         }
 
     }
@@ -153,9 +218,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case (R.id.regBtnSave): {
-                Log.i("LOG", loginEditText.getText().toString() + " " + passFirstEditText.getText().toString() + " " +
-                        firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString() + " " +
-                        phoneEditText.getText().toString() + " " + birthDayEditText.getText().toString());
+//                Log.i("LOG", loginEditText.getText().toString() + " " + passFirstEditText.getText().toString() + " " +
+//                        firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString() + " " +
+//                        phoneEditText.getText().toString() + " " + birthDayEditText.getText().toString());
 
                 if (isFilledFields(loginEditText.getText().toString(), passFirstEditText.getText().toString(),
                         firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
@@ -216,18 +281,22 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         dialog.setMessage("Processing...");
         dialog.show();
 
-        Intent i = new Intent(RegistrationActivity.this, QitActivity.class);
+//        Intent i = new Intent(RegistrationActivity.this, QitActivity.class);
 
-        View sharedView = findViewById(R.id.regLogoImg);
-        String transitionName = "appLogo";
+//        View sharedView = findViewById(R.id.regLogoImg);
+//        String transitionName = "appLogo";
+//
+//        ActivityOptions transitionActivityOptions = null;
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
+//        }
 
-        ActivityOptions transitionActivityOptions = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
+        onBackPressed();
+        if (!isRegistrationCHangedFlag) {
+            Toast.makeText(this, "Please fill e-mail and password again", Toast.LENGTH_SHORT).show();
         }
-
         QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
-        qitFirebaseUserCreation.registerUser(user, this, dialog, i, transitionActivityOptions);
+        qitFirebaseUserCreation.registerUser(user, this, dialog);
 
     }
 
