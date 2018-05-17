@@ -13,6 +13,7 @@ import com.qit.android.rest.dto.UserCredentialDTO;
 
 import java.util.List;
 
+@Deprecated
 public class UserCredentialsAdapter extends BaseAdapter {
 
     private static final String ENABLED = "Enabled: ";

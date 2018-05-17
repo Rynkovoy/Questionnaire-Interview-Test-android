@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_blue_grey_100">
+    android:background="@drawable/back_ground_img_login">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?android:attr/actionBarSize"
             android:background="@color/colorMainBackground"
+            android:visibility="gone"
             app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <com.github.florent37.materialviewpager.MaterialViewPager
@@ -44,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"
-            android:foreground="@drawable/fab_add"
             android:foregroundGravity="center"
             android:onClick="createQuestion"
             app:fab_shadowRadius="8dp"
@@ -54,21 +54,35 @@
 
         </com.github.clans.fab.FloatingActionButton>
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/funnyGif"
+        <ImageView
+            android:id="@+id/fabPlusImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.777"
-            android:src="@drawable/giphy"/>
+            app:layout_constraintBottom_toBottomOf="@+id/fabAddQuiz"
+            app:layout_constraintEnd_toEndOf="@+id/fabAddQuiz"
+            app:layout_constraintStart_toStartOf="@+id/fabAddQuiz"
+            app:layout_constraintTop_toTopOf="@+id/fabAddQuiz"
+            app:srcCompat="@drawable/fab_add" />
+
+        <!--<pl.droidsonroids.gif.GifImageView-->
+            <!--android:id="@+id/funnyGif"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginEnd="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:src="@drawable/giphy"-->
+            <!--android:visibility="gone"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--app:layout_constraintVertical_bias="0.777" />-->
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.api.QuestionApi;
 import com.qit.android.rest.utils.QitApi;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +54,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     public Questionnaire questionnaire;
 
     private TextView saveAnswer;
-    private TextView cancelActivity;
+    //private TextView cancelActivity;
 
     public static Answer answer = new Answer();
 
@@ -60,6 +62,8 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire_answers);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         initToolbar();
         questionnaire = (Questionnaire) getIntent().getSerializableExtra("Questionnaire");
         rvQuestion = findViewById(R.id.rvQuestion);
@@ -76,8 +80,8 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
         saveAnswer = findViewById(R.id.answer_save_btn);
         saveAnswer.setOnClickListener(this);
-        cancelActivity = findViewById(R.id.answer_cancel_btn);
-        cancelActivity.setOnClickListener(this);
+        //cancelActivity = findViewById(R.id.answer_cancel_btn);
+        //cancelActivity.setOnClickListener(this);
 
         showQuestions();
     }
@@ -99,6 +103,12 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbarQuestionnairesAnswersT);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -116,6 +126,7 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         switch (view.getId()){
             case (R.id.answer_save_btn) : {
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -167,13 +178,19 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
                 });
                 break;
             }
-            case (R.id.answer_cancel_btn): {
-                onBackPressed();
-                break;
-            }
+//            case (R.id.answer_cancel_btn): {
+//                onBackPressed();
+//                break;
+//            }
             default: {
                 break;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, QitActivity.class));
+        this.finish();
     }
 }

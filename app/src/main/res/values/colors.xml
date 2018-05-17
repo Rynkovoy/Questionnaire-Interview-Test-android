@@ -17,10 +17,12 @@
 
     <!-- **** LIGHT STYLE **** -->
     <!--background-->
-    <color name="colorMainBackground">#0e6996</color>
+    <color name="colorMainBackground">#0e6999</color>
     <!--auth-->
     <color name="colorAuthHintText">#0e6996</color>
     <color name="colorAuthText">#ffffff</color>
+
+    <color name="mainGray">#D3D3D3</color>
 
     <color name="colorGreenMain">#20f25f</color>
 
@@ -31,12 +33,5 @@
     <color name="colorLightBlue">#2daae1</color>
     <color name="colorGreen">#3aaa35</color>
     <color name="colorRed">#ff0000</color>
-
-    <!--CARD COLORS -->
-    <color name="cardFirst">#FFEC94</color>
-    <color name="cardSec">#FFAEAE</color>
-    <color name="cardThird">#B0E57C</color>
-    <color name="cardFifth">#B4D8E7</color>
-    <color name="cardSix">#56BAEC</color>
 
 </resources>

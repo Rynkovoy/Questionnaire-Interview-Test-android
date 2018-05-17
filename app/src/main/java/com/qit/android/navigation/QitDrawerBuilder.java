@@ -24,13 +24,14 @@ import com.qit.android.constants.SharedPreferencesTags;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.rest.utils.FirebaseCountObjInList;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     private DrawerBuilder drawerBuilder;
     private Activity activity;
     private Toolbar toolbar;
     private SharedPreferences sharedPreferences;
-
 
     private SecondaryDrawerItem itemQuestionnaire;
     private SecondaryDrawerItem itemInterview;
@@ -56,11 +57,11 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
 
     public Drawer build(Activity activity) {
         setActivity(activity);
-        itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withName(R.string.Questionnaires);
-        itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withName(R.string.Interviews);
-        itemChat = new SecondaryDrawerItem().withTag(DrawerItemTags.CHAT_TAG).withName(R.string.Room_Chat);
-        editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.PROFILE_TAG).withName(R.string.edit_profile);
-        itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withName(R.string.logout);
+        itemQuestionnaire = new SecondaryDrawerItem().withTag(DrawerItemTags.QUEST_TAB).withIcon(activity.getResources().getDrawable(R.drawable.ico_questionnarie)).withName(R.string.Questionnaires);
+        itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withIcon(activity.getResources().getDrawable(R.drawable.ico_interv)).withName(R.string.Interviews);
+        itemChat = new SecondaryDrawerItem().withTag(DrawerItemTags.CHAT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_chat)).withName(R.string.Room_Chat);
+        editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.PROFILE_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_settings)).withName(R.string.edit_profile);
+        itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_exit)).withName(R.string.logout);
 
         FirebaseCountObjInList firebaseCountObjInList = new FirebaseCountObjInList(itemQuestionnaire, itemInterview);
         firebaseCountObjInList.getIntOfElems();
@@ -77,6 +78,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 )
                 .withOnDrawerItemClickListener(this)
                 .withAccountHeader(accountHeaderBuilder)
+                .withActionBarDrawerToggle(true)
                 .build();
     }
 
@@ -96,7 +98,7 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
                 Intent intent = new Intent(activity.getApplicationContext(), RegistrationActivity.class);
                 intent.putExtra("isRegistrationCHangedFlag", true);
 
-                activity.getApplicationContext().startActivity(intent);
+                activity.getApplicationContext().startActivity(intent.setFlags(FLAG_ACTIVITY_NEW_TASK));
 
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;

@@ -59,13 +59,16 @@ public class QitFirebaseUserLogin {
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                    Log.i("FIREBASE_LOGINING", databaseError.getDetails());
+                                    Toast.makeText(context, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
                                 }
                             });
 
 
-                            Toast.makeText(context, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "Authentication success.",
+//                                    Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
                             context.startActivity(intent, transitionActivityOptions.toBundle());
                         } else {

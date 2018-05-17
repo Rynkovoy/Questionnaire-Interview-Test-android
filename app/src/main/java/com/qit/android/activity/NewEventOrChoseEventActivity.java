@@ -28,23 +28,27 @@ import com.qit.R;
 import com.qit.android.adapters.EventAdapter;
 import com.qit.android.fragments.CreateEventFragment;
 import com.qit.android.models.event.Event;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NewEventOrChoseEventActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView favoriteEventsBtn;
-    private TextView allEventsBtn;
+    private Button favoriteEventsBtn;
+    private Button allEventsBtn;
+    private Button myEventsBtn;
 
-    private TextView newEventBtn;
+    private Button newEventBtn;
 
     private RecyclerView eventsRecyclerView;
 
     private SearchView searchView;
+    private LinearLayout searchLayout;
     private FirebaseAuth mAuth;
     private List<Event> eventList;
 
@@ -54,6 +58,8 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
     private boolean doubleBackToExitPressedOnce = false;
 
+    private List<Button> btnsGroup = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +67,20 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
         favoriteEventsBtn = findViewById(R.id.btn_favorite_events);
         allEventsBtn = findViewById(R.id.btn_all_events);
+        myEventsBtn = findViewById(R.id.btn_my_events);
         newEventBtn = findViewById(R.id.btn_create_new_event);
         eventsRecyclerView = findViewById(R.id.recyclerAllEvents);
+
+        btnsGroup.add(favoriteEventsBtn);
+        btnsGroup.add(allEventsBtn);
+        btnsGroup.add(myEventsBtn);
+
         searchView = findViewById(R.id.searchPlace);
+        //searchLayout = findViewById(R.id.searchLayout);
 
         newEventBtn.setOnClickListener(this);
         favoriteEventsBtn.setOnClickListener(this);
+        myEventsBtn.setOnClickListener(this);
         allEventsBtn.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -87,6 +101,11 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                     Event eventObj = childDataSnapshot.getValue(Event.class);
                     eventList.add(eventObj);
                 }
+                Collections.sort(eventList, new Comparator<Event>() {
+                    public int compare(Event o1, Event o2) {
+                        return o1.getDate().compareTo(o2.getDate());
+                    }
+                });
                 Collections.reverse(eventList);
                 UpdateUi(eventList);
             }
@@ -96,6 +115,13 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 UpdateUi(null);
             }
         });
+
+//        searchLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                searchView.performClick();
+//            }
+//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -135,6 +161,9 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
 
     @Override
     public void onClick(View view) {
+
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this, btnsGroup);
+
         switch (view.getId()) {
             case (R.id.btn_create_new_event): {
 
@@ -152,6 +181,24 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 fragmentTransaction.addToBackStack(String.valueOf(fragment));
                 fragmentTransaction.commit();
 
+                break;
+            }
+            case (R.id.btn_my_events): {
+//
+//
+//
+//
+//
+//
+//
+//                need METHOD!!!
+//
+//
+//
+//
+//
+//
+//                UpdateUi(favoriteEventList);
                 break;
             }
             case (R.id.btn_favorite_events): {

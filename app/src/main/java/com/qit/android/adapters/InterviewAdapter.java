@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.InterviewCreationActivity;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
@@ -34,6 +35,7 @@ import com.qit.android.models.event.Event;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.dto.InterviewDTO;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.Date;
 import java.util.List;
@@ -47,7 +49,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView interviewCardView;
+        private ShadowView interviewCardView;
 
         private ImageView civQuestionnaire;
         private TextView tvTitle;
@@ -179,7 +181,8 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                     editText.setTextColor(holder.view.getResources().getColor(R.color.colorDarkBlue));
 
                     saveTextBtn.setText("SAVE");
-                    saveTextBtn.setBackgroundColor(holder.view.getResources().getColor(R.color.colorGreen));
+                    saveTextBtn.setBackground(holder.view.getResources().getDrawable(R.drawable.custom_btn_dark));
+                    BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(saveTextBtn, holder.view.getContext(), 0);
 
                     editText.setHint("Place answer here");
                     editText.clearFocus();

@@ -103,12 +103,12 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         holder.menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.editbtn.getVisibility() == View.GONE){
-                    holder.editbtn.setVisibility(View.VISIBLE);
+                if (holder.statBtn.getVisibility() == View.GONE){
+                    //holder.editbtn.setVisibility(View.VISIBLE);
                     holder.statBtn.setVisibility(View.VISIBLE);
                     holder.delBtn.setVisibility(View.VISIBLE);
                 } else {
-                    holder.editbtn.setVisibility(View.GONE);
+                    //holder.editbtn.setVisibility(View.GONE);
                     holder.statBtn.setVisibility(View.GONE);
                     holder.delBtn.setVisibility(View.GONE);
                 }

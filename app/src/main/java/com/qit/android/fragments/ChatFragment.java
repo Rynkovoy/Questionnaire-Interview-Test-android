@@ -37,7 +37,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     private EditText messageEditText;
     private Button messageSendBtn;
     private RecyclerView messagesRV;
-    private List<Message> messageListToAdapter = new ArrayList<>();
+    private static List<Message> messageListToAdapter = new ArrayList<>();
 
     private ChatAdapter mAdapter;
 
@@ -110,6 +110,7 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                         messageList.add(message);
                         myRef.setValue(messageList);
                         myRef.removeEventListener(this);
+                        messageEditText.setText("");
                     } catch (Exception e){
                         e.printStackTrace();
                         Toast.makeText(view.getContext(), "Message not send", Toast.LENGTH_SHORT).show();

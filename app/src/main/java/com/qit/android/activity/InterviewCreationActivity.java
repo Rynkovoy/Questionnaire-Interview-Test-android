@@ -11,11 +11,13 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +31,7 @@ import com.qit.android.models.quiz.Interview;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
+import com.qit.android.utils.BtnClickAnimUtil;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
 
@@ -47,8 +50,7 @@ public class InterviewCreationActivity extends AppCompatActivity {
     private AppCompatEditText etTitle;
     private AppCompatEditText etDescription;
 
-    private TextView btnCancel;
-    private TextView btnNext;
+    private Button btnNext;
     private Interview interview;
     private int position = -1;
 
@@ -57,6 +59,8 @@ public class InterviewCreationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interview_creation);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         try{
             Intent intent = getIntent();
@@ -76,6 +80,12 @@ public class InterviewCreationActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbarQuestionnaireCreation2);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -94,20 +104,13 @@ public class InterviewCreationActivity extends AppCompatActivity {
         etTitle = findViewById(R.id.interEtTitle);
         etDescription = findViewById(R.id.interEtDescription);
 
-        btnCancel = findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAndShowAlertDialog();
-            }
-        });
-
         btnNext = findViewById(R.id.btnNext);
 
     }
 
 
-    public void handleBtnNext(View view) {
+    public void handleBtnNext(final View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         interview.setSummary(String.valueOf(etTitle.getText()));
         interview.setDescription(String.valueOf(etDescription.getText()));
 
@@ -119,24 +122,30 @@ public class InterviewCreationActivity extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    Event event = childDataSnapshot.getValue(Event.class);
-                    if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
-                        if (event.getInterviewsList().size() == 0){
+                if(!interview.getSummary().equalsIgnoreCase("") || !interview.getDescription().equalsIgnoreCase("")) {
+                    for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                        Event event = childDataSnapshot.getValue(Event.class);
+                        if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
+                            if (event.getInterviewsList().size() == 0) {
                                 event.getInterviewsList().add(interview);
-                        } else {
-                        if(position == -1) {
-                            event.getInterviewsList().add(interview);
-                        } else {
-                            //event.getInterviewsList().remove(event.getInterviewsList().size()-position-1);
-                            event.getInterviewsList().set(event.getInterviewsList().size()-position-1, interview);
-                        }
-                        }
-                        DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
-                        myRef.setValue(event);
+                            } else {
+                                if (position == -1) {
+                                    event.getInterviewsList().add(interview);
+                                } else {
+                                    //event.getInterviewsList().remove(event.getInterviewsList().size()-position-1);
+                                    event.getInterviewsList().set(event.getInterviewsList().size() - position - 1, interview);
+                                }
+                            }
+                            DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                            myRef.setValue(event);
 
-                        startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
+                            startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
+                            finish();
+                        }
                     }
+                } else {
+                    Snackbar.make((View) view.getParent(), "Not all fields are filled!", Snackbar.LENGTH_LONG).show();
+
                 }
             }
 
@@ -148,9 +157,6 @@ public class InterviewCreationActivity extends AppCompatActivity {
         });
     }
 
-    public void handleBtnCancel(View view) {
-        createAndShowAlertDialog();
-    }
 
     private void createAndShowAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MaterialBaseTheme_AlertDialog);
@@ -159,6 +165,7 @@ public class InterviewCreationActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
                 dialog.dismiss();
+                finish();
             }
         });
         builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -201,6 +208,13 @@ public class InterviewCreationActivity extends AppCompatActivity {
                 //Snackbar.make(view, "There are some trables with firebase, sry!", Snackbar.LENGTH_LONG).show();
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, QitActivity.class));
+        this.finish();
     }
 
 }

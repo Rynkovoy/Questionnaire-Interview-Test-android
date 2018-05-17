@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -19,6 +20,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -36,6 +38,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.models.answer.Variant;
 import com.qit.android.models.event.Event;
@@ -44,6 +47,7 @@ import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -57,7 +61,7 @@ import retrofit2.Response;
 public class QuestionsCreationActivity extends AppCompatActivity {
 
     private LinearLayout layoutScrolledQuestions;
-    private List<CardView> questionLayoutList;
+    private List<ShadowView> questionLayoutList;
     private Toolbar toolbar;
     private Questionnaire questionnaire;
     private List <Question> questionSet;
@@ -67,6 +71,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions_creation);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         initToolbar();
 
         layoutScrolledQuestions = findViewById(R.id.layoutScrolledQuestions);
@@ -78,13 +85,19 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         questionSet = new ArrayList<>();
     }
 
+    @SuppressLint("ResourceType")
     public void createQuestion(View view) {
         final Question question = new Question();
         questionSet.add(question);
 
         LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(32, 32, 32, 0);
-        final CardView cardView = new CardView(this);
+        final ShadowView cardView = new ShadowView(this);
+        //cardView.setForeground(getResources().getDrawable(R.attr.selectableItemBackground));
+        cardView.setCornerRadiusBL(getResources().getDimension(R.dimen._16sdp));
+        //cardView.setCornerRadiusBR(getResources().getDimension(R.dimen._16sdp));
+        //cardView.setCornerRadiusTL(getResources().getDimension(R.dimen._16sdp));
+        cardView.setCornerRadiusTR(getResources().getDimension(R.dimen._16sdp));
         cardView.setLayoutParams(layoutParams);
 
         final LinearLayout linearLayoutMain = new LinearLayout(this);
@@ -96,10 +109,10 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         final LinearLayout linearLayout1 =  new LinearLayout(this);
         linearLayout1.setLayoutParams(layoutParams);
 
-        EditText etQuestion = new EditText(this);
+        final EditText etQuestion = new EditText(this);
         etQuestion.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         etQuestion.setSingleLine(false);
-        etQuestion.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        etQuestion.setTextColor(getResources().getColor(R.color.mainGray));
         etQuestion.setHint("Question");
         etQuestion.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 4.0f));
 
@@ -145,14 +158,14 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         for (int j = childCount - 1; j > childIndex; j--) {
                             linearLayoutMain.removeViewAt(j);
                         }
-
+                        etQuestion.setText("");
                         question.setQuestionType(QuestionType.RADIO.toString());
 
                         linearLayoutMain.addView(addRadioQuestion(radioButtons, question));
 
                         final Button btnAdd = new Button(QuestionsCreationActivity.this);
                         btnAdd.setText("Add");
-                        btnAdd.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                        btnAdd.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
                         linearLayoutMain.setPadding(16,16,16,16);
                         linearLayoutMain.addView(btnAdd);
@@ -160,6 +173,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         btnAdd.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
                                 int childIndex = linearLayoutMain.indexOfChild(btnAdd);
                                 linearLayoutMain.removeViewAt(childIndex);
                                 linearLayoutMain.addView(addRadioQuestion(radioButtons, question));
@@ -171,19 +185,21 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         for (int j = childCount - 1; j > childIndex; j--) {
                             linearLayoutMain.removeViewAt(j);
                         }
-
+                        etQuestion.setText("");
                         question.setQuestionType(QuestionType.CHECKBOX.toString());
 
                         linearLayoutMain.addView(addCheckboxQuestion());
 
                         final Button btnAdd2 = new Button(QuestionsCreationActivity.this);
                         btnAdd2.setText("Add");
+                        btnAdd2.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
                         linearLayoutMain.addView(btnAdd2);
 
                         btnAdd2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
                                 int childIndex = linearLayoutMain.indexOfChild(btnAdd2);
                                 linearLayoutMain.removeViewAt(childIndex);
                                 linearLayoutMain.addView(addCheckboxQuestion());
@@ -195,7 +211,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         for (int j = childCount - 1; j > childIndex; j--) {
                             linearLayoutMain.removeViewAt(j);
                         }
-
+                        etQuestion.setText("");
                         question.setQuestionType(QuestionType.DETAILED.toString());
                         break;
                 }
@@ -224,7 +240,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
         final AppCompatRadioButton radioButton = new AppCompatRadioButton(QuestionsCreationActivity.this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.green)));
+            radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.navigationBarColor)));
         }
         LinearLayout.LayoutParams radioLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         radioLayoutParams.setMargins(0,22,0,0 );
@@ -242,7 +258,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         });
 
         final EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        editText.setTextColor(getResources().getColor(R.color.mainGray));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
@@ -296,11 +312,11 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
         AppCompatCheckBox checkBox = new AppCompatCheckBox(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            checkBox.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.green)));
+            checkBox.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.navigationBarColor)));
         }
 
         EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.colorDarkBlue));
+        editText.setTextColor(getResources().getColor(R.color.mainGray));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
@@ -330,7 +346,12 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     private void initToolbar() {
         toolbar = findViewById(R.id.questionToolbar);
         setSupportActionBar(toolbar);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -338,12 +359,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         }
     }
 
-    public void handleBtnCancel(View view) {
-       createAndShowAlertDialog();
-    }
 
     public void handleBtnCreate(final View view) {
-
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         if (questionSet.isEmpty()) {
             Snackbar.make(view, "Please, ask some questions", Snackbar.LENGTH_LONG).show();
             return;
@@ -366,6 +384,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
 
                         startActivity(new Intent(QuestionsCreationActivity.this, QitActivity.class));
+                        finish();
                     }
                 }
             }
@@ -378,22 +397,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
     }
 
-    private void createAndShowAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MaterialBaseTheme_AlertDialog);
-        builder.setTitle("Are you sure?");
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                startActivity(new Intent(QuestionsCreationActivity.this, QitActivity.class));
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //TODO
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, QitActivity.class));
+        this.finish();
     }
 }

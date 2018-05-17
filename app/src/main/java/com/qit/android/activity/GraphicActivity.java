@@ -6,6 +6,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -21,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.models.answer.Answer;
 import com.qit.android.models.question.Question;
+import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
@@ -31,10 +34,16 @@ import java.util.Random;
 
 public class GraphicActivity extends AppCompatActivity {
 
+    private TextView headerTv;
+    private ScrollView scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graphic);
+
+        headerTv = findViewById(R.id.header_text_graphic);
+        scrollView = findViewById(R.id.scroll_graphics);
 
         createGraphics();
 
@@ -50,21 +59,43 @@ public class GraphicActivity extends AppCompatActivity {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 List<Answer> answerList = new ArrayList<>();
+
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Answer answer = dataSnapshot1.getValue(Answer.class);
                     answerList.add(answer);
                 }
 
-                Log.i("LOG_FILE", answerList.toString());
+                //Log.i("DATA_", counter[0]+"");
 
                 try {
+
+                    int[] counterRadio = new int[answerList.get(0).getResults().size()];
+
+                    for (int x = 0; x < answerList.size(); x++) {
+                        for (int y = 0; y < answerList.get(x).getResults().size(); y++) {
+
+                            if (answerList.get(x).getResults().get(y).getQuestionType().equals(QuestionType.RADIO)) {
+                                if (answerList.get(x).getResults().get(y).isAnswerBool()) {
+                                    counterRadio[y] += 1;
+                                }
+                            }
+                            else if (answerList.get(x).getResults().get(y).getQuestionType().equals(QuestionType.CHECKBOX)){
+//                                if (answerList.get(x).getResults().get(y).isAnswerBool()) {
+//                                    counterRadio[y] += 1;
+//                                }
+                            }
+                        }
+
+                    }
 
                     PieChart chart = (PieChart) findViewById(R.id.chart);
                     List<PieEntry> entries = new ArrayList<PieEntry>();
 
-                    for (int x = 0; x < 10; x++) {
-                        entries.add(new PieEntry(10f, "Green"));
+                    for (int x = 0; x < counterRadio.length; x++) {
+                        //Log.i("DATA_", counter[x]+"");
+                        entries.add(new PieEntry((float) counterRadio[x], ""));
                     }
 
                     PieDataSet dataSet = new PieDataSet(entries, "All Results"); // add entries to dataset
@@ -76,6 +107,8 @@ public class GraphicActivity extends AppCompatActivity {
                         colors[x] = color;
                     }
                     dataSet.setColors(colors);
+                    dataSet.setValueTextColor(getResources().getColor(R.color.white));
+                    dataSet.setValueTextSize(20);
 
                     PieData lineData = new PieData(dataSet);
                     chart.setData(lineData);

@@ -8,7 +8,7 @@
         android:color="@android:color/transparent" />
 
     <stroke
-        android:color="#FFFFFF"
+        android:color="#D3D3D3"
         android:width="2dp" />
 
     <size

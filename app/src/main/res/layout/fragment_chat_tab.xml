@@ -3,23 +3,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_chat"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_shadow_start_color"
     android:orientation="vertical"
     app:tabMode="scrollable">
 
     <include layout="@layout/material_view_pager_placeholder" />
 
-    <android.support.v7.widget.CardView
+    <com.loopeer.shadow.ShadowView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/cardMarginVertical"
-        android:layout_marginLeft="@dimen/cardMarginHorizontal"
-        android:layout_marginRight="@dimen/cardMarginHorizontal"
-        android:layout_marginTop="@dimen/cardMarginVertical"
-        android:background="@android:color/white"
-        app:cardElevation="4dp">
+        android:background="@drawable/custom_btn"
+        android:elevation="@dimen/_8sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadiusBL="@dimen/_16sdp"
+        app:cornerRadiusBR="@dimen/_16sdp"
+        app:cornerRadiusTL="@dimen/_16sdp"
+        app:cornerRadiusTR="@dimen/_16sdp"
+        app:shadowColor="@color/warm_grey"
+        app:shadowMargin="@dimen/_8sdp"
+        app:shadowRadius="@dimen/_8sdp"
+        tools:targetApi="lollipop">
 
         <LinearLayout
             android:id="@+id/llForListViewChat"
@@ -60,7 +65,7 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </com.loopeer.shadow.ShadowView>
 </LinearLayout>
 
 

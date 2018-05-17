@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back_ground_img_login">
+    android:background="@drawable/back_ground_img_login"
+    android:orientation="horizontal">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mainConstraintLayoutEventCreation"
@@ -13,79 +14,89 @@
 
         <ImageView
             android:id="@+id/logo_events_activity"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
             android:layout_marginTop="8dp"
             android:transitionName="appLogo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/searchPlace"
             app:srcCompat="@drawable/qit_logo" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <SearchView
+            android:id="@+id/searchPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/material_drawer_divider"
-            android:orientation="vertical"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-            <SearchView
-                android:id="@+id/searchPlace"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-            </SearchView>
-        </LinearLayout>
+        </SearchView>
 
         <LinearLayout
             android:id="@+id/ll_detailed"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/logo_events_activity">
 
-            <TextView
+            <Button
                 android:id="@+id/btn_favorite_events"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_weight="1"
-                android:paddingRight="16dp"
+                android:background="@drawable/custom_btn"
                 android:text="FAVORITE"
-                android:textAlignment="textEnd"
                 android:textColor="@color/colorAuthText"
-                android:textSize="18sp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="2dp"
-                android:layout_height="24sp"
+                android:layout_width="@dimen/_2sdp"
+                android:layout_height="@dimen/_32sdp"
                 android:background="#ffffff"
-                android:padding="10dp" />
+                android:padding="@dimen/_8sdp" />
 
-            <TextView
+            <Button
                 android:id="@+id/btn_all_events"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_8sdp"
                 android:layout_weight="1"
-                android:paddingLeft="16dp"
+                android:background="@drawable/custom_btn"
                 android:text="ALL EVENTS"
-                android:textAlignment="textStart"
                 android:textColor="@color/colorAuthText"
-                android:textSize="18sp"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="@dimen/_2sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:background="#ffffff"
+                android:padding="@dimen/_8sdp" />
+
+            <Button
+                android:id="@+id/btn_my_events"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_btn"
+                android:text="MY EVENTS"
+                android:textColor="@color/colorAuthText"
+                android:textSize="@dimen/_10sdp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -93,10 +104,12 @@
             android:id="@+id/recyclerAllEvents"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/custom_btn"
+            android:padding="@dimen/_4sdp"
             app:layout_constraintBottom_toTopOf="@+id/btn_create_new_event"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,22 +117,23 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <TextView
+        <Button
             android:id="@+id/btn_create_new_event"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:padding="8dp"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/custom_btn"
+            android:padding="@dimen/_8sdp"
             android:text="Create New Event"
-            android:textAlignment="textEnd"
+            android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/colorAuthText"
-            android:textSize="18sp"
+            android:textSize="@dimen/_9ssp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

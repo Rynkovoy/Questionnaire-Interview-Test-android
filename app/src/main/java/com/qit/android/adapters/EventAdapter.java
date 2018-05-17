@@ -18,12 +18,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireCreationActivity;
 import com.qit.android.models.event.Event;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.List;
 
@@ -39,10 +41,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         public TextView tvDate;
 
         public TextView tvEventOwner;
-        public TextView tvIsOpened;
+        public ImageView tvIsOpened;
         public Context context;
 
-        public CardView cardView;
+        public ShadowView cardView;
 
         public EventViewHolder(View view) {
             super(view);
@@ -81,8 +83,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvEventOwner.setText(eventList.get(position).getEventOwnerName());
 
         if (eventList.get(position).isEventOpened()) {
-            holder.tvIsOpened.setText("OPEN EVENT");
-            holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorGreen));
+            holder.tvIsOpened.setBackground(holder.context.getResources().getDrawable(R.drawable.icon_open));
+            android.view.ViewGroup.LayoutParams layoutParams = holder.tvIsOpened.getLayoutParams();
+            layoutParams.width = 128;
+            layoutParams.height = 128;
+            holder.tvIsOpened.setLayoutParams(layoutParams);
+            //holder.tvIsOpened.setText("OPEN EVENT");
+            // holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorGreen));
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -99,8 +106,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 }
             });
         } else if (!eventList.get(position).getEventPassword().equalsIgnoreCase("")) {
-            holder.tvIsOpened.setText("NEED PASSWORD");
-            holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorRed));
+            holder.tvIsOpened.setBackground(holder.context.getResources().getDrawable(R.drawable.icon_password));
+            android.view.ViewGroup.LayoutParams layoutParams = holder.tvIsOpened.getLayoutParams();
+            layoutParams.width = 128;
+            layoutParams.height = 128;
+            holder.tvIsOpened.setLayoutParams(layoutParams);
+            //holder.tvIsOpened.setText("NEED PASSWORD");
+            //holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorRed));
 
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +134,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     cancelbtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, holder.context, 0);
                             dialog.dismiss();
                         }
                     });
@@ -129,6 +142,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     entetBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, holder.context, 0);
                             if (editText.getText().toString().equalsIgnoreCase(eventList.get(position).getEventPassword())){
 
                                 String date = eventList.get(position).getDate();
@@ -158,8 +172,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             });
 
         } else if (eventList.get(position).isNewUserInEventeNeedToBeConfirmed()) {
-            holder.tvIsOpened.setText("NEED CONFIRMATION");
-            holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorDarkBlue));
+            holder.tvIsOpened.setBackground(holder.context.getResources().getDrawable(R.drawable.icon_moderation));
+            android.view.ViewGroup.LayoutParams layoutParams = holder.tvIsOpened.getLayoutParams();
+            layoutParams.width = 128;
+            layoutParams.height = 128;
+            holder.tvIsOpened.setLayoutParams(layoutParams);
+            //holder.tvIsOpened.setText("NEED CONFIRMATION");
+            //holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorDarkBlue));
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

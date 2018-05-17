@@ -48,7 +48,7 @@ public class InterviewTabFragment extends Fragment {
     private InterviewAdapter interviewAdapter;
     private View view;
     private RecyclerView recyclerView;
-    private List<Interview> interviews = new ArrayList<>();
+    private static List<Interview> interviews = new ArrayList<>();
 
     @Nullable
     @Override

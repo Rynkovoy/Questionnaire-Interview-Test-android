@@ -4,90 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_shadow_start_color"
+    android:background="@drawable/back_ground_img_login"
     android:descendantFocusability="beforeDescendants"
     tools:context="com.qit.android.activity.InterviewCreationActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="@dimen/_128sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:layout_weight="1"
+        android:background="@drawable/custom_btn"
+        android:onClick="handleBtnNext"
+        android:text="Next"
+        android:textAlignment="center"
+        android:textColor="@color/colorAuthText"
+        android:textSize="@dimen/_8ssp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.loopeer.shadow.ShadowView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="@dimen/_8sdp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cornerRadiusTR="@dimen/_16sdp"
+        app:cornerRadiusBL="@dimen/_16sdp"
+        app:shadowMargin="@dimen/_8sdp"
+        app:shadowRadius="@dimen/_8sdp"
+        app:shadowColor="@color/warm_grey"
+        tools:targetApi="lollipop">
 
-        <TextView
-            android:id="@+id/btnCancel"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="handleBtnCancel"
-            android:text="Cancel"
-            android:textAlignment="center"
-            android:textColor="@color/colorAuthText"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="@dimen/_16sdp">
 
-        <TextView
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:onClick="handleBtnNext"
-            android:text="Next"
-            android:textAlignment="center"
-            android:textColor="@color/colorAuthText"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Interview creation:"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbarQuestionnaireCreation2" />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/interTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColorHint="@color/colorAuthHintText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        tools:ignore="MissingConstraints">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/interTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                tools:ignore="MissingConstraints">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/interEtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAuthHintText"
-            android:hint="Title"
-            android:inputType="text"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="18sp" />
-    </android.support.design.widget.TextInputLayout>
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/interEtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Title"
+                    android:inputType="text"
+                    android:textSize="18sp" />
+            </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/interTilDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textColorHint="@color/colorAuthHintText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/interTitle"
-        tools:ignore="MissingConstraints">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/interTilDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/interTitle"
+                tools:ignore="MissingConstraints">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/interEtDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorAuthHintText"
-            android:hint="Intereview Question"
-            android:inputType="text"
-            android:textColor="@color/colorAuthHintText"
-            android:textSize="14sp" />
-    </android.support.design.widget.TextInputLayout>
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/interEtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Intereview Question"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+    </com.loopeer.shadow.ShadowView>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarQuestionnaireCreation2"
@@ -95,17 +110,5 @@
         android:layout_height="wrap_content"
         android:background="@color/cardview_shadow_start_color"
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Interview creation:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarQuestionnaireCreation2" />
 
 </android.support.constraint.ConstraintLayout>

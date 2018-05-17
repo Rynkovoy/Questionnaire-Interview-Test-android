@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,6 +40,7 @@ import com.qit.R;
 import com.qit.android.models.user.Gender;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.utils.QitFirebaseUserCreation;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import org.w3c.dom.Text;
 
@@ -71,6 +73,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         try {
             Intent intent = getIntent();
@@ -140,13 +144,13 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
                     Date convertedDate = new Date();
                     try {
-                        convertedDate = dateFormat.parse(user.getBirthday().toString());
+                        convertedDate = dateFormat.parse(String.valueOf(user.getBirthday().getTime()));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                     birthDayEditText.setText(convertedDate.toString());
 
-                    saveBtn.setText("Save Edited Profile");
+                    saveBtn.setText(R.string.saveEditedBtn);
                 }
 
                 @Override
@@ -216,6 +220,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         switch (view.getId()) {
             case (R.id.regBtnSave): {
 //                Log.i("LOG", loginEditText.getText().toString() + " " + passFirstEditText.getText().toString() + " " +
@@ -291,12 +296,15 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 //            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
 //        }
 
-        onBackPressed();
+//        onBackPressed();
         if (!isRegistrationCHangedFlag) {
             Toast.makeText(this, "Please fill e-mail and password again", Toast.LENGTH_SHORT).show();
         }
         QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
         qitFirebaseUserCreation.registerUser(user, this, dialog);
+
+        startActivity(new Intent(this, AuthorizationActivity.class));
+        this.finish();
 
     }
 
@@ -325,5 +333,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, AuthorizationActivity.class));
+        this.finish();
     }
 }

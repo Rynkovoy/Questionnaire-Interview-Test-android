@@ -43,6 +43,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         //public CardView cardView;
 
         public TextView messageUser;
+        public LinearLayout messageTextLayout;
         public TextView messageText;
         public TextView messageTime;
         public LinearLayout messageLayout;
@@ -54,8 +55,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             //cardView = view.findViewById(R.id.layout_card);
 
             messageUser = view.findViewById(R.id.text_message_name);
-            messageText = view.findViewById(R.id.text_message_body);
+
+            messageTextLayout = view.findViewById(R.id.messageLayoutText);
             messageTime = view.findViewById(R.id.text_message_time);
+            messageText = view.findViewById(R.id.text_message_body);
 
             messageLayout = view.findViewById(R.id.messageLayout);
             mAuth = FirebaseAuth.getInstance();
@@ -80,16 +83,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         if(messagesList.get(position).getUser().getId().equalsIgnoreCase(holder.mAuth.getCurrentUser().getUid())){
             holder.messageLayout.setGravity(Gravity.RIGHT);
             Drawable myBackGround = holder.context.getResources().getDrawable( R.drawable.rounded_rectangle_blue );
-            holder.messageText.setBackground(myBackGround);
+            holder.messageTextLayout.setBackground(myBackGround);
         } else {
             holder.messageLayout.setGravity(Gravity.LEFT);
             Drawable myBackGround = holder.context.getResources().getDrawable( R.drawable.rounded_rectangle_orange );
-            holder.messageText.setBackground(myBackGround);
+            holder.messageTextLayout.setBackground(myBackGround);
         }
 
         holder.messageUser.setText(messagesList.get(position).getUser().getName());
         holder.messageText.setText(messagesList.get(position).getText());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh.mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("hh.mm");
         String folderName = formatter.format(messagesList.get(position).getCreatedAt());
         holder.messageTime.setText(folderName);
     }

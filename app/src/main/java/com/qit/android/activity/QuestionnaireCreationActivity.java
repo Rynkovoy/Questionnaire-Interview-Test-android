@@ -9,6 +9,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -27,6 +28,7 @@ import com.qit.android.models.question.Question;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
+import com.qit.android.utils.BtnClickAnimUtil;
 import com.qit.android.utils.QitEditTextCreator;
 import com.qit.android.utils.QitInputType;
 
@@ -45,12 +47,12 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private LinearLayout llUnderScroll;
     private AppCompatEditText etTitle;
     private AppCompatEditText etDescription;
-    private SwitchCompat switchPassword;
+    //private SwitchCompat switchPassword;
     private SwitchCompat switchStartDate;
     private SwitchCompat switchEndDate;
     private SwitchCompat switchIsAnonymity;
     private SwitchCompat switchAnswersLimit;
-    private TextView btnCancel;
+    //private TextView btnCancel;
     private TextView btnNext;
     private Questionnaire questionnaire;
     private AppCompatEditText etPassword;
@@ -63,6 +65,9 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire_creation);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         initToolbar();
         initViewComponents();
         initQuestionnaire();
@@ -103,7 +108,12 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbarQuestionnaireCreation);
         setSupportActionBar(toolbar);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -143,8 +153,8 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         etTitle = findViewById(R.id.etTitle);
         etDescription = findViewById(R.id.etDescription);
 
-        switchPassword = findViewById(R.id.switchPassword);
-        switchPassword.setOnCheckedChangeListener(this);
+//        switchPassword = findViewById(R.id.switchPassword);
+//        switchPassword.setOnCheckedChangeListener(this);
 
         switchStartDate = findViewById(R.id.switchStartDate);
         switchStartDate.setOnCheckedChangeListener(this);
@@ -158,21 +168,22 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         switchAnswersLimit = findViewById(R.id.switchAnswersLimit);
         switchAnswersLimit.setOnCheckedChangeListener(this);
 
-        btnCancel = findViewById(R.id.btnCancel);
+        //btnCancel = findViewById(R.id.btnCancel);
         btnNext = findViewById(R.id.btnNext);
 
     }
 
 
     public void handleBtnNext(View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         questionnaire.setSummary(String.valueOf(etTitle.getText()));
         questionnaire.setDescription(String.valueOf(etDescription.getText()));
 
-        if (etPassword != null && switchPassword.isChecked()) {
-            questionnaire.setPassword(String.valueOf(etPassword.getText()));
-        } else {
-            questionnaire.setPassword(null);
-        }
+//        if (etPassword != null && switchPassword.isChecked()) {
+//            questionnaire.setPassword(String.valueOf(etPassword.getText()));
+//        } else {
+//            questionnaire.setPassword(null);
+//        }
 
         questionnaire.setAnonymity(switchIsAnonymity.isChecked());
 
@@ -228,6 +239,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
                 intent.putExtra("Questionnaire", questionnaire);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -237,27 +249,12 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         });
     }
 
-    public void handleBtnCancel(View view) {
-        createAndShowAlertDialog();
-    }
 
-    private void createAndShowAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MaterialBaseTheme_AlertDialog);
-        builder.setTitle("Are you sure?");
-        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                startActivity(new Intent(QuestionnaireCreationActivity.this, QitActivity.class));
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                //TODO
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, QitActivity.class));
+        this.finish();
     }
 }
 

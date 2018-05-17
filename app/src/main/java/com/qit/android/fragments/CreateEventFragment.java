@@ -22,6 +22,7 @@ import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.models.event.Event;
 import com.qit.android.rest.utils.QitFirebaseCreateEvent;
+import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.ArrayList;
 
@@ -101,14 +102,14 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, context, 0);
         switch (view.getId()){
             case (R.id.saveEventbtn):{
                 // TODO if radio Btns are chosen show hidden field for password and equal it to not it null
                 if(nameEvent.getText().toString().equalsIgnoreCase("") || descriptionEvent.getText().toString().equalsIgnoreCase("")){
                     Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    if (currenRadioBtnId == R.id.radioButtonFreeEntrance) {
+                    if (currenRadioBtnId == R.id.radioButtonFreeEntrance || currenRadioBtnId == 0) {
                     Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false);
                     QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
                     qitFirebaseCreateEvent.createEventInFirebase(event);
@@ -121,16 +122,15 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
                         QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
                         qitFirebaseCreateEvent.createEventInFirebase(event);
                     }
-
                     onPause();
                 }
+
             }
         }
     }
 
     @Override
     public void onPause() {
-
         cl.setVisibility(View.VISIBLE);
         ll.setVisibility(View.GONE);
         super.onPause();

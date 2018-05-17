@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.loopeer.shadow.ShadowView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/interviewCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="@dimen/_4sdp"
+    android:elevation="8dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cornerRadiusBL="16dp"
+    app:cornerRadiusTR="16dp"
+    app:shadowColor="@color/warm_grey"
+    app:shadowMargin="8dp"
+
+    app:shadowRadius="8dp"
+    tools:targetApi="lollipop">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +36,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="TextView"
-                android:textSize="18sp"
+                android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/linearLayout6"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -46,9 +55,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:maxWidth="128dp"
-                android:padding="8dp"
                 android:text="TextView"
-                android:textSize="14sp"
+                android:textSize="@dimen/_10ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -58,10 +66,10 @@
 
             <ImageView
                 android:id="@+id/civInterview"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="@dimen/_64sdp"
+                android:layout_height="@dimen/_64sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,6 +86,7 @@
                 android:background="@drawable/chat_icon"
                 android:backgroundTint="@color/cardview_dark_background"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -99,9 +108,9 @@
 
                 <ImageButton
                     android:id="@+id/menuImgBtnInterview"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginBottom="4dp"
+                    android:layout_width="@dimen/_22sdp"
+                    android:layout_height="@dimen/_22sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
                     android:background="@drawable/menu_img"
                     android:tint="@color/cardview_dark_background" />
 
@@ -161,4 +170,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</com.loopeer.shadow.ShadowView>

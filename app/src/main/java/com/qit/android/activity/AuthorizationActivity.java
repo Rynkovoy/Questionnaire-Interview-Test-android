@@ -19,6 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +38,9 @@ import com.qit.android.rest.api.AuthorizationApi;
 import com.qit.android.rest.dto.UserCredentialDTO;
 import com.qit.android.rest.utils.QitApi;
 import com.qit.android.rest.utils.QitFirebaseUserLogin;
+import com.qit.android.utils.BtnClickAnimUtil;
+
+import net.igenius.customcheckbox.CustomCheckBox;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,9 +52,9 @@ public class AuthorizationActivity extends AppCompatActivity {
     private AppCompatEditText etPassword;
     private SharedPreferences sharedPreferences;
 
-    private CheckBox rememberCheckBox;
+    private CustomCheckBox rememberCheckBox;
 
-    private TextView etForgotePass;
+    private Button etForgotePass;
 
 
 
@@ -57,6 +62,8 @@ public class AuthorizationActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authorization);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         etLogin = findViewById(R.id.etLoginAut);
         etPassword = findViewById(R.id.etPasswordAut);
@@ -75,6 +82,9 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     public void logIn(final View view) {
+
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
+
         if (etLogin == null || String.valueOf(etLogin.getText()).isEmpty()
                 || etPassword == null || String.valueOf(etPassword.getText()).isEmpty()) {
             Snackbar.make(view, getResources().getText(R.string.empty_credentials), Snackbar.LENGTH_LONG).show();
@@ -107,17 +117,17 @@ public class AuthorizationActivity extends AppCompatActivity {
         QitFirebaseUserLogin qitFirebaseUserLogin = new QitFirebaseUserLogin();
         FirebaseUser firebaseUser = qitFirebaseUserLogin.getFirebaseUser(user, this, dialog, i, transitionActivityOptions);
 
-        if (firebaseUser == null) {
-            etForgotePass.setVisibility(View.VISIBLE);
-            Handler handler = new Handler();
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    etForgotePass.setVisibility(View.GONE);
-                }
-            };
-            handler.postDelayed(runnable, 5000);
-        }
+//        if (firebaseUser == null) {
+//            etForgotePass.setVisibility(View.VISIBLE);
+//            Handler handler = new Handler();
+//            Runnable runnable = new Runnable() {
+//                @Override
+//                public void run() {
+//                    etForgotePass.setVisibility(View.GONE);
+//                }
+//            };
+//            handler.postDelayed(runnable, 5000);
+//        }
     }
 
     @Override
@@ -126,6 +136,9 @@ public class AuthorizationActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
+
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
+
         Intent i = new Intent(AuthorizationActivity.this, RegistrationActivity.class);
 
         View sharedView = findViewById(R.id.imgLogo);
@@ -136,7 +149,12 @@ public class AuthorizationActivity extends AppCompatActivity {
             transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(AuthorizationActivity.this, sharedView, transitionName);
         }
         startActivity(i, transitionActivityOptions.toBundle());
+        finish();
 
+    }
+
+    public void forgot(View view) {
+        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
     }
 }
 

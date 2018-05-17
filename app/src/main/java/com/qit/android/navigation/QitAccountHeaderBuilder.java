@@ -47,17 +47,8 @@ public class QitAccountHeaderBuilder {
                                 .withEmail(FirebaseEventinfoGodObj.getFirebaseUSerEmail())
                                 .withIcon(R.drawable.ic_face_black_36dp)
                 )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
+                .withSelectionListEnabledForSingleProfile(false)
                 .build();
-
-
-
-
 
         return headerResult;
     }

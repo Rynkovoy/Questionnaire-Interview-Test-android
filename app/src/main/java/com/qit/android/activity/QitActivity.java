@@ -2,6 +2,8 @@ package com.qit.android.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -27,13 +31,23 @@ public class QitActivity extends MainActivity {
     private FloatingActionButton mFab;
     private int mPreviousVisibleItem;
     private QuizTabsPagerAdapter quizTabsPagerAdapter;
+    private ImageView fabPlusImg;
 
+    private static Drawable imgOne;
+    private static Drawable imgTwo;
+    private static Drawable imgThree;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qit);
+
+        imgOne = getResources().getDrawable(R.drawable.top_1);
+        imgTwo = getResources().getDrawable(R.drawable.top_2);
+        imgThree = getResources().getDrawable(R.drawable.top_3);
+
+        fabPlusImg = findViewById(R.id.fabPlusImg);
 
         mViewPager = findViewById(R.id.materialViewPager);
         mFab = findViewById(R.id.fabAddQuiz);
@@ -58,7 +72,7 @@ public class QitActivity extends MainActivity {
         quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
 
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount()+1);
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getChildCount()+1);
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -84,12 +98,14 @@ public class QitActivity extends MainActivity {
                 if (pos == 2) {
                     pos = -1;
                     mFab.hide(true);
+                    fabPlusImg.setVisibility(View.GONE);
                 } else {
-
                     if (state > mPreviousVisibleItem) {
                         mFab.hide(true);
+                        fabPlusImg.setVisibility(View.GONE);
                     } else if (state < mPreviousVisibleItem) {
                         mFab.show(true);
+                        fabPlusImg.setVisibility(View.VISIBLE);
                     }
                     mPreviousVisibleItem = state;
                 }
@@ -101,18 +117,18 @@ public class QitActivity extends MainActivity {
             public HeaderDesign getHeaderDesign(int page) {
                 switch (page) {
                     case 0:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.blue,
-                                "https://i.pinimg.com/originals/0c/96/b1/0c96b19dc89ffdaa7ff737cfc04a095f.png");
+                        return HeaderDesign.fromColorAndDrawable(
+                                getResources().getColor(R.color.blue),
+                                imgOne);
                     case 1:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.cyan,
-                                "https://cdn.pixabay.com/photo/2016/03/28/00/37/flat-1284770_960_720.png");
+                        return HeaderDesign.fromColorAndDrawable(
+                                getResources().getColor(R.color.cyan),
+                                imgTwo);
                     case 2:
 
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.green,
-                                "https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/YqGSkmb/videoblocks-black-on-white-fantasy-abstract-technology-and-engineering-motion-background-with-plexus-lines-dots-and-polygon-connected-elements-depth-of-field-settings-3d-rendering_rsmcwklvym_thumbnail-full01.png");
+                        return HeaderDesign.fromColorAndDrawable(
+                                getResources().getColor(R.color.green),
+                                imgThree);
                 }
                 return null;
             }
@@ -158,19 +174,19 @@ public class QitActivity extends MainActivity {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-
-                    try {
-                        final GifImageView givImageView = (GifImageView)findViewById(R.id.funnyGif);
-                        givImageView.setVisibility(View.VISIBLE);
-
-                        new Handler().postDelayed(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        givImageView.setVisibility(View.GONE);
-                                    }
-                                }, 1500);
-                    }catch (Exception e) {e.printStackTrace();}
+//
+//                    try {
+//                        final GifImageView givImageView = (GifImageView)findViewById(R.id.funnyGif);
+//                        givImageView.setVisibility(View.VISIBLE);
+//
+//                        new Handler().postDelayed(
+//                                new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        givImageView.setVisibility(View.GONE);
+//                                    }
+//                                }, 1500);
+//                    }catch (Exception e) {e.printStackTrace();}
                 }
             });
         }
