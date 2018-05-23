@@ -7,5 +7,6 @@ public interface DrawerItemTags {
     String CHAT_TAG = "CHAT_TAG";
     String PROFILE_TAG = "EDIT PROFILE";
     String LOGOUT_TAG = "LOGOUT";
+    String EXIT_TAG = "EXIT";
 
 }

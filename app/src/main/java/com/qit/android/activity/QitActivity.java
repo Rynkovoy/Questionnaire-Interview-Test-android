@@ -27,7 +27,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class QitActivity extends MainActivity {
 
-    private MaterialViewPager mViewPager;
+    public static MaterialViewPager mViewPager;
     private FloatingActionButton mFab;
     private int mPreviousVisibleItem;
     private QuizTabsPagerAdapter quizTabsPagerAdapter;

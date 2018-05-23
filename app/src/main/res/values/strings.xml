@@ -17,6 +17,7 @@
     <string name="auth_banned">You have been banned</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Leave Room</string>
+    <string name="logout_sercher">Logout</string>
 
 
     <!--Quiz creation-->

@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -24,10 +26,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.mikepenz.materialdrawer.Drawer;
 import com.qit.R;
 import com.qit.android.adapters.EventAdapter;
 import com.qit.android.fragments.CreateEventFragment;
 import com.qit.android.models.event.Event;
+import com.qit.android.navigation.QitDrawerBuilder;
 import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.text.SimpleDateFormat;
@@ -42,6 +46,8 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     private Button favoriteEventsBtn;
     private Button allEventsBtn;
     private Button myEventsBtn;
+    private ImageView drawerIcon;
+    private QitDrawerBuilder qitDrawerBuilder;
 
     private Button newEventBtn;
 
@@ -64,6 +70,11 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_finder);
+
+        addToolbar();
+
+        drawerIcon = findViewById(R.id.drawer_icon);
+        drawerIcon.setOnClickListener(this);
 
         favoriteEventsBtn = findViewById(R.id.btn_favorite_events);
         allEventsBtn = findViewById(R.id.btn_all_events);
@@ -151,6 +162,11 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
         favoriteEventsBtn.performClick();
     }
 
+    private void addToolbar() {
+        qitDrawerBuilder = new QitDrawerBuilder(true);
+        qitDrawerBuilder.setToolbar(null).build(this);
+    }
+
     public void UpdateUi(List<Event> events) {
         EventAdapter eventAdapter = new EventAdapter(events);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -162,11 +178,16 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     @Override
     public void onClick(View view) {
 
-        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this, btnsGroup);
-
+        try {
+            BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this, btnsGroup);
+        } catch (Exception e) {e.printStackTrace();}
         switch (view.getId()) {
-            case (R.id.btn_create_new_event): {
+            case (R.id.drawer_icon):{
+                qitDrawerBuilder.drawer.openDrawer();
+                break;
+            }
 
+            case (R.id.btn_create_new_event): {
                 ConstraintLayout cl = findViewById(R.id.mainConstraintLayoutEventCreation);
                 cl.setVisibility(View.GONE);
 

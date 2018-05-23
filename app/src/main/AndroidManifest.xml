@@ -27,7 +27,8 @@
         <activity android:name=".android.activity.MainActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".android.activity.QitActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:largeHeap="true"/>
         <activity android:name=".android.activity.QuestionnaireCreationActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".android.activity.InterviewCreationActivity"

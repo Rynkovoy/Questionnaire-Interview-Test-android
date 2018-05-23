@@ -56,8 +56,6 @@ public class AuthorizationActivity extends AppCompatActivity {
 
     private Button etForgotePass;
 
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,27 +71,40 @@ public class AuthorizationActivity extends AppCompatActivity {
 
         String sharedLogin = PreferenceManager.getDefaultSharedPreferences(this).getString("LOGIN", "");
         String sharedPassword = PreferenceManager.getDefaultSharedPreferences(this).getString("PASSWORD", "");
+        String sharedIsChecked = PreferenceManager.getDefaultSharedPreferences(this).getString("ISCHECKED", "");
+
+        if (sharedIsChecked.equalsIgnoreCase("true")){
+            rememberCheckBox.setChecked(true);
+        }
 
         if (!sharedLogin.equalsIgnoreCase("") && !sharedPassword.equalsIgnoreCase("")){
             etLogin.setText(sharedLogin);
-            etPassword.setText(sharedPassword);
-        }
-
+            etPassword.setText(sharedPassword);}
+                if (rememberCheckBox.isChecked()){
+                    logIn(null);
+                }
     }
 
     public void logIn(final View view) {
 
-        BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
+        try {
+            BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
 
-        if (etLogin == null || String.valueOf(etLogin.getText()).isEmpty()
-                || etPassword == null || String.valueOf(etPassword.getText()).isEmpty()) {
-            Snackbar.make(view, getResources().getText(R.string.empty_credentials), Snackbar.LENGTH_LONG).show();
-            return;
-        }
+            if (etLogin == null || String.valueOf(etLogin.getText()).isEmpty()
+                    || etPassword == null || String.valueOf(etPassword.getText()).isEmpty()) {
+                Snackbar.make(view, getResources().getText(R.string.empty_credentials), Snackbar.LENGTH_LONG).show();
+                return;
+            }
+        } catch (Exception e){e.printStackTrace();}
 
-        if (rememberCheckBox.isEnabled()){
+        if (rememberCheckBox.isChecked()){
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString("LOGIN", String.valueOf(etLogin.getText())).apply();
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString("PASSWORD", String.valueOf(etPassword.getText())).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("ISCHECKED", String.valueOf("true")).apply();
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("LOGIN", String.valueOf("")).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("PASSWORD", String.valueOf("")).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString("ISCHECKED", String.valueOf("")).apply();
         }
 
         final UserCreds user = new UserCreds();
@@ -149,7 +160,7 @@ public class AuthorizationActivity extends AppCompatActivity {
             transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(AuthorizationActivity.this, sharedView, transitionName);
         }
         startActivity(i, transitionActivityOptions.toBundle());
-        finish();
+        //finish();
 
     }
 

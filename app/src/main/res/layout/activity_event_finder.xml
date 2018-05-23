@@ -18,24 +18,54 @@
             android:layout_height="@dimen/_42sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:transitionName="appLogo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchPlace"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:srcCompat="@drawable/qit_logo" />
 
-        <SearchView
-            android:id="@+id/searchPlace"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:background="@color/material_drawer_divider"
-            android:visibility="visible"
+            android:gravity="right"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toTopOf="parent">
 
-        </SearchView>
+            <ImageView
+                android:id="@+id/drawer_icon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_reorder_black_36dp"
+                app:layout_constraintBottom_toBottomOf="@+id/searchPlace"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/searchPlace" />
+
+            <SearchView
+                android:id="@+id/searchPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </SearchView>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_detailed"

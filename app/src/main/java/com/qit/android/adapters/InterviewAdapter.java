@@ -49,8 +49,8 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
-        private ShadowView interviewCardView;
-
+                private ShadowView interviewCardView;
+//        private CardView interviewCardView;
         private ImageView civQuestionnaire;
         private TextView tvTitle;
         private TextView tvTopic;
@@ -110,6 +110,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
     private boolean isAlreadyEditTextOpened = false;
 
     private int clickCounter;
+
     @Override
     public void onBindViewHolder(final InterviewViewHolder holder, final int position) {
         final Interview interviewDTO = interviewDTOs.get(position);
@@ -122,13 +123,13 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         TextView tempTv = new TextView(holder.view.getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
                 ((int) LinearLayout.LayoutParams.WRAP_CONTENT, (int) LinearLayout.LayoutParams.WRAP_CONTENT);
-        tempTv.setText("There are "+interviewDTO.getComments().size()+" comments");
+        tempTv.setText("There are " + interviewDTO.getComments().size() + " comments");
         tempTv.setTextSize((float) 14);
         tempTv.setLayoutParams(params);
 
         final ImageButton imb = new ImageButton(holder.view.getContext());
         imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_down_float));
-        imb.setPadding(32, 0 , 0 ,0);
+        imb.setPadding(32, 0, 0, 0);
         imb.setLayoutParams(params);
 
         holder.interviewCounterLinearLayout.addView(tempTv);
@@ -138,9 +139,9 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
             @Override
             public void onClick(View view) {
                 //holder.interviewCounterLinearLayout.setVisibility(View.GONE);
-                if(clickCounter == 0) {
+                if (clickCounter == 0) {
                     clickCounter++;
-                imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_up_float));
+                    imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_up_float));
                     if (interviewDTO.getComments().size() != 0) {
                         holder.ll.removeAllViews();
                         for (int x = 0; x < interviewDTO.getComments().size(); x++) {
@@ -216,7 +217,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
                             holder.ll.addView(borderText);
 
                             final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            final DatabaseReference myRef = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/" + (interviewDTOs.size()-1-position));
+                            final DatabaseReference myRef = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/" + (interviewDTOs.size() - 1 - position));
                             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -271,15 +272,15 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
             @Override
             public void onClick(View view) {
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                final DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                final DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
                 myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                            Event event = dataSnapshot.getValue(Event.class);
-                            event.getInterviewsList().remove(event.getInterviewsList().size()-1-position);
-                            DatabaseReference myRefTemp = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/interviewsList/");
-                            myRefTemp.removeValue();
-                            myRefTemp.setValue(event.getInterviewsList());
+                        Event event = dataSnapshot.getValue(Event.class);
+                        event.getInterviewsList().remove(event.getInterviewsList().size() - 1 - position);
+                        DatabaseReference myRefTemp = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/");
+                        myRefTemp.removeValue();
+                        myRefTemp.setValue(event.getInterviewsList());
                     }
 
                     @Override

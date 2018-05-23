@@ -125,8 +125,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("user"+"/"+firebaseUser.getUid());
-
+            DatabaseReference myRef = database.getReference("user" + "/" + firebaseUser.getUid());
 
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -231,32 +230,34 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
                         phoneEditText.getText().toString(), birthDayEditText.getText().toString())) {
 
-                    if (samePassCheck(passFirstEditText.getText().toString(), passSecEditText.getText().toString())) {
+                    if (android.util.Patterns.PHONE.matcher(phoneEditText.getText().toString()).matches()) {
 
-                        if (isValidEmail(loginEditText.getText().toString())) {
+                        if (samePassCheck(passFirstEditText.getText().toString(), passSecEditText.getText().toString())) {
 
-                            String gender;
-                            if (genderSpinner.getItemAtPosition(genderSpinner.getSelectedItemPosition()).toString().equalsIgnoreCase(Gender.MALE.toString())) {
-                                gender = Gender.MALE.toString();
-                            } else if (genderSpinner.getItemAtPosition(genderSpinner.getSelectedItemPosition()).toString().equalsIgnoreCase(Gender.FEMALE.toString())) {
-                                gender = Gender.MALE.toString();
+                            if (isValidEmail(loginEditText.getText().toString())) {
+                                String gender;
+                                if (genderSpinner.getItemAtPosition(genderSpinner.getSelectedItemPosition()).toString().equalsIgnoreCase(Gender.MALE.toString())) {
+                                    gender = Gender.MALE.toString();
+                                } else if (genderSpinner.getItemAtPosition(genderSpinner.getSelectedItemPosition()).toString().equalsIgnoreCase(Gender.FEMALE.toString())) {
+                                    gender = Gender.MALE.toString();
+                                } else {
+                                    gender = "NO GENDER";
+                                }
+
+                                User user = new User(
+                                        loginEditText.getText().toString(), passFirstEditText.getText().toString(),
+                                        true, firstNameEditText.getText().toString(),
+                                        lastNameEditText.getText().toString(), phoneEditText.getText().toString(),
+                                        parseStringToDate(birthDayEditText.getText().toString()), userInfoEditText.getText().toString(),
+                                        gender/*, null, null*/
+                                );
+
+                                pushUser(user);
+                                //TODO: CHECK, IF DB HAS SAME LOGIN (EMAIL)!!!
+
                             } else {
-                                gender = "NO GENDER";
+                                Toast.makeText(this, "E-mail not valid!", Toast.LENGTH_SHORT).show();
                             }
-
-                            User user = new User(
-                                    loginEditText.getText().toString(), passFirstEditText.getText().toString(),
-                                    true, firstNameEditText.getText().toString(),
-                                    lastNameEditText.getText().toString(), phoneEditText.getText().toString(),
-                                    parseStringToDate(birthDayEditText.getText().toString()), userInfoEditText.getText().toString(),
-                                    gender/*, null, null*/
-                            );
-
-                            pushUser(user);
-                            //TODO: CHECK, IF DB HAS SAME LOGIN (EMAIL)!!!
-
-                        } else {
-                            Toast.makeText(this, "E-mail not valid!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(this, "Password is not the same, check it once more!", Toast.LENGTH_SHORT).show();
@@ -299,11 +300,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 //        onBackPressed();
         if (!isRegistrationCHangedFlag) {
             Toast.makeText(this, "Please fill e-mail and password again", Toast.LENGTH_SHORT).show();
+            QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
+            qitFirebaseUserCreation.registerUser(user, this, dialog);
+            startActivity(new Intent(this, AuthorizationActivity.class));
+            finish();
+        } else {
+            QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
+            qitFirebaseUserCreation.changeUserData(user, this, dialog);
+            startActivity(new Intent(this, QitActivity.class));
+            finish();
         }
-        QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
-        qitFirebaseUserCreation.registerUser(user, this, dialog);
 
-        startActivity(new Intent(this, AuthorizationActivity.class));
         this.finish();
 
     }
@@ -337,7 +344,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, AuthorizationActivity.class));
+        if (isRegistrationCHangedFlag) {
+            startActivity(new Intent(this, NewEventOrChoseEventActivity.class));
+        } else {
+            startActivity(new Intent(this, AuthorizationActivity.class));
+        }
         this.finish();
     }
 }

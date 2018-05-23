@@ -1,8 +1,10 @@
 package com.qit.android.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -20,7 +22,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
+import com.qit.android.activity.QitActivity;
 import com.qit.android.models.event.Event;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.utils.QitFirebaseCreateEvent;
 import com.qit.android.utils.BtnClickAnimUtil;
 
@@ -112,22 +116,24 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
                     if (currenRadioBtnId == R.id.radioButtonFreeEntrance || currenRadioBtnId == 0) {
                     Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false);
                     QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
-                    qitFirebaseCreateEvent.createEventInFirebase(event);
+                    qitFirebaseCreateEvent.createEventInFirebase(context, event);
                     } else if (currenRadioBtnId == R.id.radioButtonPassword) {
                         Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", passwordEvent.getText().toString(), mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), false, false);
                         QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
-                        qitFirebaseCreateEvent.createEventInFirebase(event);
+                        qitFirebaseCreateEvent.createEventInFirebase(context, event);
                     } else if (currenRadioBtnId == R.id.radioButtonConfirm) {
                         Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), false, true);
                         QitFirebaseCreateEvent qitFirebaseCreateEvent = new QitFirebaseCreateEvent(mAuth);
-                        qitFirebaseCreateEvent.createEventInFirebase(event);
+                        qitFirebaseCreateEvent.createEventInFirebase(context, event);
                     }
-                    onPause();
+
+                    //onPause();
                 }
 
             }
         }
     }
+
 
     @Override
     public void onPause() {

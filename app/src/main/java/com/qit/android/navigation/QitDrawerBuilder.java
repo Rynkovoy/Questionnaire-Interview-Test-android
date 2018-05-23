@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +20,14 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.qit.R;
 import com.qit.android.activity.AuthorizationActivity;
+import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.RegistrationActivity;
+import com.qit.android.adapters.QuizTabsPagerAdapter;
 import com.qit.android.constants.DrawerItemTags;
 import com.qit.android.constants.SharedPreferencesTags;
+import com.qit.android.fragments.QuestionnaireTabFragment;
 import com.qit.android.models.quiz.Interview;
+import com.qit.android.models.quiz.Quiz;
 import com.qit.android.rest.utils.FirebaseCountObjInList;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -38,9 +44,16 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
     private SecondaryDrawerItem itemChat;
     private SecondaryDrawerItem editProfile;
     private SecondaryDrawerItem itemLogout;
+    public Drawer drawer;
+    private boolean flag;
 
     public QitDrawerBuilder() {
         this.drawerBuilder = new DrawerBuilder();
+    }
+
+    public QitDrawerBuilder(boolean flag) {
+        this.drawerBuilder = new DrawerBuilder();
+        this.flag = flag;
     }
 
     public QitDrawerBuilder setActivity(Activity activity) {
@@ -61,49 +74,67 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
         itemInterview = new SecondaryDrawerItem().withTag(DrawerItemTags.INTER_TAB).withIcon(activity.getResources().getDrawable(R.drawable.ico_interv)).withName(R.string.Interviews);
         itemChat = new SecondaryDrawerItem().withTag(DrawerItemTags.CHAT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_chat)).withName(R.string.Room_Chat);
         editProfile = new SecondaryDrawerItem().withTag(DrawerItemTags.PROFILE_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_settings)).withName(R.string.edit_profile);
-        itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_exit)).withName(R.string.logout);
+        if (!flag) {
+            itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.LOGOUT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_exit)).withName(R.string.logout);
+        } else {
+            itemLogout = new SecondaryDrawerItem().withTag(DrawerItemTags.EXIT_TAG).withIcon(activity.getResources().getDrawable(R.drawable.ico_exit)).withName(R.string.logout_sercher);
+        }
 
         FirebaseCountObjInList firebaseCountObjInList = new FirebaseCountObjInList(itemQuestionnaire, itemInterview);
         firebaseCountObjInList.getIntOfElems();
 
         AccountHeader accountHeaderBuilder = new QitAccountHeaderBuilder().setActivity(activity).build();
 
-        return drawerBuilder
-                .addDrawerItems(
-                        itemQuestionnaire,
-                        itemInterview,
-                        itemChat,
-                        editProfile,
-                        itemLogout
-                )
-                .withOnDrawerItemClickListener(this)
-                .withAccountHeader(accountHeaderBuilder)
-                .withActionBarDrawerToggle(true)
-                .build();
+        if (!flag) {
+            drawer = drawerBuilder
+                    .addDrawerItems(
+                            itemQuestionnaire,
+                            itemInterview,
+                            itemChat,
+                            editProfile,
+                            itemLogout
+                    )
+                    .withOnDrawerItemClickListener(this)
+                    .withAccountHeader(accountHeaderBuilder)
+                    .withActionBarDrawerToggle(true)
+                    .build();
+        } else {
+            drawer = drawerBuilder
+                    .addDrawerItems(
+                            editProfile,
+                            itemLogout
+                    )
+                    .withOnDrawerItemClickListener(this)
+                    .withAccountHeader(accountHeaderBuilder)
+                    .withActionBarDrawerToggle(true)
+                    .build();
+        }
+        return drawer;
     }
 
     @Override
     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
         switch (String.valueOf(drawerItem.getTag())) {
             case DrawerItemTags.QUEST_TAB:
-                //Toast.makeText(view.getContext(), "Questionnaires", Toast.LENGTH_SHORT).show();
+                QitActivity.mViewPager.getViewPager().setCurrentItem(0);
                 break;
             case DrawerItemTags.INTER_TAB:
-                //Toast.makeText(view.getContext(), "Interviews", Toast.LENGTH_SHORT).show();
+                QitActivity.mViewPager.getViewPager().setCurrentItem(1);
                 break;
             case DrawerItemTags.CHAT_TAG:
-                //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
+                QitActivity.mViewPager.getViewPager().setCurrentItem(2);
                 break;
             case DrawerItemTags.PROFILE_TAG:
                 Intent intent = new Intent(activity.getApplicationContext(), RegistrationActivity.class);
                 intent.putExtra("isRegistrationCHangedFlag", true);
-
                 activity.getApplicationContext().startActivity(intent.setFlags(FLAG_ACTIVITY_NEW_TASK));
-
                 //Toast.makeText(view.getContext(), "Events", Toast.LENGTH_SHORT).show();
                 break;
             case DrawerItemTags.LOGOUT_TAG:
                 logout();
+                break;
+            case DrawerItemTags.EXIT_TAG:
+                exit();
                 break;
         }
         return false;
@@ -117,6 +148,20 @@ public class QitDrawerBuilder implements Drawer.OnDrawerItemClickListener {
             editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, false);
             editor.commit();
             activity.onBackPressed();
+        }
+    }
+
+    private void exit() {
+        if (activity != null) {
+            //sharedPreferences = activity.getSharedPreferences(AuthorizationActivity.class.getName(), Context.MODE_PRIVATE);
+            //SharedPreferences.Editor editor = sharedPreferences.edit();
+            //editor.putBoolean(SharedPreferencesTags.IS_AUTHORIZE, false);
+            //editor.commit();
+            PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("LOGIN", String.valueOf("")).apply();
+            PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("PASSWORD", String.valueOf("")).apply();
+            PreferenceManager.getDefaultSharedPreferences(activity).edit().putString("ISCHECKED", String.valueOf("")).apply();
+            activity.startActivity(new Intent(activity, AuthorizationActivity.class));
+            //activity.onBackPressed();
         }
     }
 }

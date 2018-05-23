@@ -14,7 +14,7 @@ import java.util.List;
 public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<String> tabsTitle;
-    private FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
 
     public QuizTabsPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);

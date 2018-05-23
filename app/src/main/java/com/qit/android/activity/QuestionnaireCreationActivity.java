@@ -1,13 +1,16 @@
 package com.qit.android.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
@@ -59,12 +62,15 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private AppCompatEditText etStartDate;
     private AppCompatEditText etEndDate;
     private AppCompatEditText etAnswersLimit;
+    private Context context;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questionnaire_creation);
+
+        context = this;
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -174,7 +180,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     }
 
 
-    public void handleBtnNext(View view) {
+    public void handleBtnNext(final View view) {
         BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         questionnaire.setSummary(String.valueOf(etTitle.getText()));
         questionnaire.setDescription(String.valueOf(etDescription.getText()));
@@ -198,7 +204,14 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
         } else {
-            questionnaire.setStartDate(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date c = new Date();
+            try {
+                c= sdf.parse("2000-01-01");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            questionnaire.setStartDate(c);
         }
 
         if (etEndDate != null && switchEndDate.isChecked()) {
@@ -212,13 +225,20 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 e.printStackTrace();
             }
         } else {
-            questionnaire.setStartDate(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date c = new Date();
+            try {
+                c= sdf.parse("2099-01-01");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            questionnaire.setEndDate(c);
         }
 
         if (etAnswersLimit != null && switchAnswersLimit.isChecked()) {
             questionnaire.setAnswerLimit(Integer.parseInt(String.valueOf(etAnswersLimit.getText())));
         } else {
-            questionnaire.setAnswerLimit(null);
+            questionnaire.setAnswerLimit(999999);
         }
 
         //todo change to user from realm
@@ -233,13 +253,17 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (!etTitle.getText().equals("") && !etDescription.getText().equals("")){
+                    Log.i("HERE",etTitle.getText()+" "+etDescription.getText());
                 User user = dataSnapshot.getValue(User.class);
                 questionnaire.setAuthor(user);
 
                 Intent intent = new Intent(QuestionnaireCreationActivity.this, QuestionsCreationActivity.class);
                 intent.putExtra("Questionnaire", questionnaire);
                 startActivity(intent);
-                finish();
+                finish();}
+                else { Snackbar.make(view, "Please fill title and description", 0).show();}
             }
 
             @Override

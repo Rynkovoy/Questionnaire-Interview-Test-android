@@ -14,6 +14,7 @@ import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class QitFirebaseGetEventQuestionList {
@@ -21,7 +22,7 @@ public class QitFirebaseGetEventQuestionList {
     public List<Questionnaire> getListQuestions(final QuestionnaireAdapter questionnaireAdapter, final List<Questionnaire> qList) {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        DatabaseReference myRef = database.getReference("event");
+        final DatabaseReference myRef = database.getReference("event");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -36,6 +37,8 @@ public class QitFirebaseGetEventQuestionList {
                                     qList.add(q);
                                 }
                                 Collections.reverse(qList);
+                                myRef.removeEventListener(this);
+
                                 try {
                                     questionnaireAdapter.notifyDataSetChanged();
                                 } catch (Exception e) {e.printStackTrace();}

@@ -26,6 +26,7 @@ import com.qit.android.rest.utils.QitFirebaseGetEventQuestionList;
 import com.qit.android.rest.utils.QitFirebaseGettingEventList;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,6 +52,7 @@ public class QuestionnaireTabFragment extends Fragment {
         //final List<Questionnaire> questionnaires = new ArrayList<>();
 
         QitFirebaseGetEventQuestionList qitFirebaseGetEventQuestionList = new QitFirebaseGetEventQuestionList();
+
         questionnaireAdapter = new QuestionnaireAdapter(questionnaires);
         qitFirebaseGetEventQuestionList.getListQuestions(questionnaireAdapter, questionnaires);
 

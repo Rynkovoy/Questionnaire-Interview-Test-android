@@ -1,5 +1,6 @@
 package com.qit.android.adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -103,6 +104,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     date = new String(a);
                     FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_" + eventList.get(position).getEventOwner() + "_" + date);
                     holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+                    Activity activity = (Activity) holder.context;
+                    activity.finish();
                 }
             });
         } else if (!eventList.get(position).getEventPassword().equalsIgnoreCase("")) {

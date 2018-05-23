@@ -11,19 +11,23 @@
 
     <include layout="@layout/material_view_pager_placeholder" />
 
-    <com.loopeer.shadow.ShadowView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/custom_btn"
-        android:elevation="@dimen/_8sdp"
-        app:cornerRadiusBL="@dimen/_16sdp"
-        app:cornerRadiusBR="@dimen/_16sdp"
-        app:cornerRadiusTL="@dimen/_16sdp"
-        app:cornerRadiusTR="@dimen/_16sdp"
-        app:shadowColor="@color/warm_grey"
-        app:shadowMargin="@dimen/_8sdp"
-        app:shadowRadius="@dimen/_8sdp"
-        tools:targetApi="lollipop">
+        android:layout_height="match_parent">
+
+    <!--<com.loopeer.shadow.ShadowView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/custom_btn"-->
+        <!--android:elevation="@dimen/_8sdp"-->
+        <!--app:cornerRadiusBL="@dimen/_16sdp"-->
+        <!--app:cornerRadiusBR="@dimen/_16sdp"-->
+        <!--app:cornerRadiusTL="@dimen/_16sdp"-->
+        <!--app:cornerRadiusTR="@dimen/_16sdp"-->
+        <!--app:shadowColor="@color/warm_grey"-->
+        <!--app:shadowMargin="@dimen/_8sdp"-->
+        <!--app:shadowRadius="@dimen/_8sdp"-->
+        <!--tools:targetApi="lollipop">-->
 
         <LinearLayout
             android:id="@+id/llForListView"
@@ -39,6 +43,6 @@
 
         </LinearLayout>
 
-    </com.loopeer.shadow.ShadowView>
+    </android.support.v7.widget.CardView>
 </LinearLayout>
 

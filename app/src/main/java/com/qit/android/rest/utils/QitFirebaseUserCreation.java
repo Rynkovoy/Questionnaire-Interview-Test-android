@@ -37,6 +37,7 @@ public class QitFirebaseUserCreation {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             Log.d("USER_FIREBASE", "createUserWithEmail:success");
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
@@ -58,5 +59,16 @@ public class QitFirebaseUserCreation {
                     }
                 });
 
+    }
+
+    public void changeUserData(final User user, final Context context, final ProgressDialog progressDialog /**, final Intent intent, final ActivityOptions transitionActivityOptions**/){
+
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("user"+"/"+firebaseUser.getUid());
+        myRef.removeValue();
+        myRef.setValue(user);
+        progressDialog.dismiss();
     }
 }

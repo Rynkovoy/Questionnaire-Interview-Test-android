@@ -1,5 +1,6 @@
 package com.qit.android.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.GraphicActivity;
 import com.qit.android.activity.QitActivity;
@@ -22,6 +24,7 @@ import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -29,7 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdapter.QuestionnaireViewHolder> {
 
-    private List<Questionnaire> questionnaires;
+    public List<Questionnaire> questionnaires;
     private Context context;
 
     public class QuestionnaireViewHolder extends RecyclerView.ViewHolder {
@@ -42,7 +45,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         private ImageButton editbtn;
         private ImageButton delBtn;
 
-        //private CardView cardView;
+        private ShadowView cardView;
 
         //public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
 
@@ -51,7 +54,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
             civQuestionnaire.setImageResource(R.drawable.question_img);
 
-            //cardView = view.findViewById(R.id.cardView);
+            cardView = view.findViewById(R.id.cardView);
 
             menuBtn = view.findViewById(R.id.menuImgBtn);
             statBtn = view.findViewById(R.id.statImgBtn);
@@ -84,6 +87,20 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         Questionnaire questionnaire = questionnaires.get(position);
         holder.tvTitle.setText(questionnaire.getSummary());
 
+        Log.i("LOG_HERE", questionnaire.getStartDate().before(new Date())+" "+ questionnaire.getStartDate() + " " + new Date());
+        Log.i("LOG_HERE", questionnaire.getEndDate().after(new Date())+"");
+        Log.i("LOG_HERE", (questionnaire.getAnswerLimit() < 0)+"");
+//
+//            if (!questionnaire.getStartDate().after(new Date())) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
+//                holder.cardView.setVisibility(View.GONE);
+//            }
+//            if (!questionnaire.getEndDate().before(new Date())) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
+//                holder.cardView.setVisibility(View.GONE);
+//            }
+//            if (questionnaire.getAnswerLimit() < 0) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
+//                holder.cardView.setVisibility(View.GONE);
+//            }
+
         if (!questionnaire.getDescription().equalsIgnoreCase("")) {
             holder.tvTopic.setText(questionnaire.getDescription());
         } else {
@@ -97,13 +114,15 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
                 intent.putExtra("Questionnaire", questionnaires.get(position));
                 FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
                 context.startActivity(intent);
+                Activity activity = (Activity) context;
+                activity.finish();
             }
         });
 
         holder.menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.statBtn.getVisibility() == View.GONE){
+                if (holder.statBtn.getVisibility() == View.GONE) {
                     //holder.editbtn.setVisibility(View.VISIBLE);
                     holder.statBtn.setVisibility(View.VISIBLE);
                     holder.delBtn.setVisibility(View.VISIBLE);
@@ -120,6 +139,8 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             public void onClick(View view) {
                 FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
                 context.startActivity(new Intent(context, GraphicActivity.class));
+                Activity activity = (Activity) context;
+                activity.finish();
             }
         });
     }
