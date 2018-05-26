@@ -31,6 +31,7 @@ import com.qit.R;
 import com.qit.android.adapters.EventAdapter;
 import com.qit.android.fragments.CreateEventFragment;
 import com.qit.android.models.event.Event;
+import com.qit.android.models.user.User;
 import com.qit.android.navigation.QitDrawerBuilder;
 import com.qit.android.utils.BtnClickAnimUtil;
 
@@ -46,6 +47,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     private Button favoriteEventsBtn;
     private Button allEventsBtn;
     private Button myEventsBtn;
+
     private ImageView drawerIcon;
     private QitDrawerBuilder qitDrawerBuilder;
 
@@ -127,13 +129,6 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
             }
         });
 
-//        searchLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                searchView.performClick();
-//            }
-//        });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -159,7 +154,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
             }
         });
 
-        favoriteEventsBtn.performClick();
+        allEventsBtn.performClick();
     }
 
     private void addToolbar() {
@@ -205,27 +200,8 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 break;
             }
             case (R.id.btn_my_events): {
-//
-//
-//
-//
-//
-//
-//
-//                need METHOD!!!
-//
-//
-//
-//
-//
-//
-//                UpdateUi(favoriteEventList);
-                break;
-            }
-            case (R.id.btn_favorite_events): {
                 List<Event> favoriteEventList = new ArrayList<>();
 
-                // Add to list all events that was created by your UID
                 for (int x = 0; x < eventList.size(); x++) {
                     if (eventList.get(x).getEventOwner().equalsIgnoreCase(mAuth.getCurrentUser().getUid())) {
                         favoriteEventList.add(eventList.get(x));
@@ -241,9 +217,37 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 UpdateUi(favoriteEventList);
                 break;
             }
+            case (R.id.btn_favorite_events): {
+                final List<Event> favoriteEventList = new ArrayList<>();
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference myRef = database.getReference("user");
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            if (childDataSnapshot.getKey().equalsIgnoreCase(mAuth.getUid())) {
+                                User user = childDataSnapshot.getValue(User.class);
+                                for (int x = 0; x < user.getFavoriteEvents().size(); x++){
+                                    for (int y = 0 ; y < eventList.size(); y++) {
+                                        if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(y).getFullHeader())) {
+                                            favoriteEventList.add(eventList.get(y));
+                                        }
+                                    }
+                                }
+                                UpdateUi(favoriteEventList);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                break;
+            }
             case (R.id.btn_all_events): {
                 UpdateUi(eventList);
-
                 break;
             }
         }
@@ -258,7 +262,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.back_press, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

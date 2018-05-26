@@ -53,6 +53,8 @@ public class QuestionnaireTabFragment extends Fragment {
 
         QitFirebaseGetEventQuestionList qitFirebaseGetEventQuestionList = new QitFirebaseGetEventQuestionList();
 
+
+
         questionnaireAdapter = new QuestionnaireAdapter(questionnaires);
         qitFirebaseGetEventQuestionList.getListQuestions(questionnaireAdapter, questionnaires);
 

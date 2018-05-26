@@ -28,7 +28,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class QitActivity extends MainActivity {
 
     public static MaterialViewPager mViewPager;
-    private FloatingActionButton mFab;
+    public static FloatingActionButton mFab;
     private int mPreviousVisibleItem;
     private QuizTabsPagerAdapter quizTabsPagerAdapter;
     private ImageView fabPlusImg;
@@ -36,6 +36,8 @@ public class QitActivity extends MainActivity {
     private static Drawable imgOne;
     private static Drawable imgTwo;
     private static Drawable imgThree;
+
+    public static boolean isShowFab = true;
 
 
     @Override
@@ -56,7 +58,6 @@ public class QitActivity extends MainActivity {
         configureMaterialViewPager();
         configureFloatingActionButton();
         configureTopLogo();
-
     }
 
 
@@ -68,7 +69,14 @@ public class QitActivity extends MainActivity {
     }
 
 
+    public static String aa;
+    public static String bb;
+    public static String cc;
     private void configureMaterialViewPager() {
+        aa = getString(R.string.que);
+        bb = getString(R.string.the_ch);
+        cc = getString(R.string.roo_ch);
+
         quizTabsPagerAdapter = new QuizTabsPagerAdapter(getSupportFragmentManager());
 
         mViewPager.getViewPager().setAdapter(quizTabsPagerAdapter);
@@ -86,7 +94,6 @@ public class QitActivity extends MainActivity {
 
             @Override
             public void onPageSelected(int position) {
-                //Toast.makeText(QitActivity.this, position+"", Toast.LENGTH_SHORT).show();
                 if(position == 2) {
                     pos = position;
                 }
@@ -94,20 +101,21 @@ public class QitActivity extends MainActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
-                if (pos == 2) {
-                    pos = -1;
-                    mFab.hide(true);
-                    fabPlusImg.setVisibility(View.GONE);
-                } else {
-                    if (state > mPreviousVisibleItem) {
+                    if (pos == 2) {
+                        pos = -1;
                         mFab.hide(true);
                         fabPlusImg.setVisibility(View.GONE);
-                    } else if (state < mPreviousVisibleItem) {
-                        mFab.show(true);
-                        fabPlusImg.setVisibility(View.VISIBLE);
+                    } else {
+                        if (isShowFab) {
+                        if (state > mPreviousVisibleItem) {
+                            mFab.hide(true);
+                            fabPlusImg.setVisibility(View.GONE);
+                        } else if (state < mPreviousVisibleItem) {
+                            mFab.show(true);
+                            fabPlusImg.setVisibility(View.VISIBLE);
+                        }
+                        mPreviousVisibleItem = state;
                     }
-                    mPreviousVisibleItem = state;
                 }
             }
         });
@@ -174,19 +182,6 @@ public class QitActivity extends MainActivity {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-//
-//                    try {
-//                        final GifImageView givImageView = (GifImageView)findViewById(R.id.funnyGif);
-//                        givImageView.setVisibility(View.VISIBLE);
-//
-//                        new Handler().postDelayed(
-//                                new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        givImageView.setVisibility(View.GONE);
-//                                    }
-//                                }, 1500);
-//                    }catch (Exception e) {e.printStackTrace();}
                 }
             });
         }

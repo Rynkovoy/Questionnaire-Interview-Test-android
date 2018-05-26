@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -44,13 +45,9 @@ public class GraphicActivity extends AppCompatActivity {
 
         headerTv = findViewById(R.id.header_text_graphic);
         scrollView = findViewById(R.id.scroll_graphics);
-
         createGraphics();
-
-
     }
 
-    private List<Questionnaire> qList = new ArrayList<>();
 
     public void createGraphics() {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -67,12 +64,9 @@ public class GraphicActivity extends AppCompatActivity {
                     answerList.add(answer);
                 }
 
-                //Log.i("DATA_", counter[0]+"");
 
                 try {
-
                     int[] counterRadio = new int[answerList.get(0).getResults().size()];
-
                     for (int x = 0; x < answerList.size(); x++) {
                         for (int y = 0; y < answerList.get(x).getResults().size(); y++) {
 
@@ -126,5 +120,8 @@ public class GraphicActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void onBackPressed() {
+        this.startActivity(new Intent(this, QitActivity.class));
+    }
 }

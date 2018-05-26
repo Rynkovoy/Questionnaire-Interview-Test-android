@@ -62,16 +62,18 @@ public class InterviewCreationActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        try{
+        try {
             Intent intent = getIntent();
             position = intent.getIntExtra("Position", -1);
-        } catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         initToolbar();
         initViewComponents();
         initInterview();
 
-        if (position != -1){
+        if (position != -1) {
             getEventDataFromFB(position);
         }
 
@@ -114,6 +116,7 @@ public class InterviewCreationActivity extends AppCompatActivity {
         interview.setSummary(String.valueOf(etTitle.getText()));
         interview.setDescription(String.valueOf(etDescription.getText()));
 
+
         // TODO NEED TO BE IN OTHER CLASS LIKE FIREBASE GET USER
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -122,25 +125,65 @@ public class InterviewCreationActivity extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!interview.getSummary().equalsIgnoreCase("") || !interview.getDescription().equalsIgnoreCase("")) {
+                if (!interview.getSummary().equalsIgnoreCase("") || !interview.getDescription().equalsIgnoreCase("")) {
                     for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                        Event event = childDataSnapshot.getValue(Event.class);
+                        final Event event = childDataSnapshot.getValue(Event.class);
                         if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
                             if (event.getInterviewsList().size() == 0) {
-                                event.getInterviewsList().add(interview);
+
+                                final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                DatabaseReference myRef = database.getReference("user"+"/"+mAuth.getCurrentUser().getUid());
+                                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        User user = dataSnapshot.getValue(User.class);
+                                        interview.setAuthor(user);
+                                        event.getInterviewsList().add(interview);
+                                        DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                                        myRef.setValue(event);
+
+                                        startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+
                             } else {
                                 if (position == -1) {
-                                    event.getInterviewsList().add(interview);
+
+                                    final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    DatabaseReference myRef = database.getReference("user"+"/"+mAuth.getCurrentUser().getUid());
+                                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            User user = dataSnapshot.getValue(User.class);
+                                            interview.setAuthor(user);
+                                            event.getInterviewsList().add(interview);
+                                            DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                                            myRef.setValue(event);
+
+                                            startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
+                                            finish();
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
                                 } else {
-                                    //event.getInterviewsList().remove(event.getInterviewsList().size()-position-1);
                                     event.getInterviewsList().set(event.getInterviewsList().size() - position - 1, interview);
                                 }
                             }
-                            DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
-                            myRef.setValue(event);
 
-                            startActivity(new Intent(InterviewCreationActivity.this, QitActivity.class));
-                            finish();
                         }
                     }
                 } else {
@@ -178,7 +221,7 @@ public class InterviewCreationActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void getEventDataFromFB (final int position) {
+    public void getEventDataFromFB(final int position) {
         //interview.setSummary(String.valueOf(etTitle.getText()));
         //interview.setDescription(String.valueOf(etDescription.getText()));
 
@@ -192,9 +235,9 @@ public class InterviewCreationActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     Event event = childDataSnapshot.getValue(Event.class);
-                    if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())){
-                        if (event.getInterviewsList().size() != 0){
-                            interview = event.getInterviewsList().get(event.getInterviewsList().size()-1-position);
+                    if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
+                        if (event.getInterviewsList().size() != 0) {
+                            interview = event.getInterviewsList().get(event.getInterviewsList().size() - 1 - position);
                             etTitle.setText(interview.getSummary());
                             etDescription.setText(interview.getDescription());
                         }

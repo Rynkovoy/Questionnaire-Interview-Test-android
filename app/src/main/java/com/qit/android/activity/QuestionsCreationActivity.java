@@ -164,7 +164,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         linearLayoutMain.addView(addRadioQuestion(radioButtons, question));
 
                         final Button btnAdd = new Button(QuestionsCreationActivity.this);
-                        btnAdd.setText("Add");
+                        btnAdd.setText(R.string.add);
                         btnAdd.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
                         linearLayoutMain.setPadding(16,16,16,16);
@@ -191,7 +191,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         linearLayoutMain.addView(addCheckboxQuestion());
 
                         final Button btnAdd2 = new Button(QuestionsCreationActivity.this);
-                        btnAdd2.setText("Add");
+                        btnAdd2.setText(R.string.add);
                         btnAdd2.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
                         linearLayoutMain.addView(btnAdd2);
@@ -382,7 +382,6 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                             DatabaseReference myRef = database.getReference("event"+"/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/questionLists/");
                             myRef.setValue(event.getQuestionLists());
 
-
                         startActivity(new Intent(QuestionsCreationActivity.this, QitActivity.class));
                         finish();
                     }
@@ -391,7 +390,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Snackbar.make(view, "There are some trables with firebase, sry!", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, R.string.trob_fire, Snackbar.LENGTH_LONG).show();
             }
         });
 

@@ -36,29 +36,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class InterviewTabFragment extends Fragment {
-
-    //private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
 
     private NestedScrollView mScrollView;
     private InterviewAdapter interviewAdapter;
     private View view;
     private RecyclerView recyclerView;
-    private static List<Interview> interviews = new ArrayList<>();
+    private List<Interview> interviews = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_interview_tab, container, false);
-        //mScrollView = view.findViewById(R.id.scrollViewInterview);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("event/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/interviewsList");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 interviews = new ArrayList<>();
@@ -79,7 +72,6 @@ public class InterviewTabFragment extends Fragment {
         interviewAdapter = new InterviewAdapter(interviews);
         qitFirebaseGetInterviewList.getInterviewList(interviewAdapter, interviews);
 
-        //interviewAdapter = new InterviewAdapter(initInterviewList());
         recyclerView = view.findViewById(R.id.interviewRV);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());

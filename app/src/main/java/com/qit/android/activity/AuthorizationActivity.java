@@ -112,7 +112,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         user.setPassword(String.valueOf(etPassword.getText()));
 
         ProgressDialog dialog = new ProgressDialog(AuthorizationActivity.this);
-        dialog.setMessage("Processing...");
+        dialog.setMessage(getString(R.string.process));
         dialog.show();
 
         Intent i = new Intent(AuthorizationActivity.this, NewEventOrChoseEventActivity.class);

@@ -61,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="User info:"
+                        android:text="@string/user_info"
                         android:textColor="@color/cardview_dark_background"
                         android:textColorHint="@color/cardview_dark_background"
                         android:textSize="@dimen/_14ssp"
@@ -81,7 +81,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="E-mail"
+                            android:hint="@string/e_mail"
                             android:inputType="textEmailAddress"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -104,7 +104,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="Password"
+                            android:hint="@string/password"
                             android:inputType="textWebPassword"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -128,7 +128,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="Password repeat"
+                            android:hint="@string/password_repeat"
                             android:inputType="textWebPassword"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -161,7 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Personal info:"
+                        android:text="@string/personal_info"
                         android:textColor="@color/cardview_dark_background"
                         android:textSize="@dimen/_14ssp"
                         android:textStyle="bold" />
@@ -180,7 +180,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="First name"
+                            android:hint="@string/first_name"
                             android:inputType="textCapWords"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -200,7 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="Last name"
+                            android:hint="@string/last_name"
                             android:inputType="textCapWords"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -221,7 +221,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="Phone number +380"
+                            android:hint="@string/phone_number_380"
                             android:inputType="phone"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -230,25 +230,25 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="fill_vertical"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="64dp"
                             android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginStart="8dp"
                             android:layout_weight="1"
+                            android:gravity="center_vertical"
                             android:textColorHint="@color/cardview_dark_background"
                             tools:ignore="MissingConstraints">
 
                             <android.support.v7.widget.AppCompatEditText
                                 android:id="@+id/regUserBirthDay"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:backgroundTint="@color/colorAuthText"
-                                android:hint="Birth day DD.MM.YYYY"
+                                android:hint="@string/birth_day_dd_mm_yyyy"
                                 android:textColor="@color/cardview_dark_background"
                                 android:textSize="@dimen/_12ssp" />
 
@@ -258,7 +258,8 @@
                             android:id="@+id/regBtnCalendar"
                             android:layout_width="@dimen/_36sdp"
                             android:layout_height="@dimen/_36sdp"
-                            android:background="@android:drawable/ic_menu_month" />
+                            android:background="@android:drawable/ic_menu_month"
+                            android:gravity="center" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -287,7 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Additional info:"
+                        android:text="@string/additional_info"
                         android:textColor="@color/cardview_dark_background"
                         android:textSize="@dimen/_14ssp"
                         android:textStyle="bold" />
@@ -307,7 +308,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Gender"
+                            android:text="@string/gender"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
 
@@ -332,7 +333,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/colorAuthText"
-                            android:hint="About yourself"
+                            android:hint="@string/about_yourself"
                             android:inputType="text"
                             android:textColor="@color/cardview_dark_background"
                             android:textSize="@dimen/_12ssp" />
@@ -352,7 +353,7 @@
         android:layout_marginBottom="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_24sdp"
         android:background="@drawable/custom_btn"
-        android:text="Register"
+        android:text="@string/register"
         android:textAlignment="center"
         android:textColor="@color/colorAuthText"
         android:textSize="@dimen/_8ssp"

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.qit.android.activity.QitActivity;
 import com.qit.android.fragments.InterviewTabFragment;
 import com.qit.android.fragments.QuestionnaireTabFragment;
 import com.qit.android.fragments.ChatFragment;
@@ -20,9 +21,11 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
         super(fragmentManager);
         this.fragmentManager = fragmentManager;
         this.tabsTitle = new ArrayList<>();
-        this.tabsTitle.add(0, "Questionnaires");
-        this.tabsTitle.add(1, "Interviews");
-        this.tabsTitle.add(2, "Room Chat");
+
+
+        this.tabsTitle.add(0, QitActivity.aa);
+        this.tabsTitle.add(1, QitActivity.bb);
+        this.tabsTitle.add(2, QitActivity.cc);
     }
 
     @Override

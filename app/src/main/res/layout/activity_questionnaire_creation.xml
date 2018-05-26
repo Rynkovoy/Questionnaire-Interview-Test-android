@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:text="Fill the form bellow:"
+                    android:text="@string/fill_the_form_bellow"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
                         android:id="@+id/etTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Title"
+                        android:hint="@string/title"
                         android:inputType="text"
                         android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -90,7 +90,7 @@
                         android:id="@+id/etDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Description"
+                        android:hint="@string/description"
                         android:inputType="text"
                         android:textSize="14sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -292,7 +292,7 @@
             android:background="@drawable/custom_btn"
             android:onClick="handleBtnNext"
             android:padding="8dp"
-            android:text="Next"
+            android:text="@string/next"
             android:textAlignment="center"
             android:textColor="@color/colorAuthText"
             android:textSize="@dimen/_8ssp"

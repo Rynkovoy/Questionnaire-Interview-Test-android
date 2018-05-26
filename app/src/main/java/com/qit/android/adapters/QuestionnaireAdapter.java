@@ -51,6 +51,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
 
         public QuestionnaireViewHolder(View view) {
             super(view);
+
             civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
             civQuestionnaire.setImageResource(R.drawable.question_img);
 
@@ -87,19 +88,11 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         Questionnaire questionnaire = questionnaires.get(position);
         holder.tvTitle.setText(questionnaire.getSummary());
 
-        Log.i("LOG_HERE", questionnaire.getStartDate().before(new Date())+" "+ questionnaire.getStartDate() + " " + new Date());
-        Log.i("LOG_HERE", questionnaire.getEndDate().after(new Date())+"");
-        Log.i("LOG_HERE", (questionnaire.getAnswerLimit() < 0)+"");
-//
-//            if (!questionnaire.getStartDate().after(new Date())) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
-//                holder.cardView.setVisibility(View.GONE);
-//            }
-//            if (!questionnaire.getEndDate().before(new Date())) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
-//                holder.cardView.setVisibility(View.GONE);
-//            }
-//            if (questionnaire.getAnswerLimit() < 0) { // TODO ONLY IF I AM ADMIN I NEED TO SEE IT!!!
-//                holder.cardView.setVisibility(View.GONE);
-//            }
+            if (!questionnaire.getAuthor().getLogin().equals(FirebaseEventinfoGodObj.getFirebaseUSerEmail())){
+                holder.menuBtn.setVisibility(View.GONE);
+                QitActivity.isShowFab = false;
+                QitActivity.mFab.setVisibility(View.GONE);
+            }
 
         if (!questionnaire.getDescription().equalsIgnoreCase("")) {
             holder.tvTopic.setText(questionnaire.getDescription());

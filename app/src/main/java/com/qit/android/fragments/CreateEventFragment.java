@@ -111,7 +111,7 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
             case (R.id.saveEventbtn):{
                 // TODO if radio Btns are chosen show hidden field for password and equal it to not it null
                 if(nameEvent.getText().toString().equalsIgnoreCase("") || descriptionEvent.getText().toString().equalsIgnoreCase("")){
-                    Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.all_forms, Toast.LENGTH_SHORT).show();
                 } else {
                     if (currenRadioBtnId == R.id.radioButtonFreeEntrance || currenRadioBtnId == 0) {
                     Event event = new Event(nameEvent.getText().toString(), descriptionEvent.getText().toString(), "", "", mAuth.getCurrentUser().getUid(), new ArrayList<String>(), new ArrayList<String>(), true, false);

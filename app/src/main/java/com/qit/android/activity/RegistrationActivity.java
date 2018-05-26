@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private AppCompatSpinner genderSpinner;
     private AppCompatEditText userInfoEditText;
 
-    private boolean isRegistrationCHangedFlag = false;
+    public static boolean isRegistrationCHangedFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,9 +222,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         switch (view.getId()) {
             case (R.id.regBtnSave): {
-//                Log.i("LOG", loginEditText.getText().toString() + " " + passFirstEditText.getText().toString() + " " +
-//                        firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString() + " " +
-//                        phoneEditText.getText().toString() + " " + birthDayEditText.getText().toString());
 
                 if (isFilledFields(loginEditText.getText().toString(), passFirstEditText.getText().toString(),
                         firstNameEditText.getText().toString(), lastNameEditText.getText().toString(),
@@ -241,14 +238,21 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 } else if (genderSpinner.getItemAtPosition(genderSpinner.getSelectedItemPosition()).toString().equalsIgnoreCase(Gender.FEMALE.toString())) {
                                     gender = Gender.MALE.toString();
                                 } else {
-                                    gender = "NO GENDER";
+                                    gender = getString(R.string.no_gen);
+                                }
+
+                                Date birthday = new Date();
+                                try {
+                                    birthday = parseStringToDate(birthDayEditText.getText().toString());
+                                }catch (Exception e) {
+                                    e.printStackTrace();
                                 }
 
                                 User user = new User(
                                         loginEditText.getText().toString(), passFirstEditText.getText().toString(),
                                         true, firstNameEditText.getText().toString(),
                                         lastNameEditText.getText().toString(), phoneEditText.getText().toString(),
-                                        parseStringToDate(birthDayEditText.getText().toString()), userInfoEditText.getText().toString(),
+                                        birthday, userInfoEditText.getText().toString(),
                                         gender/*, null, null*/
                                 );
 
@@ -256,14 +260,14 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                 //TODO: CHECK, IF DB HAS SAME LOGIN (EMAIL)!!!
 
                             } else {
-                                Toast.makeText(this, "E-mail not valid!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.email_inval, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        Toast.makeText(this, "Password is not the same, check it once more!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.wrong_sec_pass, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "Some fields are not filled!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.no_fill, Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -284,34 +288,11 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     public void pushUser(final User user) {
 
         ProgressDialog dialog = new ProgressDialog(RegistrationActivity.this);
-        dialog.setMessage("Processing...");
+        dialog.setMessage(getString(R.string.process));
         dialog.show();
 
-//        Intent i = new Intent(RegistrationActivity.this, QitActivity.class);
-
-//        View sharedView = findViewById(R.id.regLogoImg);
-//        String transitionName = "appLogo";
-//
-//        ActivityOptions transitionActivityOptions = null;
-//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(RegistrationActivity.this, sharedView, transitionName);
-//        }
-
-//        onBackPressed();
-        if (!isRegistrationCHangedFlag) {
-            Toast.makeText(this, "Please fill e-mail and password again", Toast.LENGTH_SHORT).show();
-            QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
-            qitFirebaseUserCreation.registerUser(user, this, dialog);
-            startActivity(new Intent(this, AuthorizationActivity.class));
-            finish();
-        } else {
-            QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
-            qitFirebaseUserCreation.changeUserData(user, this, dialog);
-            startActivity(new Intent(this, QitActivity.class));
-            finish();
-        }
-
-        this.finish();
+        QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
+        qitFirebaseUserCreation.registerUser(user, this, dialog);
 
     }
 

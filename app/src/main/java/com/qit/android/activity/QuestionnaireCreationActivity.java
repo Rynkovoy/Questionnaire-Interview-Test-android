@@ -241,10 +241,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             questionnaire.setAnswerLimit(999999);
         }
 
-        //todo change to user from realm
-        //User user = new User();
-        //user.setLogin("rynkovoy");
-
         // TODO NEED TO BE IN OTHER CLASS LIKE FIREBASE GET USER
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -263,7 +259,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
                 intent.putExtra("Questionnaire", questionnaire);
                 startActivity(intent);
                 finish();}
-                else { Snackbar.make(view, "Please fill title and description", 0).show();}
+                else { Snackbar.make(view, R.string.fill_titl, 0).show();}
             }
 
             @Override

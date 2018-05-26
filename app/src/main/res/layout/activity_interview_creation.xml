@@ -18,7 +18,7 @@
         android:layout_weight="1"
         android:background="@drawable/custom_btn"
         android:onClick="handleBtnNext"
-        android:text="Next"
+        android:text="@string/next"
         android:textAlignment="center"
         android:textColor="@color/colorAuthText"
         android:textSize="@dimen/_8ssp"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Interview creation:"
+                android:text="@string/interview_creation"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +78,7 @@
                     android:id="@+id/interEtTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"
+                    android:hint="@string/title"
                     android:inputType="text"
                     android:textSize="18sp" />
             </android.support.design.widget.TextInputLayout>
@@ -97,7 +97,7 @@
                     android:id="@+id/interEtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Intereview Question"
+                    android:hint="@string/intereview_question"
                     android:inputType="textMultiLine"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>

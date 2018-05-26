@@ -80,8 +80,6 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
         saveAnswer = findViewById(R.id.answer_save_btn);
         saveAnswer.setOnClickListener(this);
-        //cancelActivity = findViewById(R.id.answer_cancel_btn);
-        //cancelActivity.setOnClickListener(this);
 
         showQuestions();
     }
@@ -172,16 +170,11 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(QuestionnaireAnswersActivity.this, "THERE ARE SOME TROUBLES IN THE SKY", Toast.LENGTH_SHORT).show();
-                        //onBackPressed();
+                        Toast.makeText(QuestionnaireAnswersActivity.this, R.string.trob, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
             }
-//            case (R.id.answer_cancel_btn): {
-//                onBackPressed();
-//                break;
-//            }
             default: {
                 break;
             }

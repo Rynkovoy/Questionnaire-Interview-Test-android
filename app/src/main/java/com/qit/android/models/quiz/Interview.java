@@ -12,5 +12,6 @@ import lombok.Data;
 public class Interview extends Quiz {
 
     private List<Comment> comments = new ArrayList<>();
+    private User author;
 
 }

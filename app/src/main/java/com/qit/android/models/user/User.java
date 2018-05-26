@@ -6,7 +6,9 @@ import com.qit.android.models.quiz.Result;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -22,6 +24,7 @@ public class User implements Serializable{
 	private Date birthday;
 	private String additionalInfo;
 	private String gender;
+    private List<String> favoriteEvents = new ArrayList<>();
 
 
     public User(String login, String password, boolean isEnabled, String firstName, String lastName, /*String email,*/ String phoneNumber, Date birthday, String additionalInfo, String gender/*, Set<Quiz> quizzes, Set<Result> results*/) {

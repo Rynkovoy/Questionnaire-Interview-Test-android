@@ -52,7 +52,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public ChatViewHolder(View view) {
             super(view);
             context = view.getContext();
-            //cardView = view.findViewById(R.id.layout_card);
 
             messageUser = view.findViewById(R.id.text_message_name);
 

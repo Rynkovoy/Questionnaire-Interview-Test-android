@@ -106,14 +106,14 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
                     Message message = null;
                     try {
                         message = new Message(UUID.randomUUID().toString(), new ChatUser(mAuth.getCurrentUser().getUid(), FirebaseEventinfoGodObj.getFirebaseUserFullName(), null, true), messageEditText.getText().toString());
-                        Toast.makeText(view.getContext(), message.getUser().getName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(view.getContext(), message.getUser().getName(), Toast.LENGTH_SHORT).show();
                         messageList.add(message);
                         myRef.setValue(messageList);
                         myRef.removeEventListener(this);
                         messageEditText.setText("");
                     } catch (Exception e){
                         e.printStackTrace();
-                        Toast.makeText(view.getContext(), "Message not send", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), R.string.not_send, Toast.LENGTH_SHORT).show();
                         myRef.removeEventListener(this);
                     }
 

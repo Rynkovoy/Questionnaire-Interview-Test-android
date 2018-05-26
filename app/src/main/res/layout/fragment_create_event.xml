@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Create new event"
+                android:text="@string/create_new_event"
                 android:textSize="@dimen/_20ssp"
                 android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_8sdp"
                     android:ems="10"
-                    android:hint="Event name"
+                    android:hint="@string/event_name"
                     android:inputType="textPersonName"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="@dimen/_10ssp" />
@@ -97,7 +97,7 @@
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_8sdp"
                     android:ems="10"
-                    android:hint="Description"
+                    android:hint="@string/description"
                     android:inputType="textPersonName"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="@dimen/_10ssp" />
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="Free entrance"
+                        android:text="@string/free_entrance"
                         android:textColorLink="@color/colorGreen"
                         android:textSize="@dimen/_9ssp" />
 
@@ -134,7 +134,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Password"
+                        android:text="@string/password"
                         android:textColorLink="@color/colorGreen"
                         android:textSize="@dimen/_9ssp" />
 
@@ -143,7 +143,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Confirmation"
+                        android:text="@string/confirmation"
                         android:textColorLink="@color/colorGreen"
                         android:textSize="@dimen/_9ssp" />
 
@@ -155,7 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPersonName"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="@dimen/_10ssp"
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_8sdp"
                 android:background="@drawable/custom_btn_dark"
-                android:text="Create Event"
+                android:text="@string/create_event"
                 android:textAllCaps="false"
                 android:textColor="@color/cardview_dark_background"
                 android:textSize="@dimen/_14ssp"

@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout2"
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back_ground_img_login"
@@ -12,7 +12,7 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarQuestionnairesAnswersT"
+        android:id="@+id/toolbarQuestionnairesAnswersI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/cardview_shadow_start_color"
@@ -22,10 +22,9 @@
         app:theme="@style/Base.ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <LinearLayout
-        android:id="@+id/answer_card_view_main"
+        android:id="@+id/interview_card_view_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarQuestionnairesAnswersT">
 
         <com.loopeer.shadow.ShadowView
-            android:id="@+id/cardView"
+            android:id="@+id/cardViewInt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="@dimen/_8sdp"
@@ -56,7 +55,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tvQuestion"
+                    android:id="@+id/tvQuestionInt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="false"
@@ -70,9 +69,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvIsNecessary"
+                    android:id="@+id/tvIsNecessaryInt"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:maxWidth="128dp"
                     android:padding="8dp"
                     android:text="TextView"
@@ -81,18 +80,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvQuestion" />
 
-                <TextView
-                    android:id="@+id/tvAuthor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:layout_marginTop="8dp"
-                    android:paddingLeft="8dp"
-                    android:text="TextView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvIsNecessary" />
-
 
             </LinearLayout>
 
@@ -100,7 +87,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linear"
+        android:id="@+id/linear5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -110,18 +97,17 @@
         android:padding="8dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvQuestion"
+            android:id="@+id/rvInterv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/_24sdp"
         android:gravity="right"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -129,13 +115,29 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
+        <EditText
+            android:id="@+id/editTextInterview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/custom_btn"
+            android:ems="10"
+            android:hint="MASSAGE TEXT"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColorHint="@color/colorAuthText"
+            android:textSize="14sp" />
+
         <Button
-            android:id="@+id/answer_save_btn"
+            android:id="@+id/interview_save_btn"
             android:layout_width="@dimen/_128sdp"
             android:layout_height="@dimen/_32sdp"
             android:layout_margin="8dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/custom_btn"
-            android:text="@string/save_answers"
+            android:text="@string/send_answer"
             android:textAlignment="center"
             android:textColor="@color/colorAuthText"
             android:textSize="@dimen/_8ssp"

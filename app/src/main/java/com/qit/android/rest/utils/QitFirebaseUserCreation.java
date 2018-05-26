@@ -18,6 +18,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.qit.android.activity.AuthorizationActivity;
+import com.qit.android.activity.QitActivity;
+import com.qit.android.activity.RegistrationActivity;
 import com.qit.android.models.user.User;
 
 
@@ -36,8 +39,6 @@ public class QitFirebaseUserCreation {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-
                             Log.d("USER_FIREBASE", "createUserWithEmail:success");
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
 
@@ -48,12 +49,19 @@ public class QitFirebaseUserCreation {
                             Toast.makeText(context, "Authentication success.",
                                     Toast.LENGTH_SHORT).show();
                             progressDialog.dismiss();
-                            //context.startActivity(intent, transitionActivityOptions.toBundle());
+
+                            if (!RegistrationActivity.isRegistrationCHangedFlag) {
+                                Toast.makeText(context, "Please fill e-mail and password again", Toast.LENGTH_SHORT).show();
+                                context.startActivity(new Intent(context, AuthorizationActivity.class));
+                                ((Activity) context).finish();
+                            } else {
+                                context.startActivity(new Intent(context, QitActivity.class));
+                                ((Activity) context).finish();
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("USER_FIREBASE", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(context, "Creation of user is failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, task.getResult()+"",
+                                    Toast.LENGTH_LONG).show();
                             progressDialog.dismiss();
                         }
                     }

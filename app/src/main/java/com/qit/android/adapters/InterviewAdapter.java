@@ -28,15 +28,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.InterviewCreationActivity;
+import com.qit.android.activity.InterviewCustomChatActivity;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
+import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.answer.Comment;
 import com.qit.android.models.event.Event;
 import com.qit.android.models.quiz.Interview;
+import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.rest.dto.InterviewDTO;
 import com.qit.android.utils.BtnClickAnimUtil;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -45,18 +49,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.InterviewViewHolder> {
 
-    private List<Interview> interviewDTOs;
+    private List<Interview> interviewDTOs = new ArrayList<>();
+//    public static boolean isAddedCard = true;
 
     public static class InterviewViewHolder extends RecyclerView.ViewHolder {
 
-                private ShadowView interviewCardView;
-//        private CardView interviewCardView;
+        private ShadowView interviewCardView;
         private ImageView civQuestionnaire;
         private TextView tvTitle;
         private TextView tvTopic;
-        private Button addInterviewText;
-        private LinearLayout ll;
-        private LinearLayout relativeLayout;
         private LinearLayout interviewCounterLinearLayout;
         private View view;
 
@@ -64,19 +65,13 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         private ImageButton editbtn;
         private ImageButton delBtn;
 
-        private Interview interview;
+//        private Interview interview;
 
         private InterviewViewHolder(final View view) {
             super(view);
             this.view = view;
-
             interviewCardView = view.findViewById(R.id.interviewCardView);
-
-            ll = view.findViewById(R.id.add_interview_answe);
-            relativeLayout = view.findViewById(R.id.relativeLayout);
-
             civQuestionnaire = view.findViewById(R.id.civInterview);
-            civQuestionnaire.setImageResource(R.drawable.question_img);
 
             tvTitle = view.findViewById(R.id.tvInterviewTitle);
             tvTopic = view.findViewById(R.id.tvInterviewTopic);
@@ -87,7 +82,7 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
 
             interviewCounterLinearLayout = view.findViewById(R.id.interviewCounterLinearLayout);
 
-            addInterviewText = view.findViewById(R.id.answer_btn);
+            civQuestionnaire.setImageResource(R.drawable.question_img);
             Random rnd = new Random();
             int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
             civQuestionnaire.setColorFilter(color);
@@ -95,6 +90,14 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
     }
 
     public InterviewAdapter(List<Interview> interviewDTOs) {
+//        if (interviewDTOs.size() == 0) {
+//            InterviewAdapter.isAddedCard = false;
+//            Interview interview = new Interview();
+//            interview.setSummary("Ouh....");
+//            interview.setDescription("Somewhere one cat is sad because you don`t have any interviews");
+//            interview.setAuthor(new User());
+//            interviewDTOs.add(interview);
+//        }
         this.interviewDTOs = interviewDTOs;
     }
 
@@ -102,202 +105,97 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
     public InterviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_interview_list, parent, false);
-
         return new InterviewViewHolder(itemView);
     }
-
-
-    private boolean isAlreadyEditTextOpened = false;
-
-    private int clickCounter;
 
     @Override
     public void onBindViewHolder(final InterviewViewHolder holder, final int position) {
         final Interview interviewDTO = interviewDTOs.get(position);
         holder.tvTitle.setText(interviewDTO.getSummary());
         holder.tvTopic.setText(interviewDTO.getDescription());
-        final EditText editText = new EditText(holder.view.getContext());
-        final Button saveTextBtn = new Button(holder.view.getContext());
-
-        holder.interviewCounterLinearLayout.removeAllViews();
-        TextView tempTv = new TextView(holder.view.getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
-                ((int) LinearLayout.LayoutParams.WRAP_CONTENT, (int) LinearLayout.LayoutParams.WRAP_CONTENT);
-        tempTv.setText("There are " + interviewDTO.getComments().size() + " comments");
-        tempTv.setTextSize((float) 14);
-        tempTv.setLayoutParams(params);
-
-        final ImageButton imb = new ImageButton(holder.view.getContext());
-        imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_down_float));
-        imb.setPadding(32, 0, 0, 0);
-        imb.setLayoutParams(params);
-
-        holder.interviewCounterLinearLayout.addView(tempTv);
-        holder.interviewCounterLinearLayout.addView(imb);
-
-        holder.interviewCounterLinearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //holder.interviewCounterLinearLayout.setVisibility(View.GONE);
-                if (clickCounter == 0) {
-                    clickCounter++;
-                    imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_up_float));
-                    if (interviewDTO.getComments().size() != 0) {
-                        holder.ll.removeAllViews();
-                        for (int x = 0; x < interviewDTO.getComments().size(); x++) {
-
-                            TextView tv = new TextView(holder.view.getContext());
-                            tv.setText(interviewDTO.getComments().get(x).getComment());
-
-                            TextView authorText = new TextView(holder.view.getContext());
-                            authorText.setText(interviewDTO.getComments().get(x).getCommentCreatorName());
-
-                            TextView borderText = new TextView(holder.view.getContext());
-                            borderText.setText("______________________\n");
-
-                            tv.setTextColor(holder.view.getResources().getColor(R.color.colorGreen));
-                            holder.ll.addView(authorText);
-                            holder.ll.addView(tv);
-                            holder.ll.addView(borderText);
-
-                        }
-                    }
-                } else {
-                    clickCounter = 0;
-                    holder.ll.removeAllViews();
-                    imb.setBackground(holder.view.getContext().getResources().getDrawable(android.R.drawable.arrow_down_float));
+//
+//        if (!isAddedCard) {
+//            holder.civQuestionnaire.setImageResource(R.drawable.sad_kitty);
+//            holder.civQuestionnaire.setColorFilter(null);
+//        } else {
+//
+            try {
+                if (!interviewDTO.getAuthor().getLogin().equals(FirebaseEventinfoGodObj.getFirebaseUSerEmail())) {
+                    holder.menuBtn.setVisibility(View.GONE);
+                    QitActivity.isShowFab = false;
+                    QitActivity.mFab.setVisibility(View.GONE);
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
 
-        holder.addInterviewText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View views) {
-                Log.i("LOG", isAlreadyEditTextOpened + "");
-                if (!isAlreadyEditTextOpened) {
-                    isAlreadyEditTextOpened = true;
-                    editText.setVisibility(View.VISIBLE);
-                    saveTextBtn.setVisibility(View.VISIBLE);
 
-                    editText.setTextColor(holder.view.getResources().getColor(R.color.colorDarkBlue));
+            holder.interviewCounterLinearLayout.removeAllViews();
+            TextView tempTv = new TextView(holder.view.getContext());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
+                    ((int) LinearLayout.LayoutParams.WRAP_CONTENT, (int) LinearLayout.LayoutParams.WRAP_CONTENT);
+            tempTv.setText("There are " + interviewDTO.getComments().size() + " comments");
+            tempTv.setTextSize((float) 14);
+            tempTv.setLayoutParams(params);
 
-                    saveTextBtn.setText("SAVE");
-                    saveTextBtn.setBackground(holder.view.getResources().getDrawable(R.drawable.custom_btn_dark));
-                    BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(saveTextBtn, holder.view.getContext(), 0);
+            holder.interviewCounterLinearLayout.addView(tempTv);
 
-                    editText.setHint("Place answer here");
-                    editText.clearFocus();
-
-                    try {
-                        holder.relativeLayout.addView(editText);
-                        holder.relativeLayout.addView(saveTextBtn);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            holder.menuBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (holder.editbtn.getVisibility() == View.GONE) {
+                        holder.editbtn.setVisibility(View.VISIBLE);
+                        holder.delBtn.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.editbtn.setVisibility(View.GONE);
+                        holder.delBtn.setVisibility(View.GONE);
                     }
+                }
+            });
 
-                    saveTextBtn.setOnClickListener(new View.OnClickListener() {
+            holder.editbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(holder.view.getContext(), InterviewCreationActivity.class);
+                    intent.putExtra("Position", position);
+                    holder.view.getContext().startActivity(intent);
+                }
+            });
+
+            holder.delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    final DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onClick(View view) {
-                            isAlreadyEditTextOpened = false;
-                            editText.setVisibility(View.GONE);
-                            saveTextBtn.setVisibility(View.GONE);
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Event event = dataSnapshot.getValue(Event.class);
+                            event.getInterviewsList().remove(event.getInterviewsList().size() - 1 - position);
+                            DatabaseReference myRefTemp = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/");
+                            myRefTemp.removeValue();
+                            myRefTemp.setValue(event.getInterviewsList());
+                        }
 
-                            TextView tv = new TextView(view.getContext());
-                            tv.setText(editText.getText().toString());
-
-                            TextView authorText = new TextView(view.getContext());
-                            authorText.setText(FirebaseEventinfoGodObj.getFirebaseUserFullName());
-
-                            TextView borderText = new TextView(view.getContext());
-                            borderText.setText("______________________\n");
-
-                            tv.setTextColor(view.getResources().getColor(R.color.colorGreen));
-                            holder.ll.addView(authorText);
-                            holder.ll.addView(tv);
-                            holder.ll.addView(borderText);
-
-                            final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            final DatabaseReference myRef = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/" + (interviewDTOs.size() - 1 - position));
-                            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    Interview interview = dataSnapshot.getValue(Interview.class);
-                                    Comment comment = new Comment();
-                                    comment.setComment(editText.getText().toString());
-                                    comment.setCommentCreatorName(FirebaseEventinfoGodObj.getFirebaseUserFullName());
-                                    comment.setDateOfComment(new Date(System.currentTimeMillis()));
-                                    interview.getComments().add(comment);
-                                    myRef.setValue(interview);
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                    Log.i("ERROR", databaseError.getDetails());
-                                }
-                            });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.i("ERROR", databaseError.getDetails());
                         }
                     });
-                } else {
-                    editText.setVisibility(View.GONE);
-                    saveTextBtn.setVisibility(View.GONE);
-                    isAlreadyEditTextOpened = false;
                 }
-            }
-        });
+            });
 
-
-        holder.menuBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.editbtn.getVisibility() == View.GONE) {
-                    holder.editbtn.setVisibility(View.VISIBLE);
-                    holder.delBtn.setVisibility(View.VISIBLE);
-                } else {
-                    holder.editbtn.setVisibility(View.GONE);
-                    holder.delBtn.setVisibility(View.GONE);
+            holder.interviewCardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(view.getContext(), InterviewCustomChatActivity.class);
+                    intent.putExtra("Interview", (interviewDTOs.size() - 1 - position));
+                    intent.putExtra("InterviewObj", interviewDTOs.get(position));
+                    holder.view.getContext().startActivity(intent);
                 }
-            }
-        });
-
-        holder.editbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(holder.view.getContext(), InterviewCreationActivity.class);
-                intent.putExtra("Position", position);
-                holder.view.getContext().startActivity(intent);
-            }
-        });
-
-        holder.delBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                final DatabaseReference myRef = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Event event = dataSnapshot.getValue(Event.class);
-                        event.getInterviewsList().remove(event.getInterviewsList().size() - 1 - position);
-                        DatabaseReference myRefTemp = database.getReference("event" + "/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/interviewsList/");
-                        myRefTemp.removeValue();
-                        myRefTemp.setValue(event.getInterviewsList());
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.i("ERROR", databaseError.getDetails());
-                    }
-                });
-            }
-        });
-
-        holder.interviewCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //holder.view.getContext().startActivity(new Intent(holder.view.getContext(), NewEventOrChoseEventActivity.class));
-            }
-        });
-    }
+            });
+        }
+//    }
 
     @Override
     public int getItemCount() {

@@ -32,16 +32,32 @@ public class QitFirebaseGetEventQuestionList {
 
                         for (DataSnapshot child : childDataSnapshot.getChildren()) {
                             if (child.getKey().equalsIgnoreCase("questionLists")) {
-                                for (DataSnapshot childObj : child.getChildren()){
+                                for (DataSnapshot childObj : child.getChildren()) {
                                     Questionnaire q = childObj.getValue(Questionnaire.class);
                                     qList.add(q);
                                 }
                                 Collections.reverse(qList);
                                 myRef.removeEventListener(this);
 
+                                for (int x = 0; x < qList.size(); x++) {
+                                    try {
+                                        if (qList.get(x).getStartDate().getTime() > (new Date().getTime()) ||
+                                                qList.get(x).getEndDate().getTime() < (new Date().getTime()) ||
+                                                qList.get(x).getAnswerLimit() < 0 &&
+                                                        !qList.get(x).getAuthor().getLogin().equals(FirebaseEventinfoGodObj.getFirebaseUSerEmail())) {
+                                            qList.remove(x);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+
                                 try {
                                     questionnaireAdapter.notifyDataSetChanged();
-                                } catch (Exception e) {e.printStackTrace();}
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -49,10 +65,10 @@ public class QitFirebaseGetEventQuestionList {
             }
 
             @Override
-           public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
-    }
-});
+            }
+        });
         return qList;
 
     }

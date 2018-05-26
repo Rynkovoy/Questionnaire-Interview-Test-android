@@ -1,5 +1,7 @@
 package com.qit.android.rest.utils;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,6 +11,7 @@ import com.qit.android.adapters.InterviewAdapter;
 import com.qit.android.adapters.QuestionnaireAdapter;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.models.quiz.Questionnaire;
+import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import java.util.Collections;
@@ -26,7 +29,6 @@ public class QitFirebaseGetInterviewList {
                 interviews.clear();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
-
                         for (DataSnapshot child : childDataSnapshot.getChildren()) {
                             if (child.getKey().equalsIgnoreCase("interviewsList")) {
                                 for (DataSnapshot childObj : child.getChildren()){
@@ -43,7 +45,6 @@ public class QitFirebaseGetInterviewList {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
         return interviews;

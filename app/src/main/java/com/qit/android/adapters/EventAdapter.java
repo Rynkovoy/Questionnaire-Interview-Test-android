@@ -19,27 +19,36 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireCreationActivity;
 import com.qit.android.models.event.Event;
+import com.qit.android.models.quiz.Interview;
+import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.utils.BtnClickAnimUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
-    public List<Event> eventList;
-
-
+    public List<Event> eventList = new ArrayList<>();
     public static class EventViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvFullHeader;
         public TextView tvFullDetails;
         public TextView tvDate;
+        private ImageView starBtn;
 
         public TextView tvEventOwner;
         public ImageView tvIsOpened;
@@ -47,11 +56,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         public ShadowView cardView;
 
+
+
         public EventViewHolder(View view) {
             super(view);
             context = view.getContext();
 
             cardView = view.findViewById(R.id.layout_card);
+
+            starBtn = view.findViewById(R.id.tv_star);
 
             tvFullHeader = view.findViewById(R.id.tv_header_card);
             tvFullDetails = view.findViewById(R.id.tv_details_card);
@@ -59,7 +72,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
             tvEventOwner = view.findViewById(R.id.tv_owner_card);
             tvIsOpened = view.findViewById(R.id.tv_is_event_opened_card);
-
         }
     }
 
@@ -77,6 +89,32 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     @Override
     public void onBindViewHolder(final EventAdapter.EventViewHolder holder, final int position) {
+        holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_unpressed));
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference("user");
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    if (childDataSnapshot.getKey().equalsIgnoreCase(mAuth.getUid())) {
+                        User user = childDataSnapshot.getValue(User.class);
+
+                        for (int x = 0; x < user.getFavoriteEvents().size(); x++){
+                            if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())){
+                                holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_pressed));
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         holder.tvFullHeader.setText(eventList.get(position).getFullHeader());
         holder.tvFullDetails.setText(eventList.get(position).getFullDetails());
@@ -89,8 +127,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             layoutParams.width = 128;
             layoutParams.height = 128;
             holder.tvIsOpened.setLayoutParams(layoutParams);
-            //holder.tvIsOpened.setText("OPEN EVENT");
-            // holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorGreen));
+
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -114,17 +151,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             layoutParams.width = 128;
             layoutParams.height = 128;
             holder.tvIsOpened.setLayoutParams(layoutParams);
-            //holder.tvIsOpened.setText("NEED PASSWORD");
-            //holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorRed));
 
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(holder.context, "YOU NEED PASSWORD!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(holder.context, R.string.need_pasw, Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder adb = new AlertDialog.Builder(holder.context);
-                    LayoutInflater inflater = (LayoutInflater) holder.context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+                    LayoutInflater inflater = (LayoutInflater) holder.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                     view = (LinearLayout) inflater.inflate(R.layout.item_password_werification, null);
                     adb.setView(view);
                     final Dialog dialog = adb.create();
@@ -146,29 +181,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                         @Override
                         public void onClick(View view) {
                             BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, holder.context, 0);
-                            if (editText.getText().toString().equalsIgnoreCase(eventList.get(position).getEventPassword())){
+                            if (editText.getText().toString().equalsIgnoreCase(eventList.get(position).getEventPassword())) {
 
                                 String date = eventList.get(position).getDate();
-                                char [] a = date.toCharArray();
-                                for (int x= 0 ; x < a.length; x++){
-                                    if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
+                                char[] a = date.toCharArray();
+                                for (int x = 0; x < a.length; x++) {
+                                    if (a[x] == '.' || a[x] == ':' || a[x] == ' ') {
                                         a[x] = '_';
                                     }
                                 }
                                 date = new String(a);
-                                FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
+                                FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_" + eventList.get(position).getEventOwner() + "_" + date);
                                 holder.context.startActivity(new Intent(holder.context, QitActivity.class));
 
                             } else {
-                                Toast.makeText(holder.context, "WRONG PASSWORD, TRY AGAIN!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(holder.context, R.string.wrong_pasw, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-
-
-
-
-
 
 
                 }
@@ -180,13 +210,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             layoutParams.width = 128;
             layoutParams.height = 128;
             holder.tvIsOpened.setLayoutParams(layoutParams);
-            //holder.tvIsOpened.setText("NEED CONFIRMATION");
-            //holder.tvIsOpened.setTextColor(holder.context.getResources().getColor(R.color.colorDarkBlue));
 
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(holder.context, "YOU NEED TO BE CONFIRMED!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(holder.context, R.string.need_confirm, Toast.LENGTH_SHORT).show();
 //                    String date = eventList.get(position).getDate();
 //                    char [] a = date.toCharArray();
 //                    for (int x= 0 ; x < a.length; x++){
@@ -200,6 +228,45 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 }
             });
         }
+
+        holder.starBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference myRef = database.getReference("user");
+                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                            if (childDataSnapshot.getKey().equalsIgnoreCase(mAuth.getUid())) {
+                                User user = childDataSnapshot.getValue(User.class);
+
+                                boolean isThisOnList = false;
+                                for (int x = 0; x < user.getFavoriteEvents().size(); x++){
+                                    if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())){
+                                        isThisOnList = true;
+                                        user.getFavoriteEvents().remove(x);
+                                        holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_unpressed));
+                                    }
+                                }
+
+                                if (!isThisOnList){
+                                    user.getFavoriteEvents().add(eventList.get(position).getFullHeader());
+                                    holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_pressed));
+                                }
+                                DatabaseReference myRef = database.getReference("user/"+mAuth.getUid());
+                                myRef.setValue(user);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+            }
+        });
 
 
     }
