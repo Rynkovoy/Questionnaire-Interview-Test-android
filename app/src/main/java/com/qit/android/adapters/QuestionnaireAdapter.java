@@ -16,14 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.loopeer.shadow.ShadowView;
 import com.qit.R;
 import com.qit.android.activity.GraphicActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireAnswersActivity;
+import com.qit.android.fragments.QuestionnaireTabFragment;
+import com.qit.android.models.question.Question;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -46,6 +55,8 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         private ImageButton delBtn;
 
         private ShadowView cardView;
+        private int [] res = {R.drawable.question_img_1, R.drawable.question_img_2, R.drawable.question_img_3, R.drawable.question_img_4, R.drawable.question_img_5, R.drawable.question_img_6, R.drawable.question_img_7,
+                R.drawable.question_img_8, R.drawable.question_img_9, R.drawable.question_img_10, R.drawable.question_img_11, R.drawable.question_img_12, R.drawable.question_img_13, R.drawable.question_img_14};
 
         //public int rImagesCivQuestionnaire[] = {R.drawable.qiz_img_1, R.drawable.qiz_img_2, R.drawable.qiz_img_3, R.drawable.qiz_img_4, R.drawable.qiz_img_5, R.drawable.qiz_img_6, R.drawable.qiz_img_7};
 
@@ -53,7 +64,8 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             super(view);
 
             civQuestionnaire = view.findViewById(R.id.civQuestionnaire);
-            civQuestionnaire.setImageResource(R.drawable.question_img);
+            civQuestionnaire.setImageResource(res[(int)(Math.random()*14)]);
+            //civQuestionnaire.setImageResource(R.drawable.question_img);
 
             cardView = view.findViewById(R.id.cardView);
 
@@ -66,9 +78,6 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             tvTopic = view.findViewById(R.id.tvQuestionnaireTopic);
             context = view.getContext();
 
-            Random rnd = new Random();
-            int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-            civQuestionnaire.setColorFilter(color);
         }
     }
 
@@ -105,7 +114,7 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context, QuestionnaireAnswersActivity.class);
                 intent.putExtra("Questionnaire", questionnaires.get(position));
-                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
+                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(questionnaires.size()-1-position);
                 context.startActivity(intent);
                 Activity activity = (Activity) context;
                 activity.finish();
@@ -116,11 +125,9 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
             @Override
             public void onClick(View view) {
                 if (holder.statBtn.getVisibility() == View.GONE) {
-                    //holder.editbtn.setVisibility(View.VISIBLE);
                     holder.statBtn.setVisibility(View.VISIBLE);
                     holder.delBtn.setVisibility(View.VISIBLE);
                 } else {
-                    //holder.editbtn.setVisibility(View.GONE);
                     holder.statBtn.setVisibility(View.GONE);
                     holder.delBtn.setVisibility(View.GONE);
                 }
@@ -130,10 +137,48 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
         holder.statBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
-                context.startActivity(new Intent(context, GraphicActivity.class));
+                Intent intent = new Intent(context, GraphicActivity.class);
+                intent.putExtra("Questionnaire", questionnaires.get(position));
+                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(questionnaires.size()-1-position);
+                context.startActivity(intent);
                 Activity activity = (Activity) context;
                 activity.finish();
+            }
+        });
+
+        holder.delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseEventinfoGodObj.setFirebaseCurrentQuestion(position);
+
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference myRef = database.getReference("event");
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                            if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
+                                for (DataSnapshot child : childDataSnapshot.getChildren()) {
+                                    if (child.getKey().equalsIgnoreCase("questionLists")) {
+                                        questionnaires.remove(position);
+                                        DatabaseReference myRef = database.getReference("event/"+FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/questionLists");
+                                        List<Questionnaire> qList = new ArrayList<>();
+                                        qList.addAll(questionnaires);
+                                        Collections.reverse(qList);
+                                        myRef.setValue(qList);
+                                        QuestionnaireTabFragment.questionnaireAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
     }

@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "504638843137",
+    "firebase_url": "https://questionnaire-interview-test.firebaseio.com",
+    "project_id": "questionnaire-interview-test",
+    "storage_bucket": "questionnaire-interview-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504638843137:android:9757517a9b42451c",
+        "android_client_info": {
+          "package_name": "com.qit.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504638843137-drnbm0c8ptd5t8j91inuqeq78ckq4mfk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.qit.android",
+            "certificate_hash": "6b5503ae6752bcf4695d3fbe3e8354d93ffc71a6"
+          }
+        },
+        {
+          "client_id": "504638843137-9v0762k63c8dck36gq6oudj5m6p9fffi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0fZTYnTgEV7bHcStPk3tvqX8DqNY-JEM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504638843137-9v0762k63c8dck36gq6oudj5m6p9fffi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:504638843137:android:3a978f3cb0672a04",
+        "android_client_info": {
+          "package_name": "qit.com.questionnaire_interview_test_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "504638843137-sfc836jknr225v41m43rmg9jt5640cid.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "qit.com.questionnaire_interview_test_android",
+            "certificate_hash": "6b5503ae6752bcf4695d3fbe3e8354d93ffc71a6"
+          }
+        },
+        {
+          "client_id": "504638843137-9v0762k63c8dck36gq6oudj5m6p9fffi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0fZTYnTgEV7bHcStPk3tvqX8DqNY-JEM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "504638843137-9v0762k63c8dck36gq6oudj5m6p9fffi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

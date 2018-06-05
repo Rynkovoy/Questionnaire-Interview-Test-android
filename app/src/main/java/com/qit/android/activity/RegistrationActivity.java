@@ -292,7 +292,9 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         dialog.show();
 
         QitFirebaseUserCreation qitFirebaseUserCreation = new QitFirebaseUserCreation();
+        if(!isRegistrationCHangedFlag){
         qitFirebaseUserCreation.registerUser(user, this, dialog);
+        } else {qitFirebaseUserCreation.changeUserData(user, this, dialog);}
 
     }
 

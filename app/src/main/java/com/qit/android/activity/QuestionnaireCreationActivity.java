@@ -50,12 +50,10 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
     private LinearLayout llUnderScroll;
     private AppCompatEditText etTitle;
     private AppCompatEditText etDescription;
-    //private SwitchCompat switchPassword;
     private SwitchCompat switchStartDate;
     private SwitchCompat switchEndDate;
     private SwitchCompat switchIsAnonymity;
     private SwitchCompat switchAnswersLimit;
-    //private TextView btnCancel;
     private TextView btnNext;
     private Questionnaire questionnaire;
     private AppCompatEditText etPassword;
@@ -184,13 +182,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
         BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
         questionnaire.setSummary(String.valueOf(etTitle.getText()));
         questionnaire.setDescription(String.valueOf(etDescription.getText()));
-
-//        if (etPassword != null && switchPassword.isChecked()) {
-//            questionnaire.setPassword(String.valueOf(etPassword.getText()));
-//        } else {
-//            questionnaire.setPassword(null);
-//        }
-
         questionnaire.setAnonymity(switchIsAnonymity.isChecked());
 
         if (etStartDate != null && switchStartDate.isChecked()) {
@@ -199,6 +190,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             Date date;
             try {
                 date = ((DateFormat) formatter).parse(strDate);
+                Log.i("LOG_TIME", ((DateFormat) formatter).parse(strDate)+"");
                 questionnaire.setStartDate(date);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -251,7 +243,7 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 if (!etTitle.getText().equals("") && !etDescription.getText().equals("")){
-                    Log.i("HERE",etTitle.getText()+" "+etDescription.getText());
+                    //Log.i("HERE",etTitle.getText()+" "+etDescription.getText());
                 User user = dataSnapshot.getValue(User.class);
                 questionnaire.setAuthor(user);
 
@@ -268,7 +260,6 @@ public class QuestionnaireCreationActivity extends AppCompatActivity implements 
             }
         });
     }
-
 
 
     @Override

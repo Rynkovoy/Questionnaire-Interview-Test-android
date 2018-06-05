@@ -19,7 +19,7 @@ public class QuizTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     public QuizTabsPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
-        this.fragmentManager = fragmentManager;
+        QuizTabsPagerAdapter.fragmentManager = fragmentManager;
         this.tabsTitle = new ArrayList<>();
 
 

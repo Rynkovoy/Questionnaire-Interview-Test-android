@@ -11,8 +11,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.mikepenz.materialdrawer.holder.BadgeStyle;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.qit.R;
+import com.qit.android.navigation.QitDrawerBuilder;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
+@Deprecated
 public class FirebaseCountObjInList {
 
     public final String interviews = "Interviews";
@@ -33,7 +35,8 @@ public class FirebaseCountObjInList {
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         DatabaseReference myRef = database.getReference("event");
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 interviewCounter = 0;
@@ -45,13 +48,20 @@ public class FirebaseCountObjInList {
                                 for (DataSnapshot childObj : child.getChildren()) {
                                     interviewCounter++;
                                 }
-                                itemInterview.withBadge(String.valueOf(interviewCounter)).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorGreen));
+
+                                synchronized(itemInterview){
+                                    itemInterview.withBadge(String.valueOf(interviewCounter)).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorGreen)).notifyAll();
+                                }
                             } else if (child.getKey().equalsIgnoreCase("questionLists")) {
                                 for (DataSnapshot childObj : child.getChildren()) {
                                     questionnariesCounter++;
                                 }
-                                itemQuestionnaire.withBadge(String.valueOf(questionnariesCounter)).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorGreen));
+                                synchronized(itemQuestionnaire){
+                                    itemQuestionnaire.withBadge(String.valueOf(questionnariesCounter)).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.colorGreen)).notifyAll();
+                                }
+
                             }
+
                         }
                     }
                 }

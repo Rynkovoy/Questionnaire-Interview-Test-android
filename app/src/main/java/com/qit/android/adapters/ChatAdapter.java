@@ -40,7 +40,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
 
         public Context context;
-        //public CardView cardView;
 
         public TextView messageUser;
         public LinearLayout messageTextLayout;

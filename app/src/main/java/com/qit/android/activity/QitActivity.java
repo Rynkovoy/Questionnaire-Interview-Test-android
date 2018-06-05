@@ -18,9 +18,17 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.qit.R;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
+import com.qit.android.models.event.Event;
 import com.qit.android.navigation.QitDrawerBuilder;
+import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 
 import pl.droidsonroids.gif.GifImageView;
 
@@ -62,9 +70,29 @@ public class QitActivity extends MainActivity {
 
 
     private void addToolbar() {
-        Toolbar toolbar = mViewPager.getToolbar();
+        final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
-            new QitDrawerBuilder().setToolbar(toolbar).build(this);
+
+            final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+            final FirebaseDatabase database = FirebaseDatabase.getInstance();
+            final DatabaseReference myRef = database.getReference("event/"+ FirebaseEventinfoGodObj.getFirebaseCurrentEventName());
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Event event = dataSnapshot.getValue(Event.class);
+                    if (event.getEventOwner().equalsIgnoreCase(mAuth.getUid()) && event.isNewUserInEventeNeedToBeConfirmed()){
+                        new QitDrawerBuilder(false, true).setToolbar(toolbar).build(QitActivity.this);
+                    } else {
+                        new QitDrawerBuilder().setToolbar(toolbar).build(QitActivity.this);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    new QitDrawerBuilder(false, true).setToolbar(toolbar).build(QitActivity.this);
+                }
+            });
         }
     }
 

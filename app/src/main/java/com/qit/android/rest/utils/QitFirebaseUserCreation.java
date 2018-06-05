@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.qit.android.activity.AuthorizationActivity;
+import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.RegistrationActivity;
 import com.qit.android.models.user.User;
@@ -78,5 +79,8 @@ public class QitFirebaseUserCreation {
         myRef.removeValue();
         myRef.setValue(user);
         progressDialog.dismiss();
+
+        context.startActivity(new Intent(context, NewEventOrChoseEventActivity.class));
+        ((Activity) context).finish();
     }
 }

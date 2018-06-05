@@ -36,7 +36,7 @@
         <com.loopeer.shadow.ShadowView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:elevation="@dimen/_8sdp"
             android:foreground="?attr/selectableItemBackground"
             android:orientation="vertical"
@@ -52,7 +52,8 @@
             <LinearLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -73,7 +74,6 @@
                     android:id="@+id/tvIsNecessary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxWidth="128dp"
                     android:padding="8dp"
                     android:text="TextView"
                     android:textSize="14sp"

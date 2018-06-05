@@ -49,7 +49,7 @@
     <string name="logout">"Залишити кімнату "</string>
     <string name="logout_sercher">"Вийти "</string>
     <string name="my_events">"МОЇ ПОДІЇ "</string>
-    <string name="need_confirm">"Вам потрібно підтвердження! "</string>
+    <string name="need_confirm">"Вам потрібно підтвердження! Очікйте підтвердження від адміністратора групи"</string>
     <string name="need_pasw">"Вам потрібен пароль! "</string>
     <string name="no_fill">"Деякі поля не заповнені! "</string>
     <string name="no_gen">"НЕМА СТАТІ "</string>

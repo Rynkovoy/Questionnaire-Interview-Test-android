@@ -1,5 +1,6 @@
 package com.qit.android.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,8 +62,8 @@ public class InterviewCustomChatActivity extends AppCompatActivity {
 
         editTextInterview = findViewById(R.id.editTextInterview);
 
-        TextView headerChat = (TextView) findViewById(R.id.tvQuestionInt);
-        TextView mainTextChat = (TextView) findViewById(R.id.tvIsNecessaryInt);
+        TextView headerChat = findViewById(R.id.tvQuestionInt);
+        TextView mainTextChat = findViewById(R.id.tvIsNecessaryInt);
 
         headerChat.setText(interview.getSummary());
         mainTextChat.setText(interview.getDescription());
@@ -101,7 +102,10 @@ public class InterviewCustomChatActivity extends AppCompatActivity {
     }
 
     private void showInterview(Interview interview) {
-        List<Comment> commentListm = interview.getComments();
+        List<Comment> commentListm = new ArrayList<>();
+        try {
+            commentListm = interview.getComments();
+        } catch (Exception e) {e.printStackTrace();}
         interviewChatAdapter = new InterviewChatAdapter(commentListm);
         rvInterviews.setAdapter(interviewChatAdapter);
     }
@@ -125,6 +129,11 @@ public class InterviewCustomChatActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, QitActivity.class));
+    }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbarQuestionnairesAnswersI);

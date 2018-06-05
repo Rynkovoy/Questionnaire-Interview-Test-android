@@ -24,11 +24,13 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,8 @@ import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
 import com.qit.android.utils.BtnClickAnimUtil;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -65,8 +69,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Questionnaire questionnaire;
     private List <Question> questionSet;
-    private static final String QUIZ_CREATION = "quiz_creation";
-
+    private TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,20 +86,22 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
         questionnaire = (Questionnaire) getIntent().getSerializableExtra("Questionnaire");
         questionSet = new ArrayList<>();
+
+        tv = findViewById(R.id.tvHint);
     }
 
     @SuppressLint("ResourceType")
     public void createQuestion(View view) {
+
+        tv.setVisibility(View.GONE);
+
         final Question question = new Question();
         questionSet.add(question);
 
         LinearLayout.LayoutParams layoutParams= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(32, 32, 32, 0);
         final ShadowView cardView = new ShadowView(this);
-        //cardView.setForeground(getResources().getDrawable(R.attr.selectableItemBackground));
         cardView.setCornerRadiusBL(getResources().getDimension(R.dimen._16sdp));
-        //cardView.setCornerRadiusBR(getResources().getDimension(R.dimen._16sdp));
-        //cardView.setCornerRadiusTL(getResources().getDimension(R.dimen._16sdp));
         cardView.setCornerRadiusTR(getResources().getDimension(R.dimen._16sdp));
         cardView.setLayoutParams(layoutParams);
 
@@ -112,7 +117,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         final EditText etQuestion = new EditText(this);
         etQuestion.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         etQuestion.setSingleLine(false);
-        etQuestion.setTextColor(getResources().getColor(R.color.mainGray));
+        etQuestion.setTextColor(getResources().getColor(R.color.black));
         etQuestion.setHint("Question");
         etQuestion.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 4.0f));
 
@@ -153,6 +158,9 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 int childCount = linearLayoutMain.getChildCount();
                 int childIndex = linearLayoutMain.indexOfChild(linearLayout1);
+
+                LinearLayout.LayoutParams  linearLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
                 switch (i) {
                     case 0:
                         for (int j = childCount - 1; j > childIndex; j--) {
@@ -164,20 +172,44 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         linearLayoutMain.addView(addRadioQuestion(radioButtons, question));
 
                         final Button btnAdd = new Button(QuestionsCreationActivity.this);
+                        btnAdd.setLayoutParams(linearLayoutParams);
+                        btnAdd.setPadding(64, 64, 64, 64);
                         btnAdd.setText(R.string.add);
                         btnAdd.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
-                        linearLayoutMain.setPadding(16,16,16,16);
+                        linearLayoutMain.setPadding(64,64,64,64);
                         linearLayoutMain.addView(btnAdd);
+
+                        final Button btnDel = new Button(QuestionsCreationActivity.this);
+                        btnDel.setLayoutParams(linearLayoutParams);
+                        btnDel.setPadding(64, 64, 64, 64);
+                        btnDel.setText("DELETE CARD");
+                        btnDel.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
+
+                        linearLayoutMain.setPadding(64,64,64,64);
+                        linearLayoutMain.addView(btnDel);
 
                         btnAdd.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
                                 int childIndex = linearLayoutMain.indexOfChild(btnAdd);
+                                int childIndexD = linearLayoutMain.indexOfChild(btnDel);
+                                linearLayoutMain.removeViewAt(childIndex);
                                 linearLayoutMain.removeViewAt(childIndex);
                                 linearLayoutMain.addView(addRadioQuestion(radioButtons, question));
                                 linearLayoutMain.addView(btnAdd);
+                                linearLayoutMain.addView(btnDel);
+                            }
+                        });
+
+                        btnDel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
+                                int childIndex = linearLayoutMain.indexOfChild(btnDel);
+                                linearLayoutMain.setVisibility(View.GONE);
+                                questionSet.remove(question);
                             }
                         });
                         break;
@@ -188,22 +220,49 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         etQuestion.setText("");
                         question.setQuestionType(QuestionType.CHECKBOX.toString());
 
-                        linearLayoutMain.addView(addCheckboxQuestion());
+                        linearLayoutMain.addView(addCheckboxQuestion(question));
 
                         final Button btnAdd2 = new Button(QuestionsCreationActivity.this);
+                        btnAdd2.setLayoutParams(linearLayoutParams);
+                        btnAdd2.setPadding(64, 64, 64, 64);
                         btnAdd2.setText(R.string.add);
                         btnAdd2.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
 
                         linearLayoutMain.addView(btnAdd2);
+
+                        final Button btnDel2 = new Button(QuestionsCreationActivity.this);
+                        btnDel2.setLayoutParams(linearLayoutParams);
+                        btnDel2.setPadding(64, 64, 64, 64);
+                        btnDel2.setText("DELETE CARD");
+                        btnDel2.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
+
+                        linearLayoutMain.setPadding(64,64,64,64);
+                        linearLayoutMain.addView(btnDel2);
+
 
                         btnAdd2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
                                 int childIndex = linearLayoutMain.indexOfChild(btnAdd2);
+                                int childIndexD = linearLayoutMain.indexOfChild(btnDel2);
                                 linearLayoutMain.removeViewAt(childIndex);
-                                linearLayoutMain.addView(addCheckboxQuestion());
+                                linearLayoutMain.removeViewAt(childIndex);
+                                linearLayoutMain.addView(addCheckboxQuestion(question));
                                 linearLayoutMain.addView(btnAdd2);
+                                linearLayoutMain.addView(btnDel2);
+                            }
+                        });
+
+
+
+                        btnDel2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
+                                int childIndex = linearLayoutMain.indexOfChild(btnDel2);
+                                linearLayoutMain.setVisibility(View.GONE);
+                                questionSet.remove(question);
                             }
                         });
                         break;
@@ -213,6 +272,22 @@ public class QuestionsCreationActivity extends AppCompatActivity {
                         }
                         etQuestion.setText("");
                         question.setQuestionType(QuestionType.DETAILED.toString());
+
+                        final Button btnDel3 = new Button(QuestionsCreationActivity.this);
+                        btnDel3.setText("DELETE CARD");
+                        btnDel3.setBackground(getResources().getDrawable(R.drawable.custom_btn_dark));
+
+                        linearLayoutMain.setPadding(16,16,16,16);
+                        linearLayoutMain.addView(btnDel3);
+
+                        btnDel3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, QuestionsCreationActivity.this, 0);
+                                int childIndex = linearLayoutMain.indexOfChild(btnDel3);
+                                linearLayoutMain.setVisibility(View.GONE);
+                            }
+                        });
                         break;
                 }
             }
@@ -230,10 +305,10 @@ public class QuestionsCreationActivity extends AppCompatActivity {
     }
 
     private LinearLayout addRadioQuestion(final List<RadioButton> radioButtons, final Question question) {
-        Toast.makeText(QuestionsCreationActivity.this, "One of the list", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(QuestionsCreationActivity.this, "One of the list", Toast.LENGTH_SHORT).show();
 
         final Variant variant = new Variant();
-        variant.setText("");
+        //variant.setText("");
 
         LinearLayout linearLayoutAnswer = new LinearLayout(QuestionsCreationActivity.this);
         linearLayoutAnswer.setOrientation(LinearLayout.HORIZONTAL);
@@ -258,7 +333,7 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         });
 
         final EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.mainGray));
+        editText.setTextColor(getResources().getColor(R.color.black));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
@@ -270,16 +345,17 @@ public class QuestionsCreationActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                question.removeAnswerVariant(variant);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                variant.setText(String.valueOf(editable));
+                variant.setText(editText.getText().toString());
+                question.addAnswerVariant(variant);
             }
         });
 
-        question.addAnswerVariant(variant);
+
 
         LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imageLayoutParams.setMargins(0,22,0,0 );
@@ -305,8 +381,11 @@ public class QuestionsCreationActivity extends AppCompatActivity {
         return linearLayoutAnswer;
     }
 
-    private LinearLayout addCheckboxQuestion() {
-        Toast.makeText(QuestionsCreationActivity.this, "A few from the list", Toast.LENGTH_SHORT).show();
+    private LinearLayout addCheckboxQuestion(final Question question) {
+        final Variant variant = new Variant();
+        //variant.setText("");
+
+        //Toast.makeText(QuestionsCreationActivity.this, "A few from the list", Toast.LENGTH_SHORT).show();
         LinearLayout linearLayoutAnswer = new LinearLayout(QuestionsCreationActivity.this);
         linearLayoutAnswer.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -315,13 +394,32 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             checkBox.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(QuestionsCreationActivity.this, R.color.navigationBarColor)));
         }
 
-        EditText editText = new EditText(QuestionsCreationActivity.this);
-        editText.setTextColor(getResources().getColor(R.color.mainGray));
+        final EditText editText = new EditText(QuestionsCreationActivity.this);
+        editText.setTextColor(getResources().getColor(R.color.black));
         editText.setHint("Answer");
         editText.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.5f));
 
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                question.removeAnswerVariant(variant);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                variant.setText(editText.getText().toString());
+                question.addAnswerVariant(variant);
+            }
+        });
+
         LinearLayout.LayoutParams imageLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         imageLayoutParams.setMargins(0,22,0,0 );
+
         final ImageView btnDelete = new ImageView(QuestionsCreationActivity.this);
         btnDelete.setLayoutParams(imageLayoutParams);
         btnDelete.setImageResource(R.drawable.ic_remove_circle_outline_black_18dp);
@@ -366,8 +464,6 @@ public class QuestionsCreationActivity extends AppCompatActivity {
             Snackbar.make(view, "Please, ask some questions", Snackbar.LENGTH_LONG).show();
             return;
         }
-
-        //Log.i ("LOG", questionSet.get(0).getText()+" !!!!");
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("event");

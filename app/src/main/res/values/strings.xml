@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">QIT</string>
+    <string name="Confirm">Confirm</string>
     <string name="Questionnaires">Questions</string>
     <string name="Interviews">Theme Chats</string>
     <string name="Room_Chat">Room Chat</string>
@@ -22,7 +23,7 @@
 
     <!--Quiz creation-->
     <string name="title_create_questionnaire">Answer question</string>
-    <string name="title_create_interview">Create interview</string>
+    <string name="title_create_interview">Create theme chat</string>
     <string name="creation_title">Title</string>
     <string name="creation_description">Description</string>
     <string name="creation_is_password">Password</string>
@@ -63,9 +64,9 @@
     <string name="my_events">MY EVENTS</string>
     <string name="create_new_event_sec">Create New Event</string>
     <string name="demo">DEMO</string>
-    <string name="interview_creation">Interview creation:</string>
+    <string name="interview_creation">Theme chat creation:</string>
     <string name="title">Title</string>
-    <string name="intereview_question">Intereview Question</string>
+    <string name="intereview_question">Theme chat description</string>
     <string name="save_answers">SAVE ANSWERS</string>
     <string name="press_to_add_new_question">Press + to add new question</string>
     <string name="next">Next</string>
@@ -93,7 +94,7 @@
     <string name="process">Processing...</string>
     <string name="need_pasw">YOU NEED PASSWORD!</string>
     <string name="wrong_pasw">WRONG PASSWORD, TRY AGAIN!</string>
-    <string name="need_confirm">YOU NEED TO BE CONFIRMED!</string>
+    <string name="need_confirm">YOU NEED TO BE CONFIRMED!\n WAIT FOR ARMIN VERIFICATION</string>
     <string name="answ_here">Place answer here</string>
     <string name="not_send">Message not send</string>
     <string name="all_forms">Please fill all fields!</string>

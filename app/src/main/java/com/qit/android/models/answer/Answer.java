@@ -16,5 +16,7 @@ import java.util.Set;
 public class Answer implements Serializable{
 
 	private String answerCreatedByUser;
-	private List<Result> results= new ArrayList<>();
+	private boolean answerBool;
+	private String answerStr;
+	private QuestionType questionType;
 }

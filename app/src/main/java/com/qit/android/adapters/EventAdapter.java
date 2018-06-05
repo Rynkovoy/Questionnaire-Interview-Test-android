@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import com.qit.R;
 import com.qit.android.activity.NewEventOrChoseEventActivity;
 import com.qit.android.activity.QitActivity;
 import com.qit.android.activity.QuestionnaireCreationActivity;
+import com.qit.android.models.event.ConfirmedUser;
 import com.qit.android.models.event.Event;
 import com.qit.android.models.quiz.Interview;
 import com.qit.android.models.user.User;
@@ -38,11 +40,13 @@ import com.qit.android.utils.BtnClickAnimUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     public List<Event> eventList = new ArrayList<>();
+
     public static class EventViewHolder extends RecyclerView.ViewHolder {
 
         public TextView tvFullHeader;
@@ -56,7 +60,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         public ShadowView cardView;
 
-
+        private FirebaseAuth mAuth;
 
         public EventViewHolder(View view) {
             super(view);
@@ -97,13 +101,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                holder.mAuth = FirebaseAuth.getInstance();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                    if (childDataSnapshot.getKey().equalsIgnoreCase(mAuth.getUid())) {
+                    if (childDataSnapshot.getKey().equalsIgnoreCase(holder.mAuth.getUid())) {
                         User user = childDataSnapshot.getValue(User.class);
 
-                        for (int x = 0; x < user.getFavoriteEvents().size(); x++){
-                            if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())){
+                        for (int x = 0; x < user.getFavoriteEvents().size(); x++) {
+                            if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())) {
                                 holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_pressed));
                             }
                         }
@@ -160,14 +164,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
                     AlertDialog.Builder adb = new AlertDialog.Builder(holder.context);
                     LayoutInflater inflater = (LayoutInflater) holder.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    view = (LinearLayout) inflater.inflate(R.layout.item_password_werification, null);
+                    view = inflater.inflate(R.layout.item_password_werification, null);
                     adb.setView(view);
                     final Dialog dialog = adb.create();
                     dialog.show();
 
-                    final EditText editText = (EditText) view.findViewById(R.id.password_edit_text_to_event);
-                    Button cancelbtn = (Button) view.findViewById(R.id.cancel_password_btn);
-                    Button entetBtn = (Button) view.findViewById(R.id.enter_password_btn);
+                    final EditText editText = view.findViewById(R.id.password_edit_text_to_event);
+                    Button cancelbtn = view.findViewById(R.id.cancel_password_btn);
+                    Button entetBtn = view.findViewById(R.id.enter_password_btn);
 
                     cancelbtn.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -214,17 +218,94 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(holder.context, R.string.need_confirm, Toast.LENGTH_SHORT).show();
-//                    String date = eventList.get(position).getDate();
-//                    char [] a = date.toCharArray();
-//                    for (int x= 0 ; x < a.length; x++){
-//                        if (a[x] == '.' || a[x] == ':' || a[x] == ' '){
-//                            a[x] = '_';
-//                        }
-//                    }
-//                    date = new String(a);
-//                    FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_"+eventList.get(position).getEventOwner()+"_"+date);
-//                    holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+
+                    boolean flagAlreadyConfirmed = false;
+                    holder.mAuth = FirebaseAuth.getInstance();
+                    for (int x = 0; x < eventList.get(position).getConfirmedUserList().size(); x++){
+                        if (eventList.get(position).getConfirmedUserList().get(x).getId().equalsIgnoreCase(holder.mAuth.getUid())
+                                && eventList.get(position).getConfirmedUserList().get(x).isConfirmed()){
+                            flagAlreadyConfirmed = true;
+                        }
+                    }
+
+                    if (eventList.get(position).getEventOwner().equalsIgnoreCase(holder.mAuth.getUid()) || flagAlreadyConfirmed) {
+                        String date = eventList.get(position).getDate();
+                        char[] a = date.toCharArray();
+                        for (int x = 0; x < a.length; x++) {
+                            if (a[x] == '.' || a[x] == ':' || a[x] == ' ') {
+                                a[x] = '_';
+                            }
+                        }
+                        date = new String(a);
+                        FirebaseEventinfoGodObj.setFirebaseCurrentEventName("event_" + eventList.get(position).getEventOwner() + "_" + date);
+                        holder.context.startActivity(new Intent(holder.context, QitActivity.class));
+                        Activity activity = (Activity) holder.context;
+                        activity.finish();
+                    } else {
+
+                        AlertDialog.Builder adb = new AlertDialog.Builder(holder.context);
+                        LayoutInflater inflater = (LayoutInflater) holder.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        view = inflater.inflate(R.layout.item_ask_for_event_entrance, null);
+                        adb.setView(view);
+                        final Dialog dialog = adb.create();
+                        dialog.show();
+
+                        Button cancelbtn = view.findViewById(R.id.cancel_password_btn);
+                        Button entetBtn = view.findViewById(R.id.enter_password_btn);
+
+                        cancelbtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, holder.context, 0);
+                                dialog.dismiss();
+                            }
+                        });
+
+                        entetBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, holder.context, 0);
+
+                                Toast.makeText(holder.context, R.string.need_confirm, Toast.LENGTH_SHORT).show();
+                                boolean flagIsThatUserOnList = false;
+                                for (int x = 0; x < eventList.get(position).getConfirmedUserList().size(); x++) {
+                                    if (eventList.get(position).getConfirmedUserList().get(x).getId().equalsIgnoreCase(holder.mAuth.getUid())) {
+                                        flagIsThatUserOnList = true;
+                                    }
+                                }
+
+                                if (!flagIsThatUserOnList) {
+                                    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                    final DatabaseReference myRef = database.getReference("event");
+                                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            int counter = 0;
+                                            DatabaseReference mMyRef = null;
+                                            for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                                                if (eventList.size()-1-counter == position) {
+                                                    mMyRef = database.getReference("event" + "/" + childDataSnapshot.getKey());
+                                                }
+                                                counter++;
+                                            }
+                                            Event event = eventList.get(position);
+                                            event.getConfirmedUserList().add(new ConfirmedUser(holder.mAuth.getUid(), new Date()));
+                                            mMyRef.setValue(event);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                                dialog.dismiss();
+                            }
+                        });
+
+                    }
+
                 }
             });
         }
@@ -243,19 +324,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                                 User user = childDataSnapshot.getValue(User.class);
 
                                 boolean isThisOnList = false;
-                                for (int x = 0; x < user.getFavoriteEvents().size(); x++){
-                                    if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())){
+                                for (int x = 0; x < user.getFavoriteEvents().size(); x++) {
+                                    if (user.getFavoriteEvents().get(x).equalsIgnoreCase(eventList.get(position).getFullHeader())) {
                                         isThisOnList = true;
                                         user.getFavoriteEvents().remove(x);
                                         holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_unpressed));
                                     }
                                 }
 
-                                if (!isThisOnList){
+                                if (!isThisOnList) {
                                     user.getFavoriteEvents().add(eventList.get(position).getFullHeader());
                                     holder.starBtn.setBackground(holder.context.getDrawable(R.drawable.star_pressed));
                                 }
-                                DatabaseReference myRef = database.getReference("user/"+mAuth.getUid());
+                                DatabaseReference myRef = database.getReference("user/" + mAuth.getUid());
                                 myRef.setValue(user);
                             }
                         }

@@ -19,18 +19,16 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Question implements Serializable {
 
-	private Long id;
-	private Boolean isNecessary = false;
+	//private Long id;
+	//private Boolean isNecessary = false;
 	private String text;
-	private Long quizId;
+	//private Long quizId;
 	private String questionType;
 
 	private List<Variant> variants;
-	private List<Answer> answers;
 
 	public Question() {
 		variants = new ArrayList<>();
-		answers = new ArrayList<>();
 	}
 
 	public void addAnswerVariant(Variant variant) {
@@ -46,36 +44,12 @@ public class Question implements Serializable {
 	}
 
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Boolean getNecessary() {
-		return isNecessary;
-	}
-
-	public void setNecessary(Boolean necessary) {
-		isNecessary = necessary;
-	}
-
 	public String getText() {
 		return text;
 	}
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public Long getQuizId() {
-		return quizId;
-	}
-
-	public void setQuizId(Long quizId) {
-		this.quizId = quizId;
 	}
 
 	public String getQuestionType() {
@@ -94,13 +68,6 @@ public class Question implements Serializable {
 		this.variants = variants;
 	}
 
-	public List<Answer> getAnswers() {
-		return answers;
-	}
-
-	public void setAnswers(List<Answer> answers) {
-		this.answers = answers;
-	}
 
 
 }

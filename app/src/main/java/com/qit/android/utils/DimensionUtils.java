@@ -10,6 +10,6 @@ public class DimensionUtils {
     }
 
     public static float px2dp(Context context, float px)  {
-        return (float) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px,  context.getResources().getDisplayMetrics());
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px,  context.getResources().getDisplayMetrics());
     }
 }

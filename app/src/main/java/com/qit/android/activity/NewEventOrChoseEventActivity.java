@@ -158,7 +158,7 @@ public class NewEventOrChoseEventActivity extends AppCompatActivity implements V
     }
 
     private void addToolbar() {
-        qitDrawerBuilder = new QitDrawerBuilder(true);
+        qitDrawerBuilder = new QitDrawerBuilder(true,false);
         qitDrawerBuilder.setToolbar(null).build(this);
     }
 

@@ -26,6 +26,7 @@ public class Event {
     private List<Questionnaire> questionnaireList = new ArrayList<>();
     private List<Interview> interviewsList = new ArrayList<>();
     private List<Message> messageList = new ArrayList<>();
+    private List<ConfirmedUser> confirmedUserList = new ArrayList<>();
 
     private boolean isEventOpened = true;
     private boolean isNewUserInEventeNeedToBeConfirmed = false;
@@ -45,6 +46,14 @@ public class Event {
     public Event() {
     }
 
+
+    public List<ConfirmedUser> getConfirmedUserList() {
+        return confirmedUserList;
+    }
+
+    public void setConfirmedUserList(List<ConfirmedUser> confirmedUserList) {
+        this.confirmedUserList = confirmedUserList;
+    }
 
     public String getFullHeader() {
         return fullHeader;

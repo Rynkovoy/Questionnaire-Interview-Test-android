@@ -2,6 +2,7 @@ package com.qit.android.activity;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -29,8 +31,10 @@ import com.qit.R;
 import com.qit.android.adapters.QuestionAdapter;
 import com.qit.android.adapters.QuizTabsPagerAdapter;
 import com.qit.android.models.answer.Answer;
+import com.qit.android.models.answer.Variant;
 import com.qit.android.models.event.Event;
 import com.qit.android.models.question.Question;
+import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Questionnaire;
 import com.qit.android.models.user.User;
 import com.qit.android.rest.api.FirebaseEventinfoGodObj;
@@ -46,17 +50,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuestionnaireAnswersActivity extends AppCompatActivity implements View.OnClickListener{
+public class QuestionnaireAnswersActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private QuestionAdapter questionAdapter;
     private RecyclerView rvQuestion;
     public Questionnaire questionnaire;
-
+    public List<Question> questionList;
     private TextView saveAnswer;
-    //private TextView cancelActivity;
 
-    public static Answer answer = new Answer();
+    //public static List<Answer> answers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +73,13 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvQuestion.setLayoutManager(mLayoutManager);
 
-        TextView headerQuestion = (TextView) findViewById(R.id.tvQuestion);
-        TextView mainTextQuestion= (TextView) findViewById(R.id.tvIsNecessary);
-        TextView authorOfQuestion = (TextView) findViewById(R.id.tvAuthor);
+        TextView headerQuestion = findViewById(R.id.tvQuestion);
+        TextView mainTextQuestion = findViewById(R.id.tvIsNecessary);
+        TextView authorOfQuestion = findViewById(R.id.tvAuthor);
 
         headerQuestion.setText(questionnaire.getSummary());
         mainTextQuestion.setText(questionnaire.getDescription());
-        authorOfQuestion.setText(questionnaire.getAuthor().getFirstName()+" "+questionnaire.getAuthor().getLastName());
+        authorOfQuestion.setText(questionnaire.getAuthor().getFirstName() + " " + questionnaire.getAuthor().getLastName());
 
         saveAnswer = findViewById(R.id.answer_save_btn);
         saveAnswer.setOnClickListener(this);
@@ -86,13 +89,12 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
 
     private void showQuestions() {
         List<Question> questionList = getQuestions();
-        answer = new Answer();
         questionAdapter = new QuestionAdapter(questionList);
         rvQuestion.setAdapter(questionAdapter);
     }
 
     private List<Question> getQuestions() {
-        final List<Question> questionList = questionnaire.getQuestionList();
+        questionList = questionnaire.getQuestionList();
 
         return questionList;
     }
@@ -123,56 +125,53 @@ public class QuestionnaireAnswersActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         BtnClickAnimUtil btnClickAnimUtil = new BtnClickAnimUtil(view, this);
-        switch (view.getId()){
-            case (R.id.answer_save_btn) : {
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+        switch (view.getId()) {
+            case (R.id.answer_save_btn): {
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                for (int x = 0; x < questionList.size(); x++) {
+                    final DatabaseReference myRefTemp = database.getReference("event/" + FirebaseEventinfoGodObj.getFirebaseCurrentEventName() + "/questionLists/" + FirebaseEventinfoGodObj.getFirebaseCurrentQuestion() + "/questionList/" + x);
+                    final int finalX = x;
+                    myRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Question question = dataSnapshot.getValue(Question.class);
+                            boolean flagIsAlreadyAnswer = false;
 
-                final DatabaseReference myRef = database.getReference("event");
-                myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
-                            if (childDataSnapshot.getKey().equalsIgnoreCase(FirebaseEventinfoGodObj.getFirebaseCurrentEventName())) {
+                            for (int i = 0; i < question.getVariants().size(); i++) {
+                                for (int y = 0; y < question.getVariants().get(i).getAnswers().size(); y++) {
+                                    if (question.getVariants().get(i).getAnswers().get(y).getAnswerCreatedByUser().equalsIgnoreCase(mAuth.getUid())) {
+                                        flagIsAlreadyAnswer = true;
+                                    }
+                                }
+                            }
 
-                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                final FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                                assert firebaseUser != null;
-
-                                final DatabaseReference myRefTemp = database.getReference("event/"+FirebaseEventinfoGodObj.getFirebaseCurrentEventName()+"/questionLists/"+FirebaseEventinfoGodObj.getFirebaseCurrentQuestion()+"/answerList/");
-
-                                myRefTemp.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        List<Answer> answerList = new ArrayList<>();
-                                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                                            Answer answer = dataSnapshot1.getValue(Answer.class);
-                                            answerList.add(answer);
+                            if (flagIsAlreadyAnswer) {
+                                Snackbar.make(view, "You are already answered", 0).show();
+                            } else {
+                                question = questionList.get(finalX);
+                                    for (int i = 0; i < question.getVariants().size(); i++) {
+                                        for (int y = 0; y < question.getVariants().get(i).getAnswers().size();y++){
+                                            question.getVariants().get(i).getAnswers().get(y).setAnswerCreatedByUser(mAuth.getUid());
                                         }
-
-                                        answer.setAnswerCreatedByUser(firebaseUser.getUid());
-                                        answerList.add(answer);
-                                        myRefTemp.setValue(answerList);
-                                        onBackPressed();
                                     }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
+                                myRefTemp.setValue(question);
 
 
                             }
                         }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(QuestionnaireAnswersActivity.this, R.string.trob, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            onBackPressed();
+                        }
+                    });
+                    onBackPressed();
+                }
                 break;
             }
             default: {

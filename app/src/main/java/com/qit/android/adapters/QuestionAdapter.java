@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.qit.R;
 import com.qit.android.activity.QuestionnaireAnswersActivity;
 import com.qit.android.models.answer.Answer;
+import com.qit.android.models.answer.Variant;
 import com.qit.android.models.question.Question;
 import com.qit.android.models.question.QuestionType;
 import com.qit.android.models.quiz.Result;
@@ -74,9 +75,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
 
     //TODO need tO BE ADDED LISTENERRS AND RESPONSE TO FIREBASE WITH ALL ANSWERS
+
     @Override
     public void onBindViewHolder(final QuestionViewHolder holder, final int position) {
-        Question question = questionList.get(position);
+        final Question question = questionList.get(position);
         holder.tvQuestion.setText(question.getText());
 
         if (question.getQuestionType().equalsIgnoreCase(QuestionType.CHECKBOX.toString())){
@@ -84,23 +86,25 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 holder.llRadioBox.setVisibility(View.GONE);
                 holder.llDetailed.setVisibility(View.GONE);
 
-                //QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
 
                 for (int x= 0; x < question.getVariants().size(); x++){
                     if (x == 0) {
-                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
-                        QuestionnaireAnswersActivity.answer.getResults().get(x).setQuestionType(QuestionType.CHECKBOX);
+                        question.getVariants().get(x).getAnswers().add(x, new Answer());
+                        question.getVariants().get(x).getAnswers().get(x).setQuestionType(QuestionType.CHECKBOX);
                         holder.checkBoxPlace.setText(question.getVariants().get(x).getText());
                         final int finalX = x;
                         holder.checkBoxPlace.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                                question.getVariants().get(finalX).getAnswers().get(finalX).setAnswerBool(!question.getVariants().get(finalX).getAnswers().get(finalX).isAnswerBool());
                             }
                         });
                     } else {
-                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
-                        QuestionnaireAnswersActivity.answer.getResults().get(x).setQuestionType(QuestionType.CHECKBOX);
+
+                        final int pos = question.getVariants().get(x).getAnswers().size();
+                        question.getVariants().get(x).getAnswers().add(pos, new Answer());
+                        question.getVariants().get(x).getAnswers().get(pos).setQuestionType(QuestionType.CHECKBOX);
+
                         CheckBox checkBox = new CheckBox(holder.context);
                         checkBox.setText(question.getVariants().get(x).getText());
                         holder.llCheckBox.addView(checkBox);
@@ -109,7 +113,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                         checkBox.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
+                                question.getVariants().get(finalX).getAnswers().get(pos).setAnswerBool(!question.getVariants().get(finalX).getAnswers().get(pos).isAnswerBool());
 
                             }
                         });
@@ -121,12 +125,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 holder.llCheckBox.setVisibility(View.GONE);
                 holder.llDetailed.setVisibility(View.GONE);
 
-                //QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
 
                 for (int x = 0; x < question.getVariants().size(); x++) {
                     if (x == 0) {
-                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
-                        QuestionnaireAnswersActivity.answer.getResults().get(x).setQuestionType(QuestionType.RADIO);
+
+                        question.getVariants().get(x).getAnswers().add(x, new Answer());
+                        question.getVariants().get(x).getAnswers().get(x).setQuestionType(QuestionType.RADIO);
+
                         holder.radioButton.setText(question.getVariants().get(x).getText());
 
                         final int finalX = x;
@@ -134,20 +139,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                             @Override
                             public void onClick(View view) {
 
-                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
-
-                                for (int i = 0; i < QuestionnaireAnswersActivity.answer.getResults().size(); i++){
-                                    if (i != finalX){
-                                        if (QuestionnaireAnswersActivity.answer.getResults().get(i).getQuestionType().equals(QuestionType.RADIO)){
-                                            QuestionnaireAnswersActivity.answer.getResults().get(i).setAnswerBool(false);
+                                for (int i = 0; i < question.getVariants().get(finalX).getAnswers().size(); i++){
+                                    if (i == question.getVariants().get(finalX).getAnswers().size()-1){
+                                        if (question.getVariants().get(finalX).getAnswers().get(finalX).getQuestionType().equals(QuestionType.RADIO)){
+                                            question.getVariants().get(finalX).getAnswers().get(finalX).setAnswerBool(false);
                                         }
                                     }
                                 }
+
+                                question.getVariants().get(finalX).getAnswers().get(finalX).setAnswerBool(!question.getVariants().get(finalX).getAnswers().get(finalX).isAnswerBool());
+
                             }
                         });
                     } else {
-                        QuestionnaireAnswersActivity.answer.getResults().add(x, new Result());
-                        QuestionnaireAnswersActivity.answer.getResults().get(x).setQuestionType(QuestionType.RADIO);
+
+                        final int pos = question.getVariants().get(x).getAnswers().size();
+                        question.getVariants().get(x).getAnswers().add(pos, new Answer());
+                        question.getVariants().get(x).getAnswers().get(pos).setQuestionType(QuestionType.RADIO);
+
                         RadioButton radioButton = new RadioButton(holder.context);
                         radioButton.setText(question.getVariants().get(x).getText());
 
@@ -158,16 +167,15 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                             @Override
                             public void onClick(View view) {
 
-                                QuestionnaireAnswersActivity.answer.getResults().get(finalX).setAnswerBool(!QuestionnaireAnswersActivity.answer.getResults().get(finalX).isAnswerBool());
-
-
-                                for (int i = 0; i < QuestionnaireAnswersActivity.answer.getResults().size(); i++){
-                                    if (i != finalX){
-                                        if (QuestionnaireAnswersActivity.answer.getResults().get(i).getQuestionType().equals(QuestionType.RADIO)){
-                                            QuestionnaireAnswersActivity.answer.getResults().get(i).setAnswerBool(false);
+                                for (int i = 0; i < question.getVariants().get(finalX).getAnswers().size(); i++){
+                                    if (i == question.getVariants().get(finalX).getAnswers().size()-1){
+                                        if (question.getVariants().get(finalX).getAnswers().get(pos).getQuestionType().equals(QuestionType.RADIO)){
+                                            question.getVariants().get(finalX).getAnswers().get(pos).setAnswerBool(false);
                                         }
                                     }
                                 }
+
+                                question.getVariants().get(finalX).getAnswers().get(pos).setAnswerBool(!question.getVariants().get(finalX).getAnswers().get(pos).isAnswerBool());
                             }
                         });
                     }
@@ -177,10 +185,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.llRadioBox.setVisibility(View.GONE);
             holder.llCheckBox.setVisibility(View.GONE);
 
-            //QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
 
-            QuestionnaireAnswersActivity.answer.getResults().add(position, new Result());
-            QuestionnaireAnswersActivity.answer.getResults().get(position).setQuestionType(QuestionType.DETAILED);
+            if (question.getVariants().size() == 0) {
+                question.getVariants().add(new Variant());
+            }
+            question.getVariants().get(0).getAnswers().add(0, new Answer());
+            question.getVariants().get(0).getAnswers().get(0).setQuestionType(QuestionType.DETAILED);
 
             holder.editText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -193,7 +203,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    QuestionnaireAnswersActivity.answer.getResults().get(position).setAnswerStr(holder.editText.getText().toString());
+                    question.getVariants().get(0).getAnswers().get(0).setAnswerStr(holder.editText.getText().toString());
 
                 }
             });

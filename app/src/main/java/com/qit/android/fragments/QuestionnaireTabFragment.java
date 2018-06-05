@@ -26,6 +26,7 @@ import com.qit.android.rest.utils.QitFirebaseGetEventQuestionList;
 import com.qit.android.rest.utils.QitFirebaseGettingEventList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class QuestionnaireTabFragment extends Fragment {
     //private static final String ON_FAILURE_TOAST_MESSAGE = "Cannot load data";
 
     private NestedScrollView mScrollView;
-    private QuestionnaireAdapter questionnaireAdapter;
+    public static QuestionnaireAdapter questionnaireAdapter;
     private View view;
     private RecyclerView recyclerView;
     private static List<Questionnaire> questionnaires = new ArrayList<>();
@@ -48,12 +49,8 @@ public class QuestionnaireTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_questionnaire_tab, container, false);
-        //mScrollView = view.findViewById(R.id.scrollViewQuestionnaire);
-        //final List<Questionnaire> questionnaires = new ArrayList<>();
 
         QitFirebaseGetEventQuestionList qitFirebaseGetEventQuestionList = new QitFirebaseGetEventQuestionList();
-
-
 
         questionnaireAdapter = new QuestionnaireAdapter(questionnaires);
         qitFirebaseGetEventQuestionList.getListQuestions(questionnaireAdapter, questionnaires);

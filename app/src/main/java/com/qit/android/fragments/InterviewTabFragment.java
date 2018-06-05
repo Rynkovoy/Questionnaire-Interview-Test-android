@@ -39,10 +39,10 @@ import java.util.List;
 public class InterviewTabFragment extends Fragment {
 
     private NestedScrollView mScrollView;
-    private InterviewAdapter interviewAdapter;
+    public static InterviewAdapter interviewAdapter;
     private View view;
     private RecyclerView recyclerView;
-    private List<Interview> interviews = new ArrayList<>();
+    public static List<Interview> interviews = new ArrayList<>();
 
     @Nullable
     @Override

@@ -58,7 +58,8 @@
             android:label="@string/title_activity_graphic"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".android.activity.InterviewCustomChatActivity"></activity>
+        <activity android:name=".android.activity.InterviewCustomChatActivity" />
+        <activity android:name=".android.activity.EventConfirmationOfUsersActivity"></activity>
     </application>
 
 </manifest>

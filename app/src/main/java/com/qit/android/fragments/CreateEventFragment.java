@@ -76,7 +76,7 @@ public class CreateEventFragment  extends Fragment implements View.OnClickListen
         //radioButtonFreeEntrance = view.findViewById(R.id.radioButtonFreeEntrance);
         //radioButtonPassword = view.findViewById(R.id.radioButtonPassword);
 
-        rb = (RadioGroup) view.findViewById(R.id.radioGroup);
+        rb = view.findViewById(R.id.radioGroup);
         rb.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 currenRadioBtnId = checkedId;
