@@ -130,8 +130,8 @@ public class InterviewAdapter extends RecyclerView.Adapter<InterviewAdapter.Inte
         try {
             if (!interviewDTO.getAuthor().getLogin().equals(FirebaseEventinfoGodObj.getFirebaseUSerEmail())) {
                 holder.menuBtn.setVisibility(View.GONE);
-                QitActivity.isShowFab = false;
-                QitActivity.mFab.setVisibility(View.GONE);
+                //QitActivity.isShowFab = false;
+                //QitActivity.mFab.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             e.printStackTrace();

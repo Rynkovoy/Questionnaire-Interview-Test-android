@@ -32,7 +32,9 @@
             app:viewpager_hideToolbarAndTitle="false"
             app:viewpager_logo="@layout/header_logo"
             app:viewpager_logoMarginTop="75dp"
-            app:viewpager_transparentToolbar="false" />
+            app:viewpager_transparentToolbar="false" >
+
+        </com.github.florent37.materialviewpager.MaterialViewPager>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabAddQuiz"
@@ -80,4 +82,23 @@
             <!--app:layout_constraintVertical_bias="0.777" />-->
 
     </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvRoomName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/colorAuthText"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/materialViewPager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.v4.widget.DrawerLayout>

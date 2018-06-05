@@ -99,8 +99,6 @@ public class QuestionnaireAdapter extends RecyclerView.Adapter<QuestionnaireAdap
 
             if (!questionnaire.getAuthor().getLogin().equals(FirebaseEventinfoGodObj.getFirebaseUSerEmail())){
                 holder.menuBtn.setVisibility(View.GONE);
-                QitActivity.isShowFab = false;
-                QitActivity.mFab.setVisibility(View.GONE);
             }
 
         if (!questionnaire.getDescription().equalsIgnoreCase("")) {

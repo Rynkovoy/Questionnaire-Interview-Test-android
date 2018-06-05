@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -45,7 +46,9 @@ public class QitActivity extends MainActivity {
     private static Drawable imgTwo;
     private static Drawable imgThree;
 
-    public static boolean isShowFab = true;
+    public boolean isShowFab = true;
+
+    private TextView roomNameTextView;
 
 
     @Override
@@ -61,6 +64,8 @@ public class QitActivity extends MainActivity {
 
         mViewPager = findViewById(R.id.materialViewPager);
         mFab = findViewById(R.id.fabAddQuiz);
+
+        roomNameTextView = findViewById(R.id.tvRoomName);
 
         addToolbar();
         configureMaterialViewPager();
@@ -85,6 +90,14 @@ public class QitActivity extends MainActivity {
                         new QitDrawerBuilder(false, true).setToolbar(toolbar).build(QitActivity.this);
                     } else {
                         new QitDrawerBuilder().setToolbar(toolbar).build(QitActivity.this);
+                    }
+                    roomNameTextView.setText("Room: "+event.getFullHeader());
+
+
+                    Log.i("LOG_CJ", event.getEventOwnerName()+" "+mAuth.getUid());
+                    if (!event.getEventOwner().equalsIgnoreCase(mAuth.getUid())){
+                        isShowFab = false;
+                        mFab.setVisibility(View.GONE);
                     }
                 }
 
